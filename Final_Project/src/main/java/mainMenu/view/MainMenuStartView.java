@@ -23,7 +23,7 @@ public class MainMenuStartView extends JFrame {
 	public MainMenuStartView() {
 		setTitle("Game Pack(NAME TBD)"); // pick a better name
 		setBounds(100,100,700,600);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.contentPane = new JPanel();
 		setContentPane(contentPane);
 		getContentPane().setLayout(null);
