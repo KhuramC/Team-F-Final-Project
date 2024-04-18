@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
+import connect4Menu.Connect4Main;
 import mainMenu.model.*;
 import mainMenu.view.*;
 
@@ -26,7 +27,7 @@ public class MainMenuController {
 		public void actionPerformed(ActionEvent e) {
 			GameType gameType = startView.getGameChoicesBoxChoice();
 			System.out.println(gameType);
-			
+			startView.setVisible(false);
 			switch (gameType) {
 			case BATTLESHIP:
 				System.out.println("You have chosen battleship!");
@@ -42,10 +43,11 @@ public class MainMenuController {
 				break;
 			case CONNECT4:
 				System.out.println("You have chosen Connect4!");
-				//start code to open new gui
+				Connect4Main.startConnect4();
 				break;
 			}
 			startView.dispatchEvent(new WindowEvent(startView,WindowEvent.WINDOW_CLOSING));
+			
 		}			
 	}
 		
