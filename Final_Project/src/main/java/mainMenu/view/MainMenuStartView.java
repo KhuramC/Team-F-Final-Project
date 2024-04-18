@@ -29,10 +29,6 @@ public class MainMenuStartView extends JFrame {
 		getContentPane().setLayout(null);
 		
 		this.chooseGameButton = new JButton("Choose Game");
-		chooseGameButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		chooseGameButton.setSize(188, 50);
 		chooseGameButton.setLocation(232, 301);
 		contentPane.add(chooseGameButton);
