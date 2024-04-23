@@ -7,8 +7,9 @@ import java.awt.event.WindowEvent;
 import connect4Menu.Connect4Main;
 import mainMenu.model.*;
 import mainMenu.view.*;
+import mvcinterfaces.MenuController;
 
-public class MainMenuController {
+public class MainMenuController implements MenuController{
 	
 	private MainMenuModel model;
 	private MainMenuStartView startView;
@@ -28,9 +29,10 @@ public class MainMenuController {
 			GameType gameType = startView.getGameChoicesBoxChoice();
 			System.out.println(gameType);
 			startView.setVisible(false);
+			model.setGameChosen(gameType);
 			switch (gameType) {
 			case BATTLESHIP:
-				System.out.println("You have chosen battleship!");
+				System.out.println("You have chosen Battleship!");
 				//start code to open new gui
 				break;
 			case MASTERMIND:
@@ -50,10 +52,8 @@ public class MainMenuController {
 			
 		}			
 	}
-		
 	
-	
-	public void initate() {
+	public void initiate() {
 		startView.setVisible(true);
 	}
 
