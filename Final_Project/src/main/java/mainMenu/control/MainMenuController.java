@@ -6,6 +6,7 @@ import java.awt.event.WindowEvent;
 
 import mainMenu.model.*;
 import mainMenu.view.*;
+import mancala.Mancala;
 
 public class MainMenuController {
 	
@@ -39,6 +40,8 @@ public class MainMenuController {
 			case MANCALA:
 				System.out.println("You have chosen Mancala!");
 				//start code to open new gui
+				Mancala mancala = new Mancala();
+				mancala.startGame();
 				break;
 			case CONNECT4:
 				System.out.println("You have chosen Connect4!");
