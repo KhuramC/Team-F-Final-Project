@@ -37,7 +37,9 @@ public class BattleshipPlacePhase extends JFrame {
     private boolean isVertical = true; // Default is vertical
     
     public BattleshipPlacePhase(int numRows, int numCols, String shipSet) {
-        setTitle("Battleship - Ship Placement Phase");
+       
+    	System.out.println("numRows: " + numRows + ", numCols: " + numCols); // Debugging print statement
+    	setTitle("Battleship - Ship Placement Phase");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 900);
 
@@ -140,36 +142,29 @@ public class BattleshipPlacePhase extends JFrame {
                 cellButton.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        // Check if a ship is selected and the cell is not already occupied
-                        if (selectedShip != null && !isCellOccupied(finalRow, finalCol)) {
-                            // Turn the clicked cell gray to indicate ship placement
-                            cellButton.setBackground(Color.GRAY);
-                            // Store the cell coordinates as placed ship
-                            placedShips.add(new Point(finalRow, finalCol));
-                            
-                            // Place additional cells for the ship based on its size and orientation
+                        // Check if a ship is selected
+                        if (selectedShip != null) {
+                            // Get the selected ship
                             ShipSet.Ship ship = ShipSet.getShip(selectedShip);
                             if (ship != null) {
                                 int shipSize = ship.getSize();
                                 int direction = isVertical ? 1 : 0; // Determine direction based on orientation
-                                for (int i = 1; i < shipSize; i++) {
-                                    int nextRow = finalRow + direction * i;
-                                    int nextCol = finalCol + (1 - direction) * i;
-                                    // Check if the next cell is within the grid bounds and not occupied
-                                    if (nextRow < numRows && nextCol < numCols && !isCellOccupied(nextRow, nextCol)) {
-                                        // Turn the next cell gray and store its coordinates
+                                
+                                // Check if the placement is valid for the entire ship
+                                if (isValidPlacement(finalRow, finalCol, shipSize, isVertical, numRows, numCols)) {
+                                    // Place the ship
+                                    for (int i = 0; i < shipSize; i++) {
+                                        int nextRow = finalRow + (isVertical ? i : 0);
+                                        int nextCol = finalCol + (isVertical ? 0 : i);
                                         boardCells[nextRow][nextCol].setBackground(Color.GRAY);
                                         placedShips.add(new Point(nextRow, nextCol));
-                                    } else {
-                                        // If any subsequent cell is occupied or out of bounds, break the loop
-                                        break;
                                     }
+                                    
+                                    // Update player 1's game board state
+                                    updatePlayer1GameBoardState();
+                                    printPlayer1GameBoardState();
                                 }
                             }
-
-                            // Update player 1's game board state
-                            updatePlayer1GameBoardState();
-                            printPlayer1GameBoardState();
                         }
                     }
                 });
@@ -243,8 +238,30 @@ public class BattleshipPlacePhase extends JFrame {
         }
         System.out.println();
     }
-    private boolean isCellOccupied(int row, int col) {
-        return boardCells[row][col].getBackground().equals(Color.GRAY);
+    private boolean isValidPlacement(int startRow, int startCol, int shipSize, boolean isVertical, int numRows, int numCols) {
+        // Debugging print statements
+        System.out.println("startRow: " + startRow + ", startCol: " + startCol + ", shipSize: " + shipSize + ", isVertical: " + isVertical);
+        System.out.println("numRows: " + numRows + ", numCols: " + numCols);
+
+        // Check if the placement is within the bounds of the game board
+        if (startRow < 0 || startCol < 0 || startRow >= numRows || startCol >= numCols) {
+        	JOptionPane.showMessageDialog(null, "Invalid Placement", "Error", JOptionPane.ERROR_MESSAGE);
+        	System.out.println("Placement is off the board");
+            return false; // Placement is off the board
+        }
+
+        // Check if the placement overlaps with any existing ships or is out of bounds
+        for (int i = 0; i < shipSize; i++) {
+            int row = startRow + (isVertical ? i : 0);
+            int col = startCol + (isVertical ? 0 : i);
+            if (row >= numRows || col >= numCols || !player1GameBoardState[row][col].equals("~")) {
+            	JOptionPane.showMessageDialog(null, "Invalid Placement", "Error", JOptionPane.ERROR_MESSAGE);
+            	System.out.println("Invalid Placement!");
+                return false; // Placement overlaps with an existing ship or is off the board
+            }
+        }
+
+        return true; // Placement is valid
     }
     // Methods for handling user interaction (e.g., placing ships, rotating ships)
 
