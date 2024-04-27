@@ -7,7 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class BattleshipMenuView extends JFrame {
-    private JComboBox<String> p1ColorComboBox;
+   
+	private JComboBox<String> p1ColorComboBox;
     private JComboBox<String> p2ColorComboBox;
     private JComboBox<String> selectBoardSizeComboBox;
     private JComboBox<String> selectTimerComboBox;
@@ -91,12 +92,14 @@ public class BattleshipMenuView extends JFrame {
                 // Convert the selected board size to MapSize enum
                 MapSize boardSize = MapSize.fromString(selectedBoardSize);
 
+             // Get the selected ship set from the combo box
+                String selectedShipSet = getSelectedShipSet();
                 // Extract rows and columns from the selected board size
                 int numRows = boardSize.getRows();
                 int numCols = boardSize.getCols();
 
                 // Create BattleshipPlacePhase instance with the selected board size
-                BattleshipPlacePhase placeView = new BattleshipPlacePhase(numRows, numCols);
+                BattleshipPlacePhase placeView = new BattleshipPlacePhase(numRows, numCols, selectedShipSet);
                 placeView.setVisible(true);
             }
         });

@@ -26,7 +26,7 @@ public class BattleshipMain {
         });
 
         // Play Battleship game
-        playBattleship();
+      //  playBattleship();
     }
 
     // Method to print ship sets
