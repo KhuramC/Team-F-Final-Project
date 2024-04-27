@@ -1,9 +1,15 @@
 package battleshipMenu.view;
 
 import javax.swing.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import battleshipMenu.model.MapSize;
 import battleshipMenu.model.ShipSet;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import java.awt.*;
 
@@ -17,13 +23,20 @@ public class BattleshipPlacePhase extends JFrame {
     private JButton[][] boardCells;
     private JButton rotateButton;
     private JButton resetButton;
-
+    private JComboBox<String> shipComboBox;
+    
+    private String selectedShip; // Store the selected ship
+    private List<Point> placedShips; // Store the cells where ships are placed
+ 
+    // Flag to toggle ship orientation
+    private boolean isVertical = true; // Default is vertical
     
     public BattleshipPlacePhase(int numRows, int numCols, String shipSet) {
         setTitle("Battleship - Ship Placement Phase");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 900);
 
+        placedShips = new ArrayList<>(); // Initialize the list of placed ships
         // Initialize UI elements and layout
         initializeUI(numRows, numCols, shipSet);
     }
@@ -78,8 +91,8 @@ public class BattleshipPlacePhase extends JFrame {
         
 
         // Initialize buttons for ship placement options
-        rotateButton = new JButton("Rotate Ship");
-        rotateButton.setBounds(800, 100, 150, 30); // Adjust position and size as needed
+        rotateButton = new JButton("Rotate Ship: Vertical");
+        rotateButton.setBounds(800, 100, 250, 30); // Adjust position and size as needed
 
         resetButton = new JButton("Reset Grid");
         resetButton.setBounds(800, 50, 150, 30); // Adjust position and size as needed
@@ -89,15 +102,82 @@ public class BattleshipPlacePhase extends JFrame {
         gameBoardPanel.add(rotateButton);
         gameBoardPanel.add(resetButton);
 
+        
+        shipComboBox = new JComboBox<>();
+        shipComboBox.setBounds(800, 250, 150, 30);
+        gameBoardPanel.add(shipComboBox);
      // Add ship buttons based on selected ship set
-        addShipButtons(shipSet);
+        addShipsToComboBox(shipSet);
+        
+        shipComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get the selected ship from the combo box
+                selectedShip = (String) shipComboBox.getSelectedItem();
+            }
+        });
+
+     // Add mouse listener to the game board cells
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
+                JButton cellButton = boardCells[row][col];
+                int finalRow = row;
+                int finalCol = col;
+                cellButton.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        // Check if a ship is selected and the cell is not already occupied
+                        if (selectedShip != null && !isCellOccupied(finalRow, finalCol)) {
+                            // Turn the clicked cell gray to indicate ship placement
+                            cellButton.setBackground(Color.GRAY);
+                            // Store the cell coordinates as placed ship
+                            placedShips.add(new Point(finalRow, finalCol));
+                            
+                            // Place additional cells for the ship based on its size and orientation
+                            ShipSet.Ship ship = ShipSet.getShip(selectedShip);
+                            if (ship != null) {
+                                int shipSize = ship.getSize();
+                                int direction = isVertical ? 1 : 0; // Determine direction based on orientation
+                                for (int i = 1; i < shipSize; i++) {
+                                    int nextRow = finalRow + direction * i;
+                                    int nextCol = finalCol + (1 - direction) * i;
+                                    // Check if the next cell is within the grid bounds and not occupied
+                                    if (nextRow < numRows && nextCol < numCols && !isCellOccupied(nextRow, nextCol)) {
+                                        // Turn the next cell gray and store its coordinates
+                                        boardCells[nextRow][nextCol].setBackground(Color.GRAY);
+                                        placedShips.add(new Point(nextRow, nextCol));
+                                    } else {
+                                        // If any subsequent cell is occupied or out of bounds, break the loop
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+     // Add action listener to the rotate button
+        rotateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Toggle ship orientation
+                isVertical = !isVertical;
+                // Update button text based on ship orientation
+                if (isVertical) {
+                    rotateButton.setText("Rotate Ship: Vertical");
+                } else {
+                    rotateButton.setText("Rotate Ship: Horizontal");
+                }
+            }
+        });
         
         // Add the game board panel to the frame
         add(gameBoardPanel);
     }
 
  // Method to add ship buttons based on the selected ship set
-    private void addShipButtons(String shipSet) {
+    private void addShipsToComboBox(String shipSet) {
         switch (shipSet) {
             case "Stealth":
                 placeShipButtons(ShipSet.STEALTH);
@@ -121,11 +201,18 @@ public class BattleshipPlacePhase extends JFrame {
         int buttonHeight = 30; // Height of ship buttons
 
         for (String ship : shipSet) {
-            JButton shipButton = new JButton(ship);
-            shipButton.setBounds(x, y, buttonWidth, buttonHeight);
-            gameBoardPanel.add(shipButton);
-            y += buttonHeight + 10; // Increase y position for next ship button
+        	shipComboBox.addItem(ship);
         }
+    }
+ // Method to check if a cell is already occupied by a placed ship
+    private boolean isCellOccupied(int row, int col) {
+        for (Point p : placedShips) {
+            if (p.x == row && p.y == col) {
+                return true;
+            }
+        }
+        System.out.println("Cell Occupied");
+        return false;
     }
 
     // Methods for handling user interaction (e.g., placing ships, rotating ships)
