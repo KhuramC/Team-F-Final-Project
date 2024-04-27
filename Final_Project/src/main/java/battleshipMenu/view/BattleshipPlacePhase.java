@@ -15,19 +15,24 @@ import java.awt.*;
 
 public class BattleshipPlacePhase extends JFrame {
     
-	//Aesthetics
-	Color lightBlue = new Color(173,216,230);
+    // Aesthetics
+    Color lightBlue = new Color(173, 216, 230);
 
-	// UI elements for ship placement
+    // UI elements for ship placement
     private JPanel gameBoardPanel;
     private JButton[][] boardCells;
     private JButton rotateButton;
     private JButton resetButton;
     private JComboBox<String> shipComboBox;
     
+    private int numRows; // Number of rows in the game board
+    private int numCols; // Number of columns in the game board
+    
     private String selectedShip; // Store the selected ship
     private List<Point> placedShips; // Store the cells where ships are placed
- 
+
+    private String[][] player1GameBoardState;
+    
     // Flag to toggle ship orientation
     private boolean isVertical = true; // Default is vertical
     
@@ -37,6 +42,15 @@ public class BattleshipPlacePhase extends JFrame {
         setSize(1200, 900);
 
         placedShips = new ArrayList<>(); // Initialize the list of placed ships
+        player1GameBoardState = new String[numRows][numCols]; // Initialize player 1's game board state
+
+        // Initialize each cell in player 1's game board state array with the default value representing water
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
+                player1GameBoardState[row][col] = "~";
+            }
+        }
+
         // Initialize UI elements and layout
         initializeUI(numRows, numCols, shipSet);
     }
@@ -152,6 +166,10 @@ public class BattleshipPlacePhase extends JFrame {
                                     }
                                 }
                             }
+
+                            // Update player 1's game board state
+                            updatePlayer1GameBoardState();
+                            printPlayer1GameBoardState();
                         }
                     }
                 });
@@ -201,20 +219,33 @@ public class BattleshipPlacePhase extends JFrame {
         int buttonHeight = 30; // Height of ship buttons
 
         for (String ship : shipSet) {
-        	shipComboBox.addItem(ship);
+            shipComboBox.addItem(ship);
         }
     }
- // Method to check if a cell is already occupied by a placed ship
-    private boolean isCellOccupied(int row, int col) {
-        for (Point p : placedShips) {
-            if (p.x == row && p.y == col) {
-                return true;
+ // Update player 1's game board state when a ship is placed
+    private void updatePlayer1GameBoardState() {
+        // Iterate through the list of placed ships
+        for (Point shipLocation : placedShips) {
+            int row = shipLocation.x;
+            int col = shipLocation.y;
+            // Update the corresponding cell in player 1's game board state array to indicate the presence of a ship
+            player1GameBoardState[row][col] = "O";
+        }
+    }
+    // Method to print player 1's game board state
+    private void printPlayer1GameBoardState() {
+        System.out.println("Player 1's Game Board State:");
+        for (String[] row : player1GameBoardState) {
+            for (String cell : row) {
+                System.out.print(cell + " ");
             }
+            System.out.println();
         }
-        System.out.println("Cell Occupied");
-        return false;
+        System.out.println();
     }
-
+    private boolean isCellOccupied(int row, int col) {
+        return boardCells[row][col].getBackground().equals(Color.GRAY);
+    }
     // Methods for handling user interaction (e.g., placing ships, rotating ships)
 
     // Method to update UI based on game state (e.g., highlighting selected cells)
@@ -223,7 +254,7 @@ public class BattleshipPlacePhase extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-        	// Get the selected board size from BattleshipMenuView
+            // Get the selected board size from BattleshipMenuView
             String selectedBoardSize = "Small (7x7)";
             String selectedShipSet = "Stealth"; // Replace with actual selected ship set
             // Replace with actual selected size
@@ -232,7 +263,7 @@ public class BattleshipPlacePhase extends JFrame {
             // Extract rows and columns from the selected board size
             int numRows = boardSize.getRows();
             int numCols = boardSize.getCols();
-        	
+            
             BattleshipPlacePhase placePhase = new BattleshipPlacePhase(numRows, numCols, selectedShipSet);
             placePhase.setVisible(true);
         });
