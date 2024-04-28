@@ -63,7 +63,37 @@ public class MastermindMenu extends JFrame {
     }
 
     private void submitGuess(int row) {
+        if (row != currentTry) return; // Ensure only current row can submit
+        
+        String guess = Arrays.stream(guessButtons[row])
+                             .map(button -> colorToChar(button.getBackground()))
+                             .collect(Collectors.joining());
 
+        if (guess.equals(String.join("", secretCode))) {
+            feedbackArea.append("Correct! The code was " + guess + "\n");
+            int playAgain = JOptionPane.showConfirmDialog(this, "You guessed correctly! Play again?", "Game Over", JOptionPane.YES_NO_OPTION);
+            if (playAgain == JOptionPane.YES_OPTION) {
+                resetGame();
+            } else {
+                System.exit(0);
+            }
+        } else {
+            String feedback = provideFeedback(guess);
+            feedbackArea.append(feedback + "\n");
+            currentTry++;
+            if (currentTry < maxTries) {
+                enableRow(currentTry, true); // Enable next row
+                enableRow(currentTry - 1, false); // Disable the previous row
+            } else {
+                feedbackArea.append("You've run out of tries! The correct code was " + String.join("", secretCode) + "\n");
+                int playAgain = JOptionPane.showConfirmDialog(this, "You're out of tries! Play again?", "Game Over", JOptionPane.YES_NO_OPTION);
+                if (playAgain == JOptionPane.YES_OPTION) {
+                    resetGame();
+                } else {
+                    System.exit(0);
+                }
+            }
+        }
     }
 
 
