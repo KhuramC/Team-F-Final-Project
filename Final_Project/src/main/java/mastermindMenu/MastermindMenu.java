@@ -56,7 +56,10 @@ public class MastermindMenu extends JFrame {
     }
 
     private void toggleColor(JButton button, int row, int col) {
-
+        if (row != currentTry) return;  // Only allow changes to the current row
+        Color currentColor = button.getBackground();
+        int nextColorIndex = (Arrays.asList(COLOR_MAP).indexOf(currentColor) + 1) % COLOR_MAP.length;
+        button.setBackground(COLOR_MAP[nextColorIndex]);
     }
 
     private void submitGuess(int row) {
@@ -69,7 +72,14 @@ public class MastermindMenu extends JFrame {
     }
 
     private void resetGame() {
-
+        Random random = new Random();
+        secretCode = new String[codeLength];
+        for (int i = 0; i < codeLength; i++) {
+            secretCode[i] = COLORS[random.nextInt(COLORS.length)];
+        }
+        currentTry = 0;
+        feedbackArea.setText("");
+        IntStream.range(0, maxTries).forEach(row -> enableRow(row, row == 0));
     }
 
     private void setupFeedbackPanel() {
