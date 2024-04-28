@@ -32,7 +32,27 @@ public class MastermindMenu extends JFrame {
     }
 
     private void initializeGameComponents() {
+        JPanel gamePanel = new JPanel(new GridLayout(maxTries, codeLength + 1));
+        guessButtons = new JButton[maxTries][codeLength];
 
+        for (int i = 0; i < maxTries; i++) {
+        	int finalI = i;
+            for (int j = 0; j < codeLength; j++) {
+                JButton button = new JButton();
+                button.setBackground(Color.LIGHT_GRAY);
+                button.setPreferredSize(new Dimension(50, 50));
+                int finalJ = j;
+                button.addActionListener(e -> toggleColor(button, finalI, finalJ));
+                guessButtons[i][j] = button;
+                gamePanel.add(button);
+            }
+            JButton submitButton = new JButton("Submit");
+            submitButton.addActionListener(e -> submitGuess(finalI));
+            gamePanel.add(submitButton);
+        }
+
+        add(gamePanel, BorderLayout.CENTER);
+        setupFeedbackPanel();
     }
 
     private void toggleColor(JButton button, int row, int col) {
