@@ -5,10 +5,12 @@ import java.util.Observable;
 import java.util.Observer;
 
 import connect4Menu.view.ObserverEndGame;
+import connect4Menu.view.ObserverInvalidCols;
 import connect4Menu.view.ObserverSquarePlayed;
 import connect4Menu.view.ObserverStartedTurn;
 
-public class Connect4GameModel implements Observer,ObservableStartedTurn,ObservableSquarePlayed,ObservableEndGame{
+public class Connect4GameModel implements Observer,
+ObservableStartedTurn,ObservableSquarePlayed,ObservableEndGame,ObservableInvalidCols{
 	
 	private Player p1;
 	private Player p2;
@@ -20,6 +22,7 @@ public class Connect4GameModel implements Observer,ObservableStartedTurn,Observa
 	private ArrayList<ObserverStartedTurn> startedTurnObservers = new ArrayList<>();
 	private ArrayList<ObserverSquarePlayed> squarePlayedObservers = new ArrayList<>();
 	private ArrayList<ObserverEndGame> endGameObservers = new ArrayList<>();
+	private ArrayList<ObserverInvalidCols> invalidColsObservers = new ArrayList<>();
 	
 	
 	
@@ -84,11 +87,15 @@ public class Connect4GameModel implements Observer,ObservableStartedTurn,Observa
 	}
 	
 	//need to have isSelectionValid and to actualyl determine it.
+	//under assuimption that the column selected is valid. this is not checked here.
 	public void select(int selection) {
 		selected[1] = selection;
 		for(int row = board.length-1; row >= 0; row--) {
 			if(board[row][selection] == 0) {
 				selected[0] = row;
+				if(row == 0) {
+					notifyInvalidColObservers(selection);
+				}
 				break;
 			}	
 		}
@@ -315,6 +322,7 @@ public class Connect4GameModel implements Observer,ObservableStartedTurn,Observa
 
 	@Override
 	public void notifySquarePlayedObservers(Player p) {
+		
 		for(ObserverSquarePlayed o : squarePlayedObservers) {
 			o.updateBoard(p, selected);
 		}
@@ -333,6 +341,23 @@ public class Connect4GameModel implements Observer,ObservableStartedTurn,Observa
 	public void notifyEndGameObservers(Player p) {
 		for(ObserverEndGame o : endGameObservers) {
 			o.updateText(p);
+		}
+		
+	}
+
+
+
+	@Override
+	public void registerInvalidColObserver(ObserverInvalidCols o) {
+		invalidColsObservers.add(o);
+		
+	}
+
+
+	@Override
+	public void notifyInvalidColObservers(int colNum) {
+		for(ObserverInvalidCols o: invalidColsObservers) {
+			o.updateButton(colNum);
 		}
 		
 	}

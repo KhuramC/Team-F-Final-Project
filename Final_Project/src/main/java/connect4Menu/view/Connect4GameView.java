@@ -13,7 +13,8 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Connect4GameView extends JFrame implements Observer,ObserverStartedTurn,ObserverSquarePlayed,ObserverEndGame{
+public class Connect4GameView extends JFrame implements Observer,
+ObserverStartedTurn,ObserverSquarePlayed,ObserverEndGame,ObserverInvalidCols{
 	
 	private final int squareLen = 75;
 	private final String emptySquarePath = "/connect4Images/connect4emptysquare.drawio.png";
@@ -135,9 +136,10 @@ public class Connect4GameView extends JFrame implements Observer,ObserverStarted
 	public void updateBoard(Player p, int[] selection) {
 		String playerFilePath = p.getColor().getFilePath();
 		ImageIcon playerSquare = new ImageIcon(getClass().getResource(playerFilePath));
-		int row = selection[0];// TODO Auto-generated method stub
+		int row = selection[0];
 		int col = selection[1];
 		board[row][col].setIcon(playerSquare);
+		
 	}
 
 	@Override
@@ -158,5 +160,11 @@ public class Connect4GameView extends JFrame implements Observer,ObserverStarted
 		for(JButton b : selectionButtons) {
 			b.setEnabled(false);
 		}
+	}
+
+	@Override
+	public void updateButton(int invalidColNum) {
+		selectionButtons[invalidColNum].setEnabled(false);
+		
 	}
 }

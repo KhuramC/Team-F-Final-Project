@@ -29,6 +29,7 @@ public class Connect4GameController implements MenuController {
 		this.gameModel.registerStartedTurnObserver(this.gameView);
 		this.gameModel.registerSquarePlayedObserver(this.gameView);
 		this.gameModel.registerEndGameObserver(this.gameView);
+		this.gameModel.registerInvalidColObserver(this.gameView);
 	}
 
 	
