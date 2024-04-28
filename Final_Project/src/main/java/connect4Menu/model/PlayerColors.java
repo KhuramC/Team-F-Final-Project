@@ -13,5 +13,7 @@ public interface PlayerColors {
 	 * @author Khuram C.
 	 */
 	public int getAllowedPlayer();
+	
+	public String getFilePath();
 
 }

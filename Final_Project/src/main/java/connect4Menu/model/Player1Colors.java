@@ -6,22 +6,30 @@ package connect4Menu.model;
  * @author Khuram C.
  */
 public enum Player1Colors implements PlayerColors {
-	RED(),
-	BLACK(),
-	GREEN();
+	RED("/connect4Images/connect4p1redsquare.drawio.png"),
+	BLACK("/connect4Images/connect4p1blacksquare.drawio.png"),
+	GREEN("/connect4Images/connect4p1greensquare.drawio.png");
 	
 	private int allowedPlayer;
+	private String filePath;
 
 	/**
 	 * Default Constructor for Player1Colors. All colors in this enum are only for Player 1.
 	 * @author Khuram C.
 	 */
-	private Player1Colors() {
+	private Player1Colors(String filePath) {
+		this.filePath = filePath;
+		
 		allowedPlayer = 1;
 	}
 	
 	@Override
 	public int getAllowedPlayer() {
 		return allowedPlayer;
+	}
+
+	@Override
+	public String getFilePath() {
+		return filePath;
 	}	
 }
