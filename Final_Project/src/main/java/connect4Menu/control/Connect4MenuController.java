@@ -9,9 +9,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import connect4Menu.exceptions.InvalidTimerTimeException;
+import connect4Menu.model.Connect4GameModel;
 import connect4Menu.model.Connect4MenuModel;
 import connect4Menu.model.Player;
 import connect4Menu.model.PlayerColors;
+import connect4Menu.view.Connect4GameView;
 import connect4Menu.view.Connect4SettingsMenuView;
 import mvcinterfaces.MenuController;
 
@@ -23,6 +25,7 @@ public class Connect4MenuController implements MenuController {
 	
 	private Connect4MenuModel model;
 	private Connect4SettingsMenuView settingsView;
+	private Connect4GameController gameController;
 
 	/**
      * A parameterized constructor for the controller. There is no need for a default constructor since
@@ -152,6 +155,8 @@ public class Connect4MenuController implements MenuController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			gameController = new Connect4GameController(model);
+			gameController.initiate();
 			settingsView.dispatchEvent(new WindowEvent(settingsView,WindowEvent.WINDOW_CLOSING));
 		}
 	}
@@ -191,4 +196,5 @@ public class Connect4MenuController implements MenuController {
 	public void initiate() {
 		settingsView.setVisible(true);
 	}
+	
 }
