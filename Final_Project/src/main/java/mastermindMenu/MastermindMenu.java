@@ -98,7 +98,32 @@ public class MastermindMenu extends JFrame {
 
 
     private String provideFeedback(String guess) {
- 
+        int correctPosition = 0;
+        int correctColor = 0;
+        boolean[] secretChecked = new boolean[codeLength];
+        boolean[] guessChecked = new boolean[codeLength];
+
+        for (int i = 0; i < codeLength; i++) {
+            if (guess.charAt(i) == secretCode[i].charAt(0)) {
+                correctPosition++;
+                secretChecked[i] = true;
+                guessChecked[i] = true;
+            }
+        }
+
+        for (int i = 0; i < codeLength; i++) {
+            if (!guessChecked[i]) {
+                for (int j = 0; j < codeLength; j++) {
+                    if (!secretChecked[j] && guess.charAt(i) == secretCode[j].charAt(0)) {
+                        correctColor++;
+                        secretChecked[j] = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return correctPosition + " exact, " + correctColor + " correct color but wrong position.";
     }
 
     private void resetGame() {
@@ -113,11 +138,16 @@ public class MastermindMenu extends JFrame {
     }
 
     private void setupFeedbackPanel() {
-
+        feedbackArea = new JTextArea(5, 30);
+        feedbackArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(feedbackArea);
+        add(scrollPane, BorderLayout.SOUTH);
     }
 
     private void enableRow(int row, boolean enable) {
-
+        for (JButton button : guessButtons[row]) {
+            button.setEnabled(enable);
+        }
     }
 
     private String colorToChar(Color color) {
