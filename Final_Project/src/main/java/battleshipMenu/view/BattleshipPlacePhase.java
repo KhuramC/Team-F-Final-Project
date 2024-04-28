@@ -3,7 +3,10 @@ package battleshipMenu.view;
 import javax.swing.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import battleshipMenu.model.MapSize;
 import battleshipMenu.model.ShipSet;
 import java.awt.event.ActionEvent;
@@ -24,6 +27,13 @@ public class BattleshipPlacePhase extends JFrame {
     private JButton rotateButton;
     private JButton resetButton;
     private JComboBox<String> shipComboBox;
+    private JButton doneButton; // Declare the Done button as a class-level variable
+    private int shipsPlacedCount = 0; // Keep track of the number of ships placed
+    
+ // Declare a set to keep track of placed ships
+    private Set<String> placedShipSet = new HashSet<>();
+  
+
     
     private int numRows; // Number of rows in the game board
     private int numCols; // Number of columns in the game board
@@ -32,6 +42,7 @@ public class BattleshipPlacePhase extends JFrame {
     private List<Point> placedShips; // Store the cells where ships are placed
 
     private String[][] player1GameBoardState;
+    private boolean player1GameBoardStateSaved = false; // Initialize as false
     
     // Flag to toggle ship orientation
     private boolean isVertical = true; // Default is vertical
@@ -68,7 +79,9 @@ public class BattleshipPlacePhase extends JFrame {
             }
         };
         gameBoardPanel.setLayout(null); // Use absolute layout
+        doneButton = new JButton("Done");
 
+        
         JLabel placeLabel = new JLabel("↓↓ Select & Place Ships ↓↓");
         placeLabel.setBounds(800, 215, 150, 30);
         gameBoardPanel.add(placeLabel);
@@ -110,9 +123,13 @@ public class BattleshipPlacePhase extends JFrame {
         rotateButton = new JButton("Rotate Ship: Vertical");
         rotateButton.setBounds(800, 100, 250, 30); // Adjust position and size as needed
 
-        resetButton = new JButton("Reset Grid");
-        resetButton.setBounds(800, 50, 150, 30); // Adjust position and size as needed
+        resetButton = new JButton("Reset Grid/Ship Placements");
+        resetButton.setBounds(800, 50, 250, 30); // Adjust position and size as needed
         
+     // Add the "Done" button to the game board panel
+        JButton doneButton = new JButton("Done");
+        doneButton.setBounds(800, 400, 150, 30); // Adjust position and size as needed
+        gameBoardPanel.add(doneButton);
 
         // Add buttons to the game board panel
         gameBoardPanel.add(rotateButton);
@@ -130,6 +147,10 @@ public class BattleshipPlacePhase extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Get the selected ship from the combo box
                 selectedShip = (String) shipComboBox.getSelectedItem();
+                
+                if (placedShipSet.contains(selectedShip)) {
+                    shipComboBox.removeItem(selectedShip);
+                }
             }
         });
 
@@ -163,6 +184,12 @@ public class BattleshipPlacePhase extends JFrame {
                                     // Update player 1's game board state
                                     updatePlayer1GameBoardState();
                                     printPlayer1GameBoardState();
+                                    
+                                 // Update combo box options
+                                    shipComboBox.removeItem(selectedShip);
+                                    
+                                 // Update the count of ships placed
+                                    updateShipsPlacedCount(); // Call the method here
                                 }
                             }
                         }
@@ -185,9 +212,46 @@ public class BattleshipPlacePhase extends JFrame {
             }
         });
         
+        doneButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Check if all 5 ships have been placed
+                if (shipsPlacedCount == 5) {
+                    // Ask for confirmation
+                    int choice = JOptionPane.showConfirmDialog(null, "Are you done placing ships?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                    if (choice == JOptionPane.YES_OPTION) {
+                        // Implement the action when all ships are placed and the user confirms
+                    	savePlayer1GameBoardState();
+                        System.out.println("All ships have been placed. Proceed to the next phase.");
+                        // Here you can proceed to the next phase or perform any other action
+                    } else {
+                        // If the user selects "No", do nothing
+                    }
+                } else {
+                    // Display a message indicating that all ships need to be placed
+                    JOptionPane.showMessageDialog(null, "Please place all 5 ships before proceeding.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+        
+//        resetButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//            	resetGridState();
+//            	System.out.println("Reset button pressed");
+//            	// Clear the placed ships list
+//                placedShips.clear();
+//                // Reset ship selection combo box
+//                resetShipComboBox(shipSet);
+//                // Reset ship placement to default (vertical)
+//                isVertical = true;
+//                rotateButton.setText("Rotate Ship: Vertical");
+//            }
+//        });
+//        
         // Add the game board panel to the frame
         add(gameBoardPanel);
-    }
+  }
 
  // Method to add ship buttons based on the selected ship set
     private void addShipsToComboBox(String shipSet) {
@@ -227,6 +291,29 @@ public class BattleshipPlacePhase extends JFrame {
             player1GameBoardState[row][col] = "O";
         }
     }
+ // Method to save "Player 1's Game Board State"
+    private void savePlayer1GameBoardState() {
+        // Check if the game board state has already been saved
+        if (!isPlayer1GameBoardStateSaved()) {
+            // Save the game board state
+            // You can store it in a variable or write it to a file/database, depending on your requirements
+            // For demonstration purposes, let's print the game board state
+            System.out.println("Player 1's Game Board State Saved:");
+            printPlayer1GameBoardState();
+            // Set a flag indicating that the game board state has been saved
+            // You might need to modify this flag based on your actual implementation
+            // For demonstration purposes, let's assume a boolean flag named "player1GameBoardStateSaved"
+            player1GameBoardStateSaved = true;
+        } else {
+            System.out.println("Player 1's Game Board State has already been saved.");
+        }
+    }
+ // Method to check if "Player 1's Game Board State" has already been saved
+    private boolean isPlayer1GameBoardStateSaved() {
+        // Implement your logic to check if the game board state has been saved
+        // For demonstration purposes, let's assume a boolean flag named "player1GameBoardStateSaved"
+        return player1GameBoardStateSaved;
+    }
     // Method to print player 1's game board state
     private void printPlayer1GameBoardState() {
         System.out.println("Player 1's Game Board State:");
@@ -237,6 +324,20 @@ public class BattleshipPlacePhase extends JFrame {
             System.out.println();
         }
         System.out.println();
+    }
+
+ // Method to reset ship selection combo box
+    private void resetShipComboBox(String shipSet) {
+        shipComboBox.removeAllItems();
+        // Add ship buttons based on the selected ship set
+        addShipsToComboBox(shipSet);
+    }
+    private void updateShipsPlacedCount() {
+        shipsPlacedCount++;
+        // Check if all 5 ships have been placed
+        if (shipsPlacedCount == 5) {
+            doneButton.setEnabled(true); // Enable the "Done" button
+        }
     }
     private boolean isValidPlacement(int startRow, int startCol, int shipSize, boolean isVertical, int numRows, int numCols) {
         // Debugging print statements
