@@ -44,7 +44,7 @@ public class MainMenuStartView extends JFrame {
 		this.gameChoicesBox = new JComboBox();
 		gameChoicesBox.setModel(new DefaultComboBoxModel(GameType.values()));
 		gameChoicesBox.setMaximumRowCount(4);
-		gameChoicesBox.setBounds(268, 156, 125, 25);
+		gameChoicesBox.setBounds(252, 156, 141, 25);
 		contentPane.add(gameChoicesBox);
 		
 		

@@ -50,48 +50,43 @@ public class Connect4SettingsMenuView extends JFrame{
 	 * @author Khuram C.
 	 */
 	public Connect4SettingsMenuView() {
-		setTitle("Connect 4"); //general settings//
+		setTitle("Connect 4 Settings"); //general settings//
 		setBounds(100,100,900,400);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.contentPane = new JPanel();
 		setContentPane(contentPane);
 		getContentPane().setLayout(null);
 		
-		JRadioButton button5x4 = new JRadioButton("5x4"); //radioButtons for board size//
-		sizeButtonGroup.add(button5x4);
-		button5x4.setBounds(63, 65, 103, 21);
-		contentPane.add(button5x4);
+		JRadioButton button4x5 = new JRadioButton("4x5"); //radioButtons for board size//
+		sizeButtonGroup.add(button4x5);
+		button4x5.setBounds(63, 65, 103, 21);
+		contentPane.add(button4x5);
 		
-		JRadioButton button6x5 = new JRadioButton("6x5");
-		sizeButtonGroup.add(button6x5);
-		button6x5.setBounds(63, 88, 103, 21);
-		contentPane.add(button6x5);
+		JRadioButton button5x6 = new JRadioButton("5x6");
+		sizeButtonGroup.add(button5x6);
+		button5x6.setBounds(63, 88, 103, 21);
+		contentPane.add(button5x6);
 		
-		JRadioButton button7x6 = new JRadioButton("7x6(Standard)");
-		button7x6.setSelected(true);
-		sizeButtonGroup.add(button7x6);
-		button7x6.setBounds(63, 111, 103, 21);
-		contentPane.add(button7x6);
+		JRadioButton button6x7 = new JRadioButton("6x7(Standard)");
+		button6x7.setSelected(true);
+		sizeButtonGroup.add(button6x7);
+		button6x7.setBounds(63, 111, 103, 21);
+		contentPane.add(button6x7);
 		
-		JRadioButton button8x7 = new JRadioButton("8x7");
-		sizeButtonGroup.add(button8x7);
-		button8x7.setBounds(63, 134, 103, 21);
-		contentPane.add(button8x7);
+		JRadioButton button7x8 = new JRadioButton("7x8");
+		sizeButtonGroup.add(button7x8);
+		button7x8.setBounds(63, 134, 103, 21);
+		contentPane.add(button7x8);
 		
 		JRadioButton button8x8 = new JRadioButton("8x8");
 		sizeButtonGroup.add(button8x8);
 		button8x8.setBounds(63, 157, 103, 21);
 		contentPane.add(button8x8);
 		
-		JRadioButton button9x7 = new JRadioButton("9x7");
-		sizeButtonGroup.add(button9x7);
-		button9x7.setBounds(63, 180, 103, 21);
-		contentPane.add(button9x7);
-		
-		JRadioButton button10x7 = new JRadioButton("10x7");
-		sizeButtonGroup.add(button10x7);
-		button10x7.setBounds(63, 203, 103, 21);
-		contentPane.add(button10x7);
+		JRadioButton button7x9 = new JRadioButton("7x9");
+		sizeButtonGroup.add(button7x9);
+		button7x9.setBounds(63, 180, 103, 21);
+		contentPane.add(button7x9);
 		
 		JTextField titleTextField = new JTextField(); 
 		titleTextField.setHorizontalAlignment(SwingConstants.CENTER);
@@ -154,6 +149,7 @@ public class Connect4SettingsMenuView extends JFrame{
 		contentPane.add(errorLabel);
 		
 		JTextArea rulesTextArea = new JTextArea();
+		rulesTextArea.setEditable(false);
 		rulesTextArea.setFont(new Font("Yu Gothic UI Light", Font.PLAIN, 12));
 		rulesTextArea.setLineWrap(true);
 		rulesTextArea.setText("Welcome to Connect4! The rules are simple. Two players play turns in succession to try"
@@ -321,4 +317,5 @@ public class Connect4SettingsMenuView extends JFrame{
 	public void changeErrorLabelText(String text) {
 		errorLabel.setText(text);
 	}
+
 }

@@ -11,8 +11,8 @@ public class Connect4MenuModel {
 	private int rowNum = 7; // y
 	private boolean isTimer = false;
 	private int timerTime = 15;
-	private Player p1 = new Player("Player 1", Player1Colors.RED);
-	private Player p2 = new Player("Player 2", Player2Colors.YELLOW);
+	private Player p1 = new Player("Player 1", Player1Colors.RED,player1Num);
+	private Player p2 = new Player("Player 2", Player2Colors.YELLOW,player2Num);
 	public static final int minTimerTime = 15;
 	public static final int maxTimerTime = 60;
 	public static final int player1Num = 1;
@@ -26,6 +26,7 @@ public class Connect4MenuModel {
 	public Connect4MenuModel() {
 	}
 
+	//getters and setters
 	public int getColNum() {
 		return colNum;
 	}

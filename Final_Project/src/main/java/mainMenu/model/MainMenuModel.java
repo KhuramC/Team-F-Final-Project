@@ -1,7 +1,7 @@
 package mainMenu.model;
 
 /**
- * A model from the MVC architecture for the main menu to select a game.
+ * A Model from the MVC architecture for the main menu to select a game to play.
  * @author Khuram C.
  */
 public class MainMenuModel {
