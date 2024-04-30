@@ -1,4 +1,4 @@
-package mancalaGame;
+package mancalaMenu;
 
 public class MancalaView {
 
