@@ -16,7 +16,7 @@ import java.awt.event.MouseEvent;
 
 import java.awt.*;
 
-public class BattleshipPlacePhase extends JFrame {
+public class BattleshipPlacePhaseP2 extends JFrame {
     
     // Aesthetics
     Color lightBlue = new Color(173, 216, 230);
@@ -32,7 +32,7 @@ public class BattleshipPlacePhase extends JFrame {
     
  // Declare a set to keep track of placed ships
     private Set<String> placedShipSet = new HashSet<>();
-    private String selectedShipSet;
+  
 
     
     private int numRows; // Number of rows in the game board
@@ -41,27 +41,26 @@ public class BattleshipPlacePhase extends JFrame {
     private String selectedShip; // Store the selected ship
     private List<Point> placedShips; // Store the cells where ships are placed
 
-    private String[][] player1GameBoardState;
-    private boolean player1GameBoardStateSaved = false; // Initialize as false
+    private String[][] player2GameBoardState;
+    private boolean player2GameBoardStateSaved = false; // Initialize as false
     
     // Flag to toggle ship orientation
     private boolean isVertical = true; // Default is vertical
     
-    public BattleshipPlacePhase(int numRows, int numCols, String shipSet) {
+    public BattleshipPlacePhaseP2(int numRows, int numCols, String shipSet) {
        
     	System.out.println("numRows: " + numRows + ", numCols: " + numCols); // Debugging print statement
     	setTitle("Battleship - Ship Placement Phase");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 900);
 
-        selectedShipSet = shipSet;
         placedShips = new ArrayList<>(); // Initialize the list of placed ships
-        player1GameBoardState = new String[numRows][numCols]; // Initialize player 1's game board state
+        player2GameBoardState = new String[numRows][numCols]; // Initialize player 1's game board state
 
         // Initialize each cell in player 1's game board state array with the default value representing water
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
-                player1GameBoardState[row][col] = "~";
+                player2GameBoardState[row][col] = "~";
             }
         }
 
@@ -82,7 +81,7 @@ public class BattleshipPlacePhase extends JFrame {
         gameBoardPanel.setLayout(null); // Use absolute layout
         doneButton = new JButton("Done");
 
-        JLabel WhatPlayer = new JLabel("Player 1's Game Board");
+        JLabel WhatPlayer = new JLabel("Player 2's Game Board");
         WhatPlayer.setBounds(500, 1, 300, 30);
         gameBoardPanel.add(WhatPlayer);
         
@@ -186,8 +185,8 @@ public class BattleshipPlacePhase extends JFrame {
                                     }
                                     
                                     // Update player 1's game board state
-                                    updatePlayer1GameBoardState();
-                                    printPlayer1GameBoardState();
+                                    updatePlayer2GameBoardState();
+                                    printPlayer2GameBoardState();
                                     
                                  // Update combo box options
                                     shipComboBox.removeItem(selectedShip);
@@ -228,15 +227,6 @@ public class BattleshipPlacePhase extends JFrame {
                     	savePlayer1GameBoardState();
                         System.out.println("All ships have been placed. Proceed to the next phase.");
                         // Here you can proceed to the next phase or perform any other action
-                     // Create BattleshipPlacePhaseP2 for Player 2
-                        SwingUtilities.invokeLater(() -> {
-                            BattleshipPlacePhaseP2 placePhaseP2 = new BattleshipPlacePhaseP2(numRows, numCols, selectedShipSet);
-                            placePhaseP2.setVisible(true);
-                        });
-                        
-                        // Hide BattleshipPlacePhase for Player 1
-                        setVisible(false);
-                        
                     } else {
                         // If the user selects "No", do nothing
                     }
@@ -295,42 +285,42 @@ public class BattleshipPlacePhase extends JFrame {
         }
     }
  // Update player 1's game board state when a ship is placed
-    private void updatePlayer1GameBoardState() {
+    private void updatePlayer2GameBoardState() {
         // Iterate through the list of placed ships
         for (Point shipLocation : placedShips) {
             int row = shipLocation.x;
             int col = shipLocation.y;
             // Update the corresponding cell in player 1's game board state array to indicate the presence of a ship
-            player1GameBoardState[row][col] = "O";
+            player2GameBoardState[row][col] = "O";
         }
     }
  // Method to save "Player 1's Game Board State"
     private void savePlayer1GameBoardState() {
         // Check if the game board state has already been saved
-        if (!isPlayer1GameBoardStateSaved()) {
+        if (!isPlayer2GameBoardStateSaved()) {
             // Save the game board state
             // You can store it in a variable or write it to a file/database, depending on your requirements
             // For demonstration purposes, let's print the game board state
-            System.out.println("Player 1's Game Board State Saved:");
-            printPlayer1GameBoardState();
+            System.out.println("Player 2's Game Board State Saved:");
+            printPlayer2GameBoardState();
             // Set a flag indicating that the game board state has been saved
             // You might need to modify this flag based on your actual implementation
             // For demonstration purposes, let's assume a boolean flag named "player1GameBoardStateSaved"
-            player1GameBoardStateSaved = true;
+            player2GameBoardStateSaved = true;
         } else {
-            System.out.println("Player 1's Game Board State has already been saved.");
+            System.out.println("Player 2's Game Board State has already been saved.");
         }
     }
- // Method to check if "Player 1's Game Board State" has already been saved
-    private boolean isPlayer1GameBoardStateSaved() {
+ // Method to check if "Player 2's Game Board State" has already been saved
+    private boolean isPlayer2GameBoardStateSaved() {
         // Implement your logic to check if the game board state has been saved
         // For demonstration purposes, let's assume a boolean flag named "player1GameBoardStateSaved"
-        return player1GameBoardStateSaved;
+        return player2GameBoardStateSaved;
     }
-    // Method to print player 1's game board state
-    private void printPlayer1GameBoardState() {
-        System.out.println("Player 1's Game Board State:");
-        for (String[] row : player1GameBoardState) {
+    // Method to print player 2's game board state
+    private void printPlayer2GameBoardState() {
+        System.out.println("Player 2's Game Board State:");
+        for (String[] row : player2GameBoardState) {
             for (String cell : row) {
                 System.out.print(cell + " ");
             }
@@ -361,7 +351,7 @@ public class BattleshipPlacePhase extends JFrame {
         for (int i = 0; i < shipSize; i++) {
             int row = startRow + (isVertical ? i : 0);
             int col = startCol + (isVertical ? 0 : i);
-            if (row >= numRows || col >= numCols || !player1GameBoardState[row][col].equals("~")) {
+            if (row >= numRows || col >= numCols || !player2GameBoardState[row][col].equals("~")) {
             	JOptionPane.showMessageDialog(null, "Invalid Placement", "Error", JOptionPane.ERROR_MESSAGE);
             	System.out.println("Invalid Placement!");
                 return false; // Placement overlaps with an existing ship or is off the board
