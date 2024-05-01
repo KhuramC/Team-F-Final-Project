@@ -41,7 +41,7 @@ public class BattleshipPlacePhase extends JFrame {
     private String selectedShip; // Store the selected ship
     private List<Point> placedShips; // Store the cells where ships are placed
 
-    private String[][] player1GameBoardState;
+    public String[][] player1GameBoardState;
     private boolean player1GameBoardStateSaved = false; // Initialize as false
     
     // Flag to toggle ship orientation
@@ -370,7 +370,9 @@ public class BattleshipPlacePhase extends JFrame {
 
         return true; // Placement is valid
     }
-    
+    public String[][] getPlayer1GameBoardState() {
+        return player1GameBoardState;
+    }
     // Methods for handling user interaction (e.g., placing ships, rotating ships)
 
     // Method to update UI based on game state (e.g., highlighting selected cells)

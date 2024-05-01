@@ -15,7 +15,7 @@ public class BattleshipMenuView extends JFrame {
     private JComboBox<String> selectOpponentComboBox;
     private JComboBox<String> selectShipSetComboBox;
     
-    private JButton startGameButton;
+    public JButton startGameButton;
     private JPanel contentPane = new JPanel();
 
     public BattleshipMenuView() {

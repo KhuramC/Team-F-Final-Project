@@ -226,6 +226,12 @@ public class BattleshipPlacePhaseP2 extends JFrame {
                         // Implement the action when all ships are placed and the user confirms
                     	savePlayer1GameBoardState();
                         System.out.println("All ships have been placed. Proceed to the next phase.");
+                        
+                     // Open BattleshipShootingPhase with the appropriate grid size
+                        SwingUtilities.invokeLater(() -> {
+                            BattleshipShootingPhase shootingPhase = new BattleshipShootingPhase(numRows, numCols, player2GameBoardState);
+                            shootingPhase.setVisible(true);
+                        });
                         // Here you can proceed to the next phase or perform any other action
                     } else {
                         // If the user selects "No", do nothing
@@ -359,6 +365,9 @@ public class BattleshipPlacePhaseP2 extends JFrame {
         }
 
         return true; // Placement is valid
+    }
+    public String[][] getPlayer2GameBoardState() {
+        return player2GameBoardState;
     }
     
     // Methods for handling user interaction (e.g., placing ships, rotating ships)
