@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
+import javax.swing.SwingUtilities;
+
 import connect4Menu.Connect4Main;
 import mainMenu.model.*;
 import mainMenu.view.*;
@@ -19,17 +21,16 @@ public class MainMenuController implements MenuController{
 	private MainMenuStartView startView;
 
     /**
-     * A parameterized constructor for the controller. There is no need for a default constructor since
-     * the parameters and controller should always be created at the same time.
-     * @param model to hold the data.
-     * @param startView to show to the user.
+     * A default constructor for the controller. Creates the associated model and view for the Main Menu and adds it as 
+     * an observer for the model. The associated listeners for the view are also added.
      * @author Khuram C.
      */
-	public MainMenuController(MainMenuModel model, MainMenuStartView startView) {
-		this.model = model;
-		this.startView = startView;
-		this.startView.addListenertoGameChoicesBox(new GameChoicesBoxListener());
-		this.startView.addListenertoStartGameButton(new StartGameButtonListener());
+	public MainMenuController() {
+		this.model = new MainMenuModel();
+		this.startView = new MainMenuStartView();
+		model.addObserver(startView);
+		startView.addListenertoGameChoicesBox(new GameChoicesBoxListener());
+		startView.addListenertoStartGameButton(new StartGameButtonListener());
 	}
 	
 	/**
@@ -41,7 +42,7 @@ public class MainMenuController implements MenuController{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			GameType gameType = startView.getGameChoicesBoxChoice();
-			model.setGameChosen(gameType);
+			model.chooseGame(gameType);
 		}	
 	}
 	
@@ -77,11 +78,16 @@ public class MainMenuController implements MenuController{
 	}
 	
 	/**
-	 * 'Starts' the application by making the view visible to the user.
+	 * Starts the application by making the view visible to the user.
 	 * @author Khuram C.
 	 */
 	public void initiate() {
-		startView.setVisible(true);
-	}
+		SwingUtilities.invokeLater(new Runnable() {
 
+			@Override
+			public void run() {
+				startView.setVisible(true);	
+			}	
+		});	
+	}
 }

@@ -1,8 +1,5 @@
 package mainMenu;
 
-import javax.swing.SwingUtilities;
-import mainMenu.model.*;
-import mainMenu.view.*;
 import mainMenu.control.*;
 
 /**
@@ -17,15 +14,7 @@ public class Main {
 	 * @author Khuram C.
 	 */
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				MainMenuModel model = new MainMenuModel();
-				MainMenuStartView startView = new MainMenuStartView();
-				MainMenuController controller = new MainMenuController(model,startView);
-				controller.initiate();	
-			}
-		});
+		MainMenuController controller = new MainMenuController();
+		controller.initiate();
 	}
 }
