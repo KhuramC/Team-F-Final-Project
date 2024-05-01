@@ -6,9 +6,9 @@ package connect4Menu.model;
  * @author Khuram C.
  */
 public enum Player2Colors implements PlayerColors{
-	YELLOW("/connect/images/connect4p2yellowsquare.drawio.png"),
-	ORANGE("/connect/images/connect4p2orangesquare.drawio.png"),
-	PURPLE("/connect/images/connect4p2purplesquare.drawio.png");
+	YELLOW("/connect4/images/connect4p2yellowsquare.drawio.png"),
+	ORANGE("/connect4/images/connect4p2orangesquare.drawio.png"),
+	PURPLE("/connect4/images/connect4p2purplesquare.drawio.png");
 	
 
 	private int allowedPlayer;
