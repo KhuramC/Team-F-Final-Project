@@ -12,8 +12,10 @@ public class MancalaMain {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				MancalaController controller = 
-								new MancalaController();// give arguments to mancala controller
+				// give arguments to mancala controller
+				MancalaView view = new MancalaView();
+				MancalaModel model = new MancalaModel();
+				MancalaController controller = new MancalaController(model, view);
 //				view
 //				model
 				

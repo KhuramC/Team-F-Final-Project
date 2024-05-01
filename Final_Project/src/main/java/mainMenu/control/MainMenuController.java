@@ -8,6 +8,7 @@ import connect4Menu.Connect4Main;
 import mainMenu.model.*;
 import mainMenu.view.*;
 import mancala.Mancala;
+import mancalaMenu.MancalaMain;
 import mvcinterfaces.MenuController;
 
 /**
@@ -68,8 +69,7 @@ public class MainMenuController implements MenuController{
 			case MANCALA:
 				System.out.println("You have chosen Mancala!");
 				//start code to open new gui
-				Mancala mancala = new Mancala();
-				mancala.startGame();
+				MancalaMain.startMancala(null);
 				break;
 			case CONNECT4:
 				Connect4Main.startConnect4();

@@ -9,6 +9,10 @@ import mancalaGame.view.MancalaView;
 
 public class MancalaController {
 	
+	public MancalaController(mancalaMenu.MancalaModel model, mancalaMenu.MancalaView view) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public void initiate() {
 		
 	}
