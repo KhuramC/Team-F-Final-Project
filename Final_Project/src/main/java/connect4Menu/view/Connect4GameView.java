@@ -17,7 +17,7 @@ public class Connect4GameView extends JFrame implements Observer,
 ObserverStartedTurn,ObserverSquarePlayed,ObserverEndGame,ObserverInvalidCols{
 	
 	private final int squareLen = 75;
-	private final String emptySquarePath = "/connect4Images/connect4emptysquare.drawio.png";
+	private final String emptySquarePath = "/connect4/images/connect4emptysquare.drawio.png";
 	private JPanel contentPane = new JPanel();
 	private final String p1SquarePath;
 	private final String p2SquarePath;
