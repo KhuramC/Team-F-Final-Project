@@ -43,11 +43,12 @@ public class BattleshipPlacePhaseP2 extends JFrame {
 
     private String[][] player2GameBoardState;
     private boolean player2GameBoardStateSaved = false; // Initialize as false
+    private String[][] player1GameBoardState;
     
     // Flag to toggle ship orientation
     private boolean isVertical = true; // Default is vertical
     
-    public BattleshipPlacePhaseP2(int numRows, int numCols, String shipSet) {
+    public BattleshipPlacePhaseP2(int numRows, int numCols, String shipSet, String[][] player1GameBoardState) {
        
     	System.out.println("numRows: " + numRows + ", numCols: " + numCols); // Debugging print statement
     	setTitle("Battleship - Ship Placement Phase");
@@ -57,6 +58,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
         placedShips = new ArrayList<>(); // Initialize the list of placed ships
         player2GameBoardState = new String[numRows][numCols]; // Initialize player 1's game board state
 
+        this.player1GameBoardState = player1GameBoardState;
+        
         // Initialize each cell in player 1's game board state array with the default value representing water
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
@@ -229,7 +232,7 @@ public class BattleshipPlacePhaseP2 extends JFrame {
                         
                      // Open BattleshipShootingPhase with the appropriate grid size
                         SwingUtilities.invokeLater(() -> {
-                            BattleshipShootingPhase shootingPhase = new BattleshipShootingPhase(numRows, numCols, player2GameBoardState);
+                            BattleshipShootingPhase shootingPhase = new BattleshipShootingPhase(numRows, numCols, player2GameBoardState, player1GameBoardState);
                             shootingPhase.setVisible(true);
                         });
                         // Here you can proceed to the next phase or perform any other action

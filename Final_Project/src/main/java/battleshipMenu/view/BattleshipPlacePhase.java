@@ -230,7 +230,7 @@ public class BattleshipPlacePhase extends JFrame {
                         // Here you can proceed to the next phase or perform any other action
                      // Create BattleshipPlacePhaseP2 for Player 2
                         SwingUtilities.invokeLater(() -> {
-                            BattleshipPlacePhaseP2 placePhaseP2 = new BattleshipPlacePhaseP2(numRows, numCols, selectedShipSet);
+                            BattleshipPlacePhaseP2 placePhaseP2 = new BattleshipPlacePhaseP2(numRows, numCols, selectedShipSet, player1GameBoardState);
                             placePhaseP2.setVisible(true);
                         });
                         
