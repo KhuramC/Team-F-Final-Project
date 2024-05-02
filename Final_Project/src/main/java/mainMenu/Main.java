@@ -3,7 +3,7 @@ package mainMenu;
 import mainMenu.control.*;
 
 /**
- * Main class in which everything else starts. 
+ * Main class in which everything else starts.
  * @author Khuram C.
  */
 public class Main {

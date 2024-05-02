@@ -13,6 +13,9 @@ import java.util.Observer;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import mainMenu.model.GameType;
+import music.MusicLocations;
+import music.MusicPlayer;
+
 import javax.swing.JTextPane;
 import javax.swing.WindowConstants;
 import javax.swing.text.SimpleAttributeSet;
@@ -22,34 +25,38 @@ import java.awt.Font;
 
 /**
  * A View from the MVC architecture for the main menu to select a game to play.
+ * 
  * @author Khuram C.
  */
-public class MainMenuStartView extends JFrame implements Observer {
-	
+public class MainMenuView extends JFrame implements Observer {
+
 	private JPanel contentPane = new JPanel();
 	private JButton runGameButton;
 	private JComboBox<GameType> gameChoicesBox;
-	private JTextPane gameSummaryTextPane;
+	//changed for unit testing purposes.
+	protected JTextPane gameSummaryTextPane;
 
 	/**
-	 * Default constructor for the MainMenuStartView. Constructs the View and the associated objects necessary for the View.
-	 * Because it should look the same every time, there is only the default constructor.
+	 * Default constructor for the MainMenuStartView. Constructs the View and the
+	 * associated objects necessary for the View. Because it should look the same
+	 * every time, there is only the default constructor.
+	 * 
 	 * @author Khuram C.
 	 */
-	public MainMenuStartView() {
-		
-		//general view//
+	public MainMenuView() {
+
+		// general view//
 		int windowWidth = 700;
 		int windowHeight = 600;
-		setTitle("Strategy Game Pack"); 
-		setBounds(400,100,windowWidth,windowHeight);
+		setTitle("Strategy Game Pack");
+		setBounds(400, 100, windowWidth, windowHeight);
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.contentPane = new JPanel();
 		contentPane.setBackground(Color.BLACK);
 		setContentPane(contentPane);
 		getContentPane().setLayout(null);
-		
-		//GameButton//
+
+		// GameButton//
 		int runGameButtonWidth = 200;
 		int runGameButtonHeight = 50;
 		this.runGameButton = new JButton("Start Game");
@@ -58,10 +65,10 @@ public class MainMenuStartView extends JFrame implements Observer {
 		runGameButton.setFont(new Font("Britannic Bold", Font.PLAIN, 23));
 		runGameButton.setToolTipText("Click this to start your game!");
 		runGameButton.setSize(runGameButtonWidth, runGameButtonHeight);
-		runGameButton.setLocation((windowWidth-runGameButtonWidth)/2, windowHeight-200);
+		runGameButton.setLocation((windowWidth - runGameButtonWidth) / 2, windowHeight - 200);
 		contentPane.add(runGameButton);
-		
-		//gameChoicesBox//
+
+		// gameChoicesBox//
 		int gameChoicesBoxWidth = 140;
 		int gameChoicesBoxHeight = 25;
 		int gameChoicesBoxY = windowHeight - 300;
@@ -74,11 +81,10 @@ public class MainMenuStartView extends JFrame implements Observer {
 		gameChoicesBox.setModel(new DefaultComboBoxModel<>(GameType.values()));
 		gameChoicesBox.setMaximumRowCount(4);
 		gameChoicesBox.setSize(gameChoicesBoxWidth, gameChoicesBoxHeight);
-		gameChoicesBox.setLocation((windowWidth-gameChoicesBoxWidth)/2,gameChoicesBoxY);
+		gameChoicesBox.setLocation((windowWidth - gameChoicesBoxWidth) / 2, gameChoicesBoxY);
 		contentPane.add(gameChoicesBox);
-		
-		
-		//TextPane//
+
+		// TextPane//
 		int gamePackInfoTextPaneWidth = 300;
 		int gamePackInfotTextPaneHeight = 200;
 		JTextPane gamePackInfoTextPane = new JTextPane();
@@ -88,14 +94,14 @@ public class MainMenuStartView extends JFrame implements Observer {
 		gamePackInfoTextPane.setForeground(new Color(255, 215, 0));
 		gamePackInfoTextPane.setText("Choose any game from the four two-player strategy games below to play!");
 		gamePackInfoTextPane.setSize(gamePackInfoTextPaneWidth, gamePackInfotTextPaneHeight);
-		gamePackInfoTextPane.setLocation((windowWidth-gamePackInfoTextPaneWidth)/2, 38);
+		gamePackInfoTextPane.setLocation((windowWidth - gamePackInfoTextPaneWidth) / 2, 38);
 		StyledDocument documentStyle = gamePackInfoTextPane.getStyledDocument();
 		SimpleAttributeSet centerAttribute = new SimpleAttributeSet();
 		StyleConstants.setAlignment(centerAttribute, StyleConstants.ALIGN_CENTER);
 		documentStyle.setParagraphAttributes(0, documentStyle.getLength(), centerAttribute, false);
 		contentPane.add(gamePackInfoTextPane);
-		
-		//gameSummaryTextPane//
+
+		// gameSummaryTextPane//
 		int gameSumTPWidth = 160;
 		int gameSumTPHeight = 500;
 		this.gameSummaryTextPane = new JTextPane();
@@ -104,19 +110,20 @@ public class MainMenuStartView extends JFrame implements Observer {
 		gameSummaryTextPane.setOpaque(false);
 		gameSummaryTextPane.setForeground(new Color(255, 215, 0));
 		gameSummaryTextPane.setSize(gameSumTPWidth, gameSumTPHeight);
-		gameSummaryTextPane.setLocation((windowWidth-gameSumTPWidth)*9/10, 
-				(gameChoicesBoxY+gameChoicesBoxHeight/2 - gameSumTPHeight/4));
+		gameSummaryTextPane.setLocation((windowWidth - gameSumTPWidth) * 9 / 10,
+				(gameChoicesBoxY + gameChoicesBoxHeight / 2 - gameSumTPHeight / 4));
 		StyledDocument gameSumdocumentStyle = gamePackInfoTextPane.getStyledDocument();
 		SimpleAttributeSet gameSumcenterAttribute = new SimpleAttributeSet();
 		StyleConstants.setAlignment(gameSumcenterAttribute, StyleConstants.ALIGN_CENTER);
 		documentStyle.setParagraphAttributes(0, gameSumdocumentStyle.getLength(), gameSumcenterAttribute, false);
 		contentPane.add(gameSummaryTextPane);
-		
-		
+
 	}
-	
+
 	/**
-	 * Adds a listener to the gameChoicesBox for whenever a new game has been chosen.
+	 * Adds a listener to the gameChoicesBox for whenever a new game has been
+	 * chosen.
+	 * 
 	 * @param listener to listen to gameChoicesBox.
 	 * @return boolean detailing success.
 	 * @author Khuram C.
@@ -125,9 +132,10 @@ public class MainMenuStartView extends JFrame implements Observer {
 		gameChoicesBox.addActionListener(listener);
 		return true;
 	}
-	
+
 	/**
 	 * Adds a listener to the startGameButton for whenever it gets pressed.
+	 * 
 	 * @param listener to listen to startGameButton.
 	 * @return boolean detailing success.
 	 * @author Khuram C.
@@ -137,29 +145,31 @@ public class MainMenuStartView extends JFrame implements Observer {
 		return true;
 	}
 
-
 	/**
 	 * Returns the chosen GameType enum from the gameChoicesBox.
+	 * 
 	 * @return the GameType selected.
 	 * @author Khuram C.
 	 */
 	public GameType getGameChoicesBoxChoice() {
 		return (GameType) gameChoicesBox.getSelectedItem();
 	}
-	
+
 	/**
-	 * Changes the text of the gameSummaryTextPane.
+	 * Changes the text of the gameSummaryTextPane. Helper method for update method.
+	 * 
 	 * @param s new string for gameSummaryTextPane.
 	 * @return boolean returning success.
 	 * @author Khuram C.
 	 */
-	public boolean changeGameSummaryTextPaneText(String s) {
+	private boolean changeGameSummaryTextPaneText(String s) {
 		gameSummaryTextPane.setText(s);
 		return true;
 	}
-	
+
 	/**
 	 * Updates the gameSummaryTextPane's text based on the gameType when updated.
+	 * 
 	 * @author Khuram C.
 	 */
 	@Override
