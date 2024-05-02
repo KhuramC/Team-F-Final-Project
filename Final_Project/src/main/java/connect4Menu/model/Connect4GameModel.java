@@ -33,8 +33,9 @@ public class Connect4GameModel
 		}
 		this.isTimer = menuModel.isTimer();
 		// timer.addObserver(this);
-		p1 = menuModel.getP1();
-		p2 = menuModel.getP2();
+		
+		p1 = menuModel.getPlayer(1);
+		p2 = menuModel.getPlayer(2);
 		int rowNum = menuModel.getRowNum();
 		int colNum = menuModel.getColNum();
 		board = new int[rowNum][colNum];

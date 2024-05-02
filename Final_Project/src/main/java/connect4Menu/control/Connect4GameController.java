@@ -17,8 +17,7 @@ public class Connect4GameController implements MenuController {
 
 	public Connect4GameController(Connect4MenuModel menuModel) {
 		this.gameModel = new Connect4GameModel(menuModel);
-		this.gameView = new Connect4GameView(menuModel.getRowNum(), menuModel.getColNum(), menuModel.getTimerTime(),
-				menuModel.getP1().getColor().getFilePath(), menuModel.getP2().getColor().getFilePath());
+		this.gameView = new Connect4GameView(menuModel.getRowNum(), menuModel.getColNum(), menuModel.getTimerTime());
 		if (menuModel.isTimer()) {
 			this.gameModel.addObservertoTimer(gameModel);
 			this.gameModel.addObservertoTimer(gameView);

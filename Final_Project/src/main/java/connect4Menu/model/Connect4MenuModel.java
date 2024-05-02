@@ -13,8 +13,8 @@ public class Connect4MenuModel {
 	private int rowNum = 7; // y
 	private boolean isTimer = false;
 	private int timerTime = 15;
-	private Player p1 = new Player("Player 1", Player1Colors.RED, player1Num);
-	private Player p2 = new Player("Player 2", Player2Colors.YELLOW, player2Num);
+	private Player[] players = {new Player("Player 1", Player1Colors.RED, player1Num),
+			new Player("Player 2", Player2Colors.YELLOW, player2Num)};
 	public static final int minTimerTime = 15;
 	public static final int maxTimerTime = 60;
 	public static final int player1Num = 1;
@@ -34,16 +34,21 @@ public class Connect4MenuModel {
 		return colNum;
 	}
 
-	public void setColNum(int col_amount) {
-		this.colNum = col_amount;
-	}
-
 	public int getRowNum() {
 		return rowNum;
 	}
 
-	public void setRowNum(int row_amount) {
-		this.rowNum = row_amount;
+	/**
+	 * Official feature method: Sets the board size based on the input.
+	 * @param rowNum number of rows.
+	 * @param colNum number of columns.
+	 * @return boolean detailing success.
+	 * @author Khuram C.
+	 */
+	public boolean setBoardSize(int rowNum,int colNum) {
+		this.rowNum = rowNum;
+		this.colNum = colNum;
+		return true;
 	}
 
 	public boolean isTimer() {
@@ -62,20 +67,17 @@ public class Connect4MenuModel {
 		this.timerTime = timerTime;
 	}
 
-	public Player getP1() {
-		return p1;
+	public Player getPlayer(int playerNum) {
+		if(0<playerNum && playerNum<3)
+			return players[playerNum-1];
+		return null;
+	}
+	
+	public boolean changePlayerColor(int playerNum,PlayerColors color) {
+		players[playerNum-1].setColor(color);
+		return true;
 	}
 
-	public void setP1(Player p1) {
-		this.p1 = p1;
-	}
-
-	public Player getP2() {
-		return p2;
-	}
-
-	public void setP2(Player p2) {
-		this.p2 = p2;
-	}
+	
 
 }
