@@ -22,7 +22,7 @@ public class GameSettings {
             input = JOptionPane.showInputDialog(null, "Enter the length of the code (must be greater than 0):", "Game Settings", JOptionPane.QUESTION_MESSAGE);
             try {
                 codeLength = Integer.parseInt(input);
-                if (codeLength <= 0) {
+                if (codeLength <= 0) { 
                     JOptionPane.showMessageDialog(null, "Error: Code length must be greater than 0.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (NumberFormatException e) {
