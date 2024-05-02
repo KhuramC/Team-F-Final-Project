@@ -207,25 +207,29 @@ public class BattleshipShootingPhase extends JFrame {
         }
     }
     private void shootCell(JButton cellButton, int row, int col, String[][] targetGameBoardState) {
-        int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to shoot here?", "Confirm Shot", JOptionPane.YES_NO_OPTION);
-        if (result == JOptionPane.YES_OPTION) {
-            // Update cell color based on hit or miss
-            if (targetGameBoardState[row][col].equals("O")) { // Hit
-                cellButton.setBackground(Color.RED);
-                cellButton.setFont(cellButton.getFont().deriveFont(Font.BOLD, 20));
-                cellButton.setText("H");
-                targetGameBoardState[row][col] = "H"; // Mark the cell as hit
-            } else { // Miss
-                cellButton.setBackground(Color.BLUE); // Miss
-                cellButton.setFont(cellButton.getFont().deriveFont(Font.BOLD, 18));
-                cellButton.setText("M");
-                targetGameBoardState[row][col] = "M"; // Mark the cell as missed
+        if (!targetGameBoardState[row][col].equals("H") && !targetGameBoardState[row][col].equals("M")) {
+            int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to shoot here?", "Confirm Shot", JOptionPane.YES_NO_OPTION);
+            if (result == JOptionPane.YES_OPTION) {
+                // Update cell color based on hit or miss
+                if (targetGameBoardState[row][col].equals("O")) { // Hit
+                    cellButton.setBackground(Color.RED);
+                    cellButton.setFont(cellButton.getFont().deriveFont(Font.BOLD, 18));
+                    cellButton.setText("H");
+                    targetGameBoardState[row][col] = "H"; // Mark the cell as hit
+                } else { // Miss
+                    cellButton.setBackground(Color.BLUE); // Miss
+                    cellButton.setFont(cellButton.getFont().deriveFont(Font.BOLD, 18));
+                    cellButton.setText("M");
+                    targetGameBoardState[row][col] = "M"; // Mark the cell as missed
+                }
+                // Check game state
+                checkGameState();
+                // Switch player turn
+                currentPlayer = (currentPlayer == 1) ? 2 : 1;
+                JOptionPane.showMessageDialog(null, "Player " + currentPlayer + "'s turn");
             }
-            // Check game state
-            checkGameState();
-            // Switch player turn
-            currentPlayer = (currentPlayer == 1) ? 2 : 1;
-            JOptionPane.showMessageDialog(null, "Player " + currentPlayer + "'s turn");
+        } else {
+            JOptionPane.showMessageDialog(null, "You can't shoot at this cell. Please select another one.");
         }
     }
     private void checkGameState() {
