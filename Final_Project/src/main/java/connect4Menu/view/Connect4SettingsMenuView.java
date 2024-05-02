@@ -26,6 +26,7 @@ import connect4Menu.model.PlayerColors;
 import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.JInternalFrame;
+import java.awt.Color;
 
 /**
  * A View from the MVC architecture used for choosing the settings of the
@@ -56,39 +57,21 @@ public class Connect4SettingsMenuView extends JFrame {
 		setBounds(100, 100, 900, 400);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.contentPane = new JPanel();
+		//contentPane.setBackground(Color.BLACK);
 		setContentPane(contentPane);
 		getContentPane().setLayout(null);
 
-		JRadioButton button4x5 = new JRadioButton("4x5"); // radioButtons for board size//
-		sizeButtonGroup.add(button4x5);
-		button4x5.setBounds(63, 65, 103, 21);
-		contentPane.add(button4x5);
-
-		JRadioButton button5x6 = new JRadioButton("5x6");
-		sizeButtonGroup.add(button5x6);
-		button5x6.setBounds(63, 88, 103, 21);
-		contentPane.add(button5x6);
-
-		JRadioButton button6x7 = new JRadioButton("6x7(Standard)");
-		button6x7.setSelected(true);
-		sizeButtonGroup.add(button6x7);
-		button6x7.setBounds(63, 111, 103, 21);
-		contentPane.add(button6x7);
-
-		JRadioButton button7x8 = new JRadioButton("7x8");
-		sizeButtonGroup.add(button7x8);
-		button7x8.setBounds(63, 134, 103, 21);
-		contentPane.add(button7x8);
-
-		JRadioButton button8x8 = new JRadioButton("8x8");
-		sizeButtonGroup.add(button8x8);
-		button8x8.setBounds(63, 157, 103, 21);
-		contentPane.add(button8x8);
-
-		JRadioButton button7x9 = new JRadioButton("7x9");
-		sizeButtonGroup.add(button7x9);
-		button7x9.setBounds(63, 180, 103, 21);
-		contentPane.add(button7x9);
+		
+		String[] sizes = {"4x5","5x6","6x7(Standard)","7x8","8x8","7x9"};
+		int radioButtonWidth = 110;
+		int radioButtonHeight= 20;
+		for(int i = 0; i < sizes.length; i++) {
+			JRadioButton button = new JRadioButton(sizes[i]);
+			sizeButtonGroup.add(button);
+			button.setSize(radioButtonWidth, radioButtonHeight);
+			button.setLocation(63, 65+(radioButtonHeight*i));
+			contentPane.add(button);
+		}
 
 		JTextField titleTextField = new JTextField();
 		titleTextField.setHorizontalAlignment(SwingConstants.CENTER);
