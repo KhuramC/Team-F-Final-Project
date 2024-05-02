@@ -4,17 +4,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import connect4Menu.exceptions.InvalidTimerTimeException;
-import connect4Menu.model.Connect4GameModel;
 import connect4Menu.model.Connect4MenuModel;
 import connect4Menu.model.Player;
 import connect4Menu.model.PlayerColors;
-import connect4Menu.view.Connect4GameView;
 import connect4Menu.view.Connect4SettingsMenuView;
 import mvcinterfaces.MenuController;
 
@@ -43,8 +42,7 @@ public class Connect4MenuController implements MenuController {
 		settingsView.addListenertoTimerToggleButton(new TimerToggleButtonListener());
 		settingsView.addListenertoTimerSlider(new TimerSliderListener());
 		settingsView.addListenertoTimerTextField(new TimerTextFieldListener());
-		settingsView.addListenertoPlayer1ColorsComboBox(new Player1ColorsComboBoxListener());
-		settingsView.addListenertoPlayer2ColorsComboBox(new Player2ColorsComboBoxListener());
+		settingsView.addListenertoPlayerColorsComboBoxes(new PlayerColorsComboBoxListener());
 		settingsView.addListenertoRadioButtons(new SizeRadioButtonListener());
 		settingsView.addListenertoStartGameButton(new StartGameButtonListener());
 	}
@@ -125,45 +123,26 @@ public class Connect4MenuController implements MenuController {
 		}
 	}
 
+	
+	
 	/**
 	 * A subclass that listens to the player1ColorsComboBox and changes the color
 	 * for Player 1.
 	 * 
 	 * @author Khuram C.
 	 */
-	public class Player1ColorsComboBoxListener implements ActionListener {
+	public class PlayerColorsComboBoxListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			PlayerColors color = settingsView.getPlayerColorsComboBoxChoice(Connect4MenuModel.player1Num);
-			changePlayerColor(model.getP1(), color);
+			changeColor((JComboBox<PlayerColors>) e.getSource());
 		}
-	}
-
-	/**
-	 * A subclass that listens to the player2ColorsComboBox and changes the color
-	 * for Player 2.
-	 * 
-	 * @author Khuram C.
-	 */
-	public class Player2ColorsComboBoxListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			PlayerColors color = settingsView.getPlayerColorsComboBoxChoice(Connect4MenuModel.player2Num);
-			changePlayerColor(model.getP2(), color);
+		
+		public boolean changeColor(JComboBox<PlayerColors> comboBox) {
+			PlayerColors color = (PlayerColors) comboBox.getSelectedItem();
+			model.changePlayerColor(color.getAllowedPlayer(), color);
+			return true;
 		}
-	}
-
-	/**
-	 * Official feature method. Changes the given player's color to the given color.
-	 * 
-	 * @param p     player to have color changed.
-	 * @param color to change to.
-	 * @author Khuram C.
-	 */
-	public void changePlayerColor(Player p, PlayerColors color) {
-		p.setColor(color);
 	}
 
 	/**
@@ -193,24 +172,23 @@ public class Connect4MenuController implements MenuController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JRadioButton b = (JRadioButton) e.getSource();
+			parseButtontoSetBoardSize(b);
+			
+		}
+		/**
+		 * Parses a button's text (in the form of 'rowNumxcolNum' to get the board size and set it.
+		 * @param button to parse.
+		 * @return boolean detailing success of setting board size.
+		 * @author Khuram C.
+		 */
+		public boolean parseButtontoSetBoardSize(JRadioButton b) {
 			String text = b.getText();
 			int index = text.indexOf('x');
 			int rowNum = Integer.parseInt(text, 0, index, 10);
 			int colNum = Integer.parseInt(text, index + 1, index + 2, 10);
-			changeBoardSize(rowNum, colNum);
+			return model.setBoardSize(rowNum, colNum);
 		}
 
-		/**
-		 * Official feature method. Changes the board size based on the input.
-		 * 
-		 * @param rowNum or y value.
-		 * @param colNum or x value.
-		 * @author Khuram C.
-		 */
-		private void changeBoardSize(int rowNum, int colNum) {
-			model.setRowNum(rowNum);
-			model.setColNum(colNum);
-		}
 	}
 
 	/**

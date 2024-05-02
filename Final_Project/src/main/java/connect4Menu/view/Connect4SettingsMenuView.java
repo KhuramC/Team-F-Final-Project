@@ -3,6 +3,7 @@ package connect4Menu.view;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Enumeration;
 
 import javax.swing.JRadioButton;
@@ -39,8 +40,7 @@ public class Connect4SettingsMenuView extends JFrame {
 	private JToggleButton timerToggleButton;
 	private JSlider timerSlider;
 	private JTextField timerTextField;
-	private JComboBox player1ColorsComboBox;
-	private JComboBox player2ColorsComboBox;
+	private ArrayList<JComboBox<PlayerColors>> playerColorsComboBoxes = new ArrayList<>(2);
 	private JButton startGameButton;
 	private JLabel errorLabel;
 
@@ -128,18 +128,20 @@ public class Connect4SettingsMenuView extends JFrame {
 		sizeSettingsLabel.setBounds(53, 38, 147, 21);
 		contentPane.add(sizeSettingsLabel);
 
-		player1ColorsComboBox = new JComboBox();
-		player1ColorsComboBox.setModel(new DefaultComboBoxModel(Player1Colors.values()));
+		JComboBox<PlayerColors> player1ColorsComboBox = new JComboBox<>();
+		player1ColorsComboBox.setModel(new DefaultComboBoxModel<>(Player1Colors.values()));
 		player1ColorsComboBox.setBounds(761, 128, 93, 21);
+		playerColorsComboBoxes.add(player1ColorsComboBox);
 		contentPane.add(player1ColorsComboBox);
 
 		JLabel player2Label = new JLabel("Player 2 Colors");
 		player2Label.setBounds(761, 210, 93, 13);
 		contentPane.add(player2Label);
 
-		player2ColorsComboBox = new JComboBox();
-		player2ColorsComboBox.setModel(new DefaultComboBoxModel(Player2Colors.values()));
+		JComboBox<PlayerColors> player2ColorsComboBox = new JComboBox<>();
+		player2ColorsComboBox.setModel(new DefaultComboBoxModel<>(Player2Colors.values()));
 		player2ColorsComboBox.setBounds(761, 232, 93, 21);
+		playerColorsComboBoxes.add(player2ColorsComboBox);
 		contentPane.add(player2ColorsComboBox);
 
 		startGameButton = new JButton("Start Game");
@@ -194,27 +196,20 @@ public class Connect4SettingsMenuView extends JFrame {
 	public void addListenertoTimerTextField(ActionListener listener) {
 		timerTextField.addActionListener(listener);
 	}
-
+	
 	/**
-	 * Adds a listener to the player1ColorsComboBox for whenever a color has been
-	 * chosen.
-	 * 
-	 * @param listener to listen to the player1ColorsComboBox.
+	 * Adds a listener to the playerColorsComboBoxes for whenever a color has been chosen.
+	 * @param listener to listen to the playerColorsCombBoxes.
+	 * @return boolean detailing success.
 	 * @author Khuram C.
 	 */
-	public void addListenertoPlayer1ColorsComboBox(ActionListener listener) {
-		player1ColorsComboBox.addActionListener(listener);
-	}
+	public boolean addListenertoPlayerColorsComboBoxes(ActionListener listener) {
+	
+		for(JComboBox<PlayerColors> comboBox : playerColorsComboBoxes) {
+			comboBox.addActionListener(listener);
+		}
+		return true;
 
-	/**
-	 * Adds a listener to the player2ColorsComboBox for whenever a color has been
-	 * chosen.
-	 * 
-	 * @param listener to listen to the player1ColorsComboBox.
-	 * @author Khuram C.
-	 */
-	public void addListenertoPlayer2ColorsComboBox(ActionListener listener) {
-		player2ColorsComboBox.addActionListener(listener);
 	}
 
 	/**
@@ -325,11 +320,7 @@ public class Connect4SettingsMenuView extends JFrame {
 	 * @author Khuram C.
 	 */
 	public PlayerColors getPlayerColorsComboBoxChoice(int playerNum) {
-		if (playerNum == 1) {
-			return (PlayerColors) player1ColorsComboBox.getSelectedItem();
-		} else {
-			return (PlayerColors) player2ColorsComboBox.getSelectedItem();
-		}
+		return (PlayerColors) playerColorsComboBoxes.get(playerNum-1).getSelectedItem();
 	}
 
 	/**
