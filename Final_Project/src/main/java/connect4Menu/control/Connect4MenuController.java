@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JRadioButton;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -30,24 +31,22 @@ public class Connect4MenuController implements MenuController {
 	private Connect4GameController gameController;
 
 	/**
-	 * A parameterized constructor for the controller. There is no need for a
-	 * default constructor since the parameters and controller should always be
-	 * created at the same time.
+	 * A default constructor for the controller.  
+	 * The associated listeners for the view are also added.
 	 * 
-	 * @param model     to hold the data.
-	 * @param startView to show to the user.
 	 * @author Khuram C.
 	 */
-	public Connect4MenuController(Connect4MenuModel model, Connect4SettingsMenuView view) {
-		this.model = model;
-		this.settingsView = view;
-		this.settingsView.addListenertoTimerToggleButton(new TimerToggleButtonListener());
-		this.settingsView.addListenertoTimerSlider(new TimerSliderListener());
-		this.settingsView.addListenertoTimerTextField(new TimerTextFieldListener());
-		this.settingsView.addListenertoPlayer1ColorsComboBox(new Player1ColorsComboBoxListener());
-		this.settingsView.addListenertoPlayer2ColorsComboBox(new Player2ColorsComboBoxListener());
-		this.settingsView.addListenertoRadioButtons(new SizeRadioButtonListener());
-		this.settingsView.addListenertoStartGameButton(new StartGameButtonListener());
+	public Connect4MenuController() {
+		this.model = new Connect4MenuModel();
+		this.settingsView = new Connect4SettingsMenuView();
+		
+		settingsView.addListenertoTimerToggleButton(new TimerToggleButtonListener());
+		settingsView.addListenertoTimerSlider(new TimerSliderListener());
+		settingsView.addListenertoTimerTextField(new TimerTextFieldListener());
+		settingsView.addListenertoPlayer1ColorsComboBox(new Player1ColorsComboBoxListener());
+		settingsView.addListenertoPlayer2ColorsComboBox(new Player2ColorsComboBoxListener());
+		settingsView.addListenertoRadioButtons(new SizeRadioButtonListener());
+		settingsView.addListenertoStartGameButton(new StartGameButtonListener());
 	}
 
 	/**
@@ -220,7 +219,14 @@ public class Connect4MenuController implements MenuController {
 	 * @author Khuram C.
 	 */
 	public void initiate() {
-		settingsView.setVisible(true);
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				settingsView.setVisible(true);
+			}
+		});
+		
 	}
 
 }
