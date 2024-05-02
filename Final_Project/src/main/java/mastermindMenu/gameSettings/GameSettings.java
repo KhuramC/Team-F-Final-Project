@@ -62,5 +62,5 @@ public class GameSettings {
 
     public int getMaxTries() {
         return maxTries;
-    }
+    }  
 }
