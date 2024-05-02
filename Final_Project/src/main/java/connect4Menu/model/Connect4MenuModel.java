@@ -1,31 +1,35 @@
 package connect4Menu.model;
 
 /**
- * A model from the MVC architecture for the Connect4 menus to play a game of Connect4.
+ * A model from the MVC architecture for the Connect4 menus to play a game of
+ * Connect4.
+ * 
  * @author Khuram C.
  */
 public class Connect4MenuModel {
 
-	//default_values
+	// default_values
 	private int colNum = 6; // x
 	private int rowNum = 7; // y
 	private boolean isTimer = false;
 	private int timerTime = 15;
-	private Player p1 = new Player("Player 1", Player1Colors.RED);
-	private Player p2 = new Player("Player 2", Player2Colors.YELLOW);
+	private Player p1 = new Player("Player 1", Player1Colors.RED, player1Num);
+	private Player p2 = new Player("Player 2", Player2Colors.YELLOW, player2Num);
 	public static final int minTimerTime = 15;
 	public static final int maxTimerTime = 60;
 	public static final int player1Num = 1;
 	public static final int player2Num = 2;
-	
+
 	/**
-	 * A default constructor for the Connect4MenuModel. Because all the elements already have a default value, no parameters are
-	 * needed.
+	 * A default constructor for the Connect4MenuModel. Because all the elements
+	 * already have a default value, no parameters are needed.
+	 * 
 	 * @author Khuram C.
 	 */
 	public Connect4MenuModel() {
 	}
 
+	// getters and setters
 	public int getColNum() {
 		return colNum;
 	}
@@ -73,5 +77,5 @@ public class Connect4MenuModel {
 	public void setP2(Player p2) {
 		this.p2 = p2;
 	}
-	
+
 }

@@ -11,15 +11,15 @@ import connect4Menu.view.Connect4GameView;
 import mvcinterfaces.MenuController;
 
 public class Connect4GameController implements MenuController {
-	
+
 	private Connect4GameModel gameModel;
 	private Connect4GameView gameView;
 
 	public Connect4GameController(Connect4MenuModel menuModel) {
 		this.gameModel = new Connect4GameModel(menuModel);
-		this.gameView = new Connect4GameView(menuModel.getRowNum(),menuModel.getColNum(),menuModel.getTimerTime(),
-				menuModel.getP1().getColor().getFilePath(),menuModel.getP2().getColor().getFilePath());
-		if(menuModel.isTimer()) {
+		this.gameView = new Connect4GameView(menuModel.getRowNum(), menuModel.getColNum(), menuModel.getTimerTime(),
+				menuModel.getP1().getColor().getFilePath(), menuModel.getP2().getColor().getFilePath());
+		if (menuModel.isTimer()) {
 			this.gameModel.addObservertoTimer(gameModel);
 			this.gameModel.addObservertoTimer(gameView);
 		}
@@ -32,30 +32,24 @@ public class Connect4GameController implements MenuController {
 		this.gameModel.registerInvalidColObserver(this.gameView);
 	}
 
-	
-	
-	
-	
-	public class SelectionButtonListener implements ActionListener{
+	public class SelectionButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton b = (JButton) e.getSource();
-			int colNum = Integer.parseInt(b.getText(),4,5,10) - 1;
-			//System.out.println(colNum);
+			int colNum = Integer.parseInt(b.getText(), 4, 5, 10) - 1;
+			// System.out.println(colNum);
 			gameModel.select(colNum);
 
-			
 		}
-		
+
 	}
+
 	@Override
 	public void initiate() {
 		gameView.setVisible(true);
 		gameModel.startTurn();
-		
+
 	}
-	
-	
 
 }
