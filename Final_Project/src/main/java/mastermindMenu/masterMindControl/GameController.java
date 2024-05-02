@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.swing.JButton;
@@ -15,7 +16,7 @@ import mastermindMenu.feedback.FeedbackPanel;
 import mastermindMenu.gameBoard.GameBoard;
 
 public class GameController {
-    private MastermindGame game;
+    private MastermindGame game; 
     private GameBoard board;
     private FeedbackPanel feedback;
 
@@ -49,10 +50,15 @@ public class GameController {
         if (row != game.getCurrentTry()) return; // Ensure only the current row can submit
 
         JButton[] guessButtonsRow = board.getGuessButtons()[row];
+//        String guess = Arrays.stream(guessButtonsRow)
+//                             .map(button -> colorToChar(button.getBackground()))
+//                             .collect(Collectors.joining());
         String guess = Arrays.stream(guessButtonsRow)
-                             .map(button -> colorToChar(button.getBackground()))
-                             .collect(Collectors.joining());
-
+        	    .map(button -> colorToChar(button.getBackground()))
+        	    .filter(Objects::nonNull)  // Ensure no null values are processed
+        	    .map(result -> (String) result[1])  // Extract the String representation from the array
+        	    .collect(Collectors.joining());  // Collect the strings into a single string
+        
         if (!isGuessComplete(guessButtonsRow)) {
             JOptionPane.showMessageDialog(board, "Please select a color for each position in the row before submitting.", "Incomplete Guess", JOptionPane.WARNING_MESSAGE);
             return;
@@ -117,14 +123,15 @@ public class GameController {
         }
     }
 
-    private String colorToChar(Color color) {
-        String[] colors = game.getSettings().getColorMap();
+    private Object[] colorToChar(Color color) {
         Color[] colorMap = game.getSettings().getColorMap();
+        String[] colors = game.getSettings().getColors();  // Assuming getColors() returns the names corresponding to the colors
+
         for (int i = 0; i < colorMap.length; i++) {
             if (colorMap[i].equals(color)) {
-                return colors[i];
+                return new Object[] {colorMap[i], colors[i]};  // Return an array containing both Color and String
             }
         }
-        return "";
+        return null; // Return null if no matching color found
     }
 }
