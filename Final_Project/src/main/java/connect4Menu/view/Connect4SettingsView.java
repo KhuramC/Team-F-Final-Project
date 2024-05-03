@@ -361,16 +361,6 @@ public class Connect4SettingsView extends JFrame implements Observer {
 	}
 
 	/**
-	 * Returns whether the timerToggleButton has been clicked.
-	 * 
-	 * @return bool for the status of the timerToggleButton.
-	 * @author Khuram C.
-	 */
-	public boolean getTimerToggleButtonStatus() {
-		return timerToggleButton.isSelected();
-	}
-
-	/**
 	 * Returns the text currently displayed in the timerTextField.
 	 * 
 	 * @return the string displayed in the timerTextField.
@@ -378,16 +368,6 @@ public class Connect4SettingsView extends JFrame implements Observer {
 	 */
 	public String getTimerTextFieldValue() {
 		return timerTextField.getText();
-	}
-
-	/**
-	 * Sets the text to be displayed in the timerTextField.
-	 * 
-	 * @param string to be displayed in the timerTextField.
-	 * @author Khuram C.
-	 */
-	public void setTimerTextFieldValue(String string) {
-		timerTextField.setText(string);
 	}
 
 	/**
@@ -401,23 +381,19 @@ public class Connect4SettingsView extends JFrame implements Observer {
 	}
 
 	/**
-	 * Sets timerSliderValue based on the input.
-	 * 
-	 * @param value to set the timerSliderValue to.
+	 * Sets the value of the timerSlider and timerTextField based on the input.
+	 * @param value to set timer objects to.
+	 * @return boolean detailing success
 	 * @author Khuram C.
 	 */
-	public void setTimerSliderValue(int value) {
-		timerSlider.setValue(value);
-	}
-
-	public boolean setTimerVisualValue(int value) {
+	private boolean setTimerVisualValue(int value) {
 		timerSlider.setValue(value);
 		timerTextField.setText(Integer.toString(value));
 		return true;
 	}
 	/**
 	 * Either makes the timerSlider, timerTextField, and errorLabel visible or
-	 * invisible based on the input. Also changes the text on the timerToggleButton
+	 * invisible based on the input. Also changes the text/color on the timerToggleButton
 	 * based on whether it is pressed or not.
 	 * 
 	 * @param bool to determine whether to make visible or invisible.
@@ -436,18 +412,6 @@ public class Connect4SettingsView extends JFrame implements Observer {
 			timerToggleButton.setText("Enable Timer");
 			timerToggleButton.setForeground(new Color(255, 215, 0));
 		}
-	}
-
-	/**
-	 * Gets the color chosen from the specified PlayerColorsComboBox based on the
-	 * which player is wanted.
-	 * 
-	 * @param playerNum of player to get color choice from.
-	 * @return color chosen in the comboBoxChoice.
-	 * @author Khuram C.
-	 */
-	public PlayerColors getPlayerColorsComboBoxChoice(int playerNum) {
-		return (PlayerColors) playerColorsComboBoxes.get(playerNum-1).getSelectedItem();
 	}
 
 	/**
