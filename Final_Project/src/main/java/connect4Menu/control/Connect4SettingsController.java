@@ -31,7 +31,7 @@ public class Connect4SettingsController implements MenuController {
 
 	/**
 	 * A default constructor for the controller.  
-	 * The associated listeners for the view are also added.
+	 * The associated listeners for the view are also added. The view is also added as an observer to the model.
 	 * 
 	 * @author Khuram C.
 	 */
@@ -39,6 +39,7 @@ public class Connect4SettingsController implements MenuController {
 		this.model = new Connect4SettingsModel();
 		this.settingsView = new Connect4SettingsView();
 		
+		model.addObserver(settingsView);
 		settingsView.addListenertoTimerToggleButton(new TimerToggleButtonListener());
 		settingsView.addListenertoTimerSlider(new TimerSliderListener());
 		settingsView.addListenertoTimerTextField(new TimerTextFieldListener());
@@ -48,9 +49,7 @@ public class Connect4SettingsController implements MenuController {
 	}
 
 	/**
-	 * A subclass that listens to the timerToggleButton, gets whether the timer is
-	 * being used or not, and adjusts the visibility of the timer settings
-	 * accordingly.
+	 * A subclass that listens to the timerToggleButton and sets its status in the model.
 	 * 
 	 * @author Khuram C.
 	 */
@@ -58,26 +57,12 @@ public class Connect4SettingsController implements MenuController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			changeTimerVisibility(!model.isTimer());
-		}
-
-		/**
-		 * Official feature method Main feature method. Turns the timer on/off and
-		 * changes the visibility of the timer.
-		 * 
-		 * @param bool for determining visibility of timer.
-		 * @author Khuram C.
-		 */
-		private void changeTimerVisibility(boolean bool) {
-			model.setTimer(bool);
-			settingsView.changeTimerViewVisibility(bool);
+			model.toggleTimer();
 		}
 	}
 
 	/**
-	 * A subclass that listens to the timerSlider, gets the timer time chosen from
-	 * it, and sets the timerTextField value to it.
-	 * 
+	 * A subclass that listens to the timerSlider and gets/sets the timer time chosen.
 	 * @author Khuram C.
 	 */
 	public class TimerSliderListener implements ChangeListener {
@@ -86,22 +71,16 @@ public class Connect4SettingsController implements MenuController {
 		public void stateChanged(ChangeEvent e) {
 			int timerSliderValue = settingsView.getTimerSliderValue();
 			model.setTimerTime(timerSliderValue);
-			settingsView.setTimerTextFieldValue(Integer.toString(timerSliderValue));
 		}
 	}
 
 	/**
-	 * A subclass that listens to the timerTextField, gets the timer time chosen
-	 * from it, and sets the timerSlider value to it. Exceptions can occur if a
-	 * non-integer value is passed, or if a integer not within the values is passed.
+	 * A subclass that listens to the timerTextField and gets/sets the timer time chosen. 
+	 * Exceptions can occur if a non-integer value is passed, or if a integer not within the range is passed.
 	 * 
 	 * @author Khuram C.
 	 */
 	public class TimerTextFieldListener implements ActionListener {
-		// Note: this never directly changes the timer value within the model. Since we
-		// change the slider,
-		// the TimerSliderListener picks it up having been updated to the new value, and
-		// sets the timer time itself.
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -111,14 +90,13 @@ public class Connect4SettingsController implements MenuController {
 						|| timerTextFieldValue < Connect4SettingsModel.minTimerTime) {
 					throw new InvalidTimerTimeException(Connect4SettingsModel.minTimerTime, Connect4SettingsModel.maxTimerTime);
 				}
-				settingsView.setTimerSliderValue(timerTextFieldValue);
+				model.setTimerTime(timerTextFieldValue);
 				settingsView.changeErrorLabelText("");
 			} catch (NumberFormatException exc) {
 				settingsView.changeErrorLabelText("Put in an integer!");
 			} catch (InvalidTimerTimeException exc) {
-				settingsView.changeErrorLabelText(
-						"Put in an integer from " + Integer.toString(Connect4SettingsModel.minTimerTime) + " to "
-								+ Integer.toString(Connect4SettingsModel.maxTimerTime) + "s.");
+				settingsView.changeErrorLabelText("Put in an integer from " + Integer.toString(Connect4SettingsModel.minTimerTime) 
+				+ " to " + Integer.toString(Connect4SettingsModel.maxTimerTime) + "s.");
 			}
 		}
 	}
@@ -126,8 +104,8 @@ public class Connect4SettingsController implements MenuController {
 	
 	
 	/**
-	 * A subclass that listens to the player1ColorsComboBox and changes the color
-	 * for Player 1.
+	 * A subclass that listens to the playerColorsComboBox and changes the color
+	 * for the associated player.
 	 * 
 	 * @author Khuram C.
 	 */

@@ -5,6 +5,8 @@ import javax.swing.JPanel;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JRadioButton;
 import javax.swing.AbstractButton;
@@ -42,7 +44,7 @@ import java.awt.Component;
  * 
  * @author Khuram C.
  */
-public class Connect4SettingsView extends JFrame {
+public class Connect4SettingsView extends JFrame implements Observer {
 
 	private JPanel contentPane = new JPanel();
 	private final ButtonGroup sizeButtonGroup = new ButtonGroup();
@@ -134,6 +136,7 @@ public class Connect4SettingsView extends JFrame {
 		
 		
 		int leftMiddleX = 115;
+		//boardSize//
 		//sizeLabel
 		int sizeSettingsLabelWidth = 175;
 		int sizeSettingsLabelHeight = 20;
@@ -156,6 +159,9 @@ public class Connect4SettingsView extends JFrame {
 			int radioButtonY = startingRadioButtonY+(radioButtonHeight*i);
 			UIManager.put("RadioButton.focus",new Color(255, 215, 0));
 			JRadioButton button = new JRadioButton(sizes[i]);
+			if(sizes[i].equals("6x7(Standard)")){
+				button.setSelected(true);
+			}
 			button.setOpaque(false);
 			button.setForeground(new Color(255, 215, 0));
 			button.setFont(new Font("Britannic Bold", Font.PLAIN, 13));
@@ -163,11 +169,11 @@ public class Connect4SettingsView extends JFrame {
 			button.setSize(radioButtonWidth, radioButtonHeight);
 			button.setLocation(leftMiddleX-radioButtonWidth/2, radioButtonY);
 			finalRadioButtonY = radioButtonY;
-			
 			contentPane.add(button);
 		}
 		
 		//Timer
+		//TimerToggleButton
 		int timerToggleButtonWidth = 150;
 		int timerToggleButtonHeight = 30;
 		int timerToggleButtonY = finalRadioButtonY + 25;
@@ -182,7 +188,7 @@ public class Connect4SettingsView extends JFrame {
 		contentPane.add(timerToggleButton);
 
 		
-		
+		//TimerSlider
 		int timerSliderWidth = 175;
 		int timerSliderHeight = 25;
 		int timerSliderY = timerToggleButtonY+50;
@@ -200,7 +206,7 @@ public class Connect4SettingsView extends JFrame {
 		timerSlider.setLocation(leftMiddleX-timerSliderWidth/2, timerSliderY);
 		contentPane.add(timerSlider);
 
-		
+		//TimerTextField
 		int timerTextFieldWidth = 25;
 		int timerTextFieldHeight = 20;
 		int timerTextFieldY = timerSliderY + 25;
@@ -214,7 +220,7 @@ public class Connect4SettingsView extends JFrame {
 		contentPane.add(timerTextField);
 		timerTextField.setColumns(10);
 
-		
+		//ErrorLabel
 		int errorLabelWidth = 200;
 		int errorLabelHeight = 15;
 		int errorLabelY = timerTextFieldY + 35;
@@ -230,6 +236,7 @@ public class Connect4SettingsView extends JFrame {
 		
 		int rightMiddleX = windowWidth - 115;
 		//Colors
+		//Player1Label
 		int playerLabelWidth = 100;
 		int playerLabelHeight = 15;
 		int player1LabelY = 100; 
@@ -241,6 +248,7 @@ public class Connect4SettingsView extends JFrame {
 		player1Label.setLocation(rightMiddleX-playerLabelWidth/2, player1LabelY);
 		contentPane.add(player1Label);
 
+		//Player1ComboBox
 		int comboBoxWidth = 100;
 		int comboBoxHeight = 25;
 		int player1ComboBoxY = player1LabelY+25;
@@ -255,6 +263,7 @@ public class Connect4SettingsView extends JFrame {
 		playerColorsComboBoxes.add(player1ColorsComboBox);
 		contentPane.add(player1ColorsComboBox);
 
+		//Player2Label
 		int player2LabelY = player1ComboBoxY+100; 
 		JLabel player2Label = new JLabel("Player 2 Colors");
 		player2Label.setFont(new Font("Britannic Bold", Font.ITALIC, 13));
@@ -264,6 +273,7 @@ public class Connect4SettingsView extends JFrame {
 		player2Label.setLocation(rightMiddleX-playerLabelWidth/2, player2LabelY);
 		contentPane.add(player2Label);
 
+		//Player2ComboBox
 		int player2ComboBoxY = player2LabelY+25;
 		JComboBox<PlayerColors> player2ColorsComboBox = new JComboBox<>();
 		player2ColorsComboBox.setModel(new DefaultComboBoxModel<>(Player2Colors.values()));
@@ -400,6 +410,11 @@ public class Connect4SettingsView extends JFrame {
 		timerSlider.setValue(value);
 	}
 
+	public boolean setTimerVisualValue(int value) {
+		timerSlider.setValue(value);
+		timerTextField.setText(Integer.toString(value));
+		return true;
+	}
 	/**
 	 * Either makes the timerSlider, timerTextField, and errorLabel visible or
 	 * invisible based on the input. Also changes the text on the timerToggleButton
@@ -408,7 +423,7 @@ public class Connect4SettingsView extends JFrame {
 	 * @param bool to determine whether to make visible or invisible.
 	 * @author Khuram C.
 	 */
-	public void changeTimerViewVisibility(boolean bool) {
+	private void changeTimerViewVisibility(boolean bool) {
 		timerSlider.setEnabled(bool);
 		timerSlider.setVisible(bool);
 		timerTextField.setEnabled(bool);
@@ -443,6 +458,21 @@ public class Connect4SettingsView extends JFrame {
 	 */
 	public void changeErrorLabelText(String text) {
 		errorLabel.setText(text);
+	}
+
+	/**
+	 * Update method for when the timer is toggled, or whenever the time set for the timer has been changed.
+	 * @author Khuram C.
+	 */
+	@Override
+	public void update(Observable o, Object arg) {
+		if (arg instanceof Boolean) {
+			Boolean isTimer = (Boolean) arg;
+			changeTimerViewVisibility(isTimer);
+		}else {
+			int timerTime = (int) arg;
+			setTimerVisualValue(timerTime);
+		}
 	}
 
 }
