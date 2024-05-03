@@ -299,17 +299,20 @@ public class BattleshipShootingPhase extends JFrame {
     }
     private void startTurnTimer(int seconds) {
         remainingTimeInSeconds = seconds;
-        turnTimer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                remainingTimeInSeconds--;
-                timerLabel.setText("Remaining Time: " + remainingTimeInSeconds + " sec");
-                if (remainingTimeInSeconds <= 0) {
-                    endTurn();
+        if (remainingTimeInSeconds > 0) {
+            turnTimer = new Timer(1000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    remainingTimeInSeconds--;
+                    timerLabel.setText("Remaining Time: " + remainingTimeInSeconds + " sec");
+                    if (remainingTimeInSeconds <= 0) {
+                        endTurn();
+                    }
                 }
-            }
-        });
-        turnTimer.start();
+            });
+            turnTimer.start();
+        } else {
+        }
     }
     private void restartTurnTimer() {
         stopTurnTimer();

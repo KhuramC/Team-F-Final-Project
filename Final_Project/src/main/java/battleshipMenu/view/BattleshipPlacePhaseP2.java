@@ -30,6 +30,7 @@ public class BattleshipPlacePhaseP2 extends JFrame {
     private JButton doneButton; // Declare the Done button as a class-level variable
     private int shipsPlacedCount = 0; // Keep track of the number of ships placed
     
+    private JTextArea explanationTextArea;
  // Declare a set to keep track of placed ships
     private Set<String> placedShipSet = new HashSet<>();
   
@@ -86,11 +87,25 @@ public class BattleshipPlacePhaseP2 extends JFrame {
                 DrawGrid.drawGridLines(g, numRows, numCols, 50, 50, 50);
             }
         };
+        
+        explanationTextArea = new JTextArea();
+        explanationTextArea.setBounds(50, numRows * 50 + 100, numRows * 50, 100); // Adjust position and size as needed
+        explanationTextArea.setEditable(false); // Make it read-only
+        explanationTextArea.setLineWrap(true); // Enable line wrapping
+        explanationTextArea.setWrapStyleWord(true); // Wrap at word boundaries
+        explanationTextArea.setFont(explanationTextArea.getFont().deriveFont(Font.BOLD, 14));
+        explanationTextArea.setText("Welcome to the 'Ship Placement' phase for player 2. This is where player 2 will select and place their ships.Use the 'rotate' button to rotate the placement of your ships. Select 'Done' once done placing all 5 ships to continue to the next phase."); // Initial text
+        gameBoardPanel.add(explanationTextArea);
+        
         gameBoardPanel.setLayout(null); // Use absolute layout
         doneButton = new JButton("Done");
 
         JLabel WhatPlayer = new JLabel("Player 2's Game Board");
-        WhatPlayer.setBounds(500, 1, 300, 30);
+        int labelWidth = 300; // Adjust as needed
+        int labelHeight = 30; // Adjust as needed
+        int labelX = (numCols * 50 ) / 2; // Center horizontally
+        int labelY = numRows * 50 + 60; // Position slightly below the P1Board
+        WhatPlayer.setBounds(labelX, labelY, labelWidth, labelHeight);
         gameBoardPanel.add(WhatPlayer);
         
         JLabel placeLabel = new JLabel("↓↓ Select & Place Ships ↓↓");

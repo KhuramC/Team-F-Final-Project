@@ -31,6 +31,8 @@ public class BattleshipPlacePhase extends JFrame {
     private JButton doneButton; // Declare the Done button as a class-level variable
     private int shipsPlacedCount = 0; // Keep track of the number of ships placed
     
+    private JTextArea explanationTextArea;
+    
     private Color player1ShipColor;
     private Color player2ShipColor;
     
@@ -91,8 +93,21 @@ public class BattleshipPlacePhase extends JFrame {
         gameBoardPanel.setLayout(null); // Use absolute layout
         doneButton = new JButton("Done");
 
+        explanationTextArea = new JTextArea();
+        explanationTextArea.setBounds(50, numRows * 50 + 100, numRows * 50, 100); // Adjust position and size as needed
+        explanationTextArea.setEditable(false); // Make it read-only
+        explanationTextArea.setLineWrap(true); // Enable line wrapping
+        explanationTextArea.setWrapStyleWord(true); // Wrap at word boundaries
+        explanationTextArea.setFont(explanationTextArea.getFont().deriveFont(Font.BOLD, 14));
+        explanationTextArea.setText("Welcome to the 'Ship Placement' phase. This is where player 1 will select and place their ships. Use the 'rotate' button to rotate the placement of your ships. Select 'Done' once done placing all 5 ships to continue to the next phase."); // Initial text
+        gameBoardPanel.add(explanationTextArea);
+        
         JLabel WhatPlayer = new JLabel("Player 1's Game Board");
-        WhatPlayer.setBounds(500, 1, 300, 30);
+        int labelWidth = 300; // Adjust as needed
+        int labelHeight = 30; // Adjust as needed
+        int labelX = (numCols * 50 ) / 2; // Center horizontally
+        int labelY = numRows * 50 + 60; // Position slightly below the P1Board
+        WhatPlayer.setBounds(labelX, labelY, labelWidth, labelHeight);
         gameBoardPanel.add(WhatPlayer);
         
         JLabel placeLabel = new JLabel("↓↓ Select & Place Ships ↓↓");

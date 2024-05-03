@@ -13,7 +13,7 @@ public class BattleshipMenuView extends JFrame {
     private JComboBox<String> selectBoardSizeComboBox;
     private JComboBox<String> selectTimerComboBox;
     private JComboBox<String> selectShipSetComboBox;
-    
+    private JTextArea explanationTextArea;
     public JButton startGameButton;
     private JPanel contentPane = new JPanel();
 
@@ -25,6 +25,15 @@ public class BattleshipMenuView extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
+        explanationTextArea = new JTextArea();
+        explanationTextArea.setBounds(50, 250, 550, 100); // Adjust position and size as needed
+        explanationTextArea.setEditable(false); // Make it read-only
+        explanationTextArea.setLineWrap(true); // Enable line wrapping
+        explanationTextArea.setWrapStyleWord(true); // Wrap at word boundaries
+        explanationTextArea.setFont(explanationTextArea.getFont().deriveFont(Font.BOLD, 14));
+        explanationTextArea.setText("Welcome To Battleship - Here, you will select your settings. 'Ship Set' is from smallest to largest (Stealth, Normal, Massive). Once you have selected your preferred settings, click start to proceed to the 'Ship Placement Phase'.         NOTE - Timer will not take effect until the 'Shooting Phase'. "); // Initial text
+        contentPane.add(explanationTextArea);
+        
         // Personal Options - MENU
         JLabel personalizeLabel = new JLabel("Personal Options");
         personalizeLabel.setBounds(125, 15, 150, 30);
