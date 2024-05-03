@@ -60,7 +60,7 @@ public class MancalaModel {
 		if (isValidMove(pitIndex)) {
 	        int stonesToMove = pits[pitIndex];
 	        pits[pitIndex] = 0;
-	        int currentPit = distributeStones(stonesToMove, getNextPit(pitIndex));
+	        distributeStones(stonesToMove, getNextPit(pitIndex));
 	        
 	        // Check for capture.
 	        if (isCapture(currentPlayer, stonesToMove)) {
@@ -104,12 +104,35 @@ public class MancalaModel {
 	}
 
 
-
-	private int distributeStones(int stonesToMove, Object nextPit) {
-		return stonesToMove;
-		// TODO Auto-generated method stub
-		
+	/**
+	 * 
+	 * @param stonesToMove
+	 * @param currentPit
+	 * @return 
+	 */
+	private void distributeStones(int stonesToMove, int currentPit) {
+		while (stonesToMove > 0) {
+			currentPit = getNextPit(currentPit);
+	        // Skip opponent's mancala
+	        if (isOpponentMancala(currentPit)) {
+	            continue;
+	        }
+	        
+	        pits[currentPit]++;
+	        stonesToMove--;
+		}
 	}
+
+	/**
+	 * 
+	 * @param currentPit
+	 * @return boolean
+	 */
+	private boolean isOpponentMancala(int pit) {
+		return (currentPlayer == Player.P1 && pit == 6 ||
+	            (currentPlayer == Player.P2 && pit == 13));
+	}
+
 
 
 	/**
@@ -117,7 +140,7 @@ public class MancalaModel {
 	 * @param currentPit
 	 * @return next pit
 	 */
-	private Object getNextPit(int currentPit) {
+	private int getNextPit(int currentPit) {
 		return (currentPit + 1) % PitCount;
 	}
 
