@@ -27,7 +27,6 @@ public class Connect4SettingsController implements MenuController {
 
 	private Connect4SettingsModel model;
 	private Connect4SettingsView settingsView;
-	private Connect4GameController gameController;
 
 	/**
 	 * A default constructor for the controller.  
@@ -124,8 +123,7 @@ public class Connect4SettingsController implements MenuController {
 	}
 
 	/**
-	 * A subclass that listens to the startGameButton, closes the settingsView, and
-	 * opens the gameView.
+	 * A subclass that listens to the startGameButton, closes the settingsView, and starts the game.
 	 * 
 	 * @author Khuram C.
 	 */
@@ -133,7 +131,7 @@ public class Connect4SettingsController implements MenuController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			gameController = new Connect4GameController(model);
+			Connect4GameController gameController = new Connect4GameController(model);
 			gameController.initiate();
 			settingsView.dispatchEvent(new WindowEvent(settingsView, WindowEvent.WINDOW_CLOSING));
 		}
