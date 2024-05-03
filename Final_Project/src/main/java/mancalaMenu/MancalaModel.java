@@ -60,7 +60,7 @@ public class MancalaModel {
 		if (isValidMove(pitIndex)) {
 	        int stonesToMove = pits[pitIndex];
 	        pits[pitIndex] = 0;
-	        distributeStones(stonesToMove, getNextPit(pitIndex));
+	        int currentPit = distributeStones(stonesToMove, getNextPit(pitIndex));
 	        
 	        // Check for capture.
 	        if (isCapture(currentPlayer, stonesToMove)) {
@@ -73,19 +73,28 @@ public class MancalaModel {
 			collectRemainingStones();
 			gameState = STATE.COMPLETE;
 		} else { // Switch turns if one side isn't empty at end of turn.
-			currentPlayer = currentPlayer == Player.P1 ? Player.P2 : Player.P1;
+            if (!isCapture(currentPlayer, stonesToMove)) {
+                currentPlayer = currentPlayer == Player.P1 ? Player.P2 : Player.P1;
+            }
 		}
 	}
 
 
-
+	/**
+	 * Collect the remaining stones from opponent's side and return them to their mancala.
+	 */
 	private void collectRemainingStones() {
-		// TODO Auto-generated method stub
-		
+		Player opponent = currentPlayer == Player.P1 ? Player.P2 : Player.P1;
+	    for (int i = getPlayerPitStartIndex(opponent); i < getPlayerPitEndIndex(opponent); i++) {
+	        pits[getPlayerPitEndIndex(opponent)] += pits[i];
+	        pits[i] = 0;
+	    }
 	}
 
-
-
+	/**
+	 * 
+	 * @return
+	 */
 	private boolean isGameOver() {
 	    boolean allEmpty = true;
 	    for (int i = getPlayerPitStartIndex(currentPlayer); i < getPlayerPitEndIndex(currentPlayer); i++) {
@@ -97,7 +106,12 @@ public class MancalaModel {
 	    return allEmpty;
 	}
 
-
+	/**
+	 * 
+	 * @param currentPlayer
+	 * @param stonesToMove
+	 * @return
+	 */
 	private boolean isCapture(Player currentPlayer, int stonesToMove) {
 		// TODO Auto-generated method stub
 		return false;
@@ -110,7 +124,7 @@ public class MancalaModel {
 	 * @param currentPit
 	 * @return 
 	 */
-	private void distributeStones(int stonesToMove, int currentPit) {
+	private int distributeStones(int stonesToMove, int currentPit) {
 		while (stonesToMove > 0) {
 			currentPit = getNextPit(currentPit);
 	        // Skip opponent's mancala
@@ -121,6 +135,7 @@ public class MancalaModel {
 	        pits[currentPit]++;
 	        stonesToMove--;
 		}
+		return currentPit;
 	}
 
 	/**
