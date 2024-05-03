@@ -1,5 +1,6 @@
 package battleshipMenu.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,6 +47,19 @@ public class ShipSet {
         "Submarine (3x1)"
     );
 
+    public static List<String> getShipList(String shipSetName) {
+        switch (shipSetName.toUpperCase()) {
+            case "STEALTH":
+                return new ArrayList<>(STEALTH);
+            case "NORMAL":
+                return new ArrayList<>(NORMAL);
+            case "MASSIVE":
+                return new ArrayList<>(MASSIVE);
+            default:
+                return new ArrayList<>();
+        }
+    }
+
     public static Ship getShip(String shipName) {
         switch (shipName) {
             case "Cruiser (2x1)":
@@ -62,4 +76,4 @@ public class ShipSet {
                 return null;
         }
     }
-}           
+}

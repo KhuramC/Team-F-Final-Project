@@ -5,10 +5,14 @@ import battleshipMenu.model.MapSize;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+import javax.imageio.ImageIO;
 
 public class BattleshipMenuView extends JFrame {
-   
-	private JComboBox<String> p1ColorComboBox;
+	   
+    private JComboBox<String> p1ColorComboBox;
     private JComboBox<String> p2ColorComboBox;
     private JComboBox<String> selectBoardSizeComboBox;
     private JComboBox<String> selectTimerComboBox;
@@ -38,14 +42,14 @@ public class BattleshipMenuView extends JFrame {
         JLabel personalizeLabel = new JLabel("Personal Options");
         personalizeLabel.setBounds(125, 15, 150, 30);
         contentPane.add(personalizeLabel);
-
+        // Personal Options - MENU
         JLabel p1ColorLabel = new JLabel("Player 1 Ship Color:");
         p1ColorLabel.setBounds(50, 50, 150, 30);
         contentPane.add(p1ColorLabel);
         p1ColorComboBox = new JComboBox<>(new String[]{"Gray","Green", "Yellow", "Purple", "Orange"});
         p1ColorComboBox.setBounds(180, 50, 150, 30);
         contentPane.add(p1ColorComboBox);
-
+        // Personal Options - MENU
         JLabel p2ColorLabel = new JLabel("Player 2 Ship Color:");
         p2ColorLabel.setBounds(50, 100, 150, 30);
         contentPane.add(p2ColorLabel);
@@ -57,21 +61,21 @@ public class BattleshipMenuView extends JFrame {
         JLabel gameOptionLabel = new JLabel("Game Options");
         gameOptionLabel.setBounds(425, 15, 150, 30);
         contentPane.add(gameOptionLabel);
-
+        // Game Options - MENU
         JLabel boardSizeLabel = new JLabel("Select Board Size:");
         boardSizeLabel.setBounds(350, 50, 150, 30);
         contentPane.add(boardSizeLabel);
         selectBoardSizeComboBox = new JComboBox<>(new String[]{"Small (7x7)", "Normal (10x10)", "Large (13x13)"});
         selectBoardSizeComboBox.setBounds(480, 50, 150, 30);
         contentPane.add(selectBoardSizeComboBox);
-
+        // Game Options - MENU
         JLabel timerLabel = new JLabel("Select Timer:");
         timerLabel.setBounds(350, 100, 150, 30);
         contentPane.add(timerLabel);
         selectTimerComboBox = new JComboBox<>(new String[]{"No Timer", "30 sec", "1 min"});
         selectTimerComboBox.setBounds(480, 100, 150, 30);
         contentPane.add(selectTimerComboBox);
-
+        // Game Options - MENU
         JLabel shipSet = new JLabel("Select Ship Set:");
         shipSet.setBounds(350, 150, 150, 30);
         contentPane.add(shipSet);
@@ -83,38 +87,10 @@ public class BattleshipMenuView extends JFrame {
         startGameButton = new JButton("Start Game");
         startGameButton.setBounds(480, 500, 150, 30);
         contentPane.add(startGameButton);
-        
-        startGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Get the selected board size from the combo box
-                String selectedBoardSize = (String) selectBoardSizeComboBox.getSelectedItem();
-                String player1ShipColor = (String) p1ColorComboBox.getSelectedItem();
-                String player2ShipColor = (String) p2ColorComboBox.getSelectedItem();
-                String shootingTimer = (String) selectTimerComboBox.getSelectedItem();
-                // Convert the selected board size to MapSize enum
-                MapSize boardSize = MapSize.fromString(selectedBoardSize);
-
-             // Get the selected ship set from the combo box
-                String selectedShipSet = getSelectedShipSet();
-                // Extract rows and columns from the selected board size
-                int numRows = boardSize.getRows();
-                int numCols = boardSize.getCols();
-
-                // Create BattleshipPlacePhase instance with the selected board size
-                BattleshipPlacePhase placeView = new BattleshipPlacePhase(numRows, numCols, selectedShipSet, player1ShipColor, player2ShipColor, shootingTimer);
-                placeView.setVisible(true);
-            }
-        });
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            BattleshipMenuView battleshipView = new BattleshipMenuView();
-            battleshipView.setVisible(true);
-        });
+    public void addStartGameButtonListener(ActionListener listener) {
+        startGameButton.addActionListener(listener);
     }
-
     // Getter methods for selected options
     public String getPlayer1Color() {
         return (String) p1ColorComboBox.getSelectedItem();
@@ -135,5 +111,4 @@ public class BattleshipMenuView extends JFrame {
     public String getSelectedShipSet() {
         return (String) selectShipSetComboBox.getSelectedItem();
     }
-
 }

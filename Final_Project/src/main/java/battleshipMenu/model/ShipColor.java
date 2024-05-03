@@ -1,8 +1,9 @@
 package battleshipMenu.model;
 
 public enum ShipColor {
-    GREEN,
+    GRAY,
+	GREEN,
     PURPLE,
     ORANGE,
-    YELLOW
+    YELLOW,
 }
