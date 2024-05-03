@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import connect4Menu.model.Connect4GameModel;
-import connect4Menu.model.Connect4MenuModel;
+import connect4Menu.model.Connect4SettingsModel;
 import connect4Menu.view.Connect4GameView;
 import mvcinterfaces.MenuController;
 
@@ -15,7 +15,7 @@ public class Connect4GameController implements MenuController {
 	private Connect4GameModel gameModel;
 	private Connect4GameView gameView;
 
-	public Connect4GameController(Connect4MenuModel menuModel) {
+	public Connect4GameController(Connect4SettingsModel menuModel) {
 		this.gameModel = new Connect4GameModel(menuModel);
 		this.gameView = new Connect4GameView(menuModel.getRowNum(), menuModel.getColNum(), menuModel.getTimerTime());
 		if (menuModel.isTimer()) {

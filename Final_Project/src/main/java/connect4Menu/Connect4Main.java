@@ -1,7 +1,7 @@
 package connect4Menu;
 
 
-import connect4Menu.control.Connect4MenuController;
+import connect4Menu.control.Connect4SettingsController;
 
 
 public class Connect4Main {
@@ -10,7 +10,7 @@ public class Connect4Main {
 	}
 
 	public static void startConnect4() {
-		Connect4MenuController controller = new Connect4MenuController();
+		Connect4SettingsController controller = new Connect4SettingsController();
 		controller.initiate();
 	}
 

@@ -26,7 +26,7 @@ public class Connect4GameModel
 
 	// need to observe whenever there's a winner or tie(reflect in view)//
 
-	public Connect4GameModel(Connect4MenuModel menuModel) {
+	public Connect4GameModel(Connect4SettingsModel menuModel) {
 		if (menuModel.isTimer()) {
 			this.timer = new CountDownTimer(menuModel.getTimerTime());
 

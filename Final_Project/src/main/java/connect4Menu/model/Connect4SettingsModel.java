@@ -6,7 +6,7 @@ package connect4Menu.model;
  * 
  * @author Khuram C.
  */
-public class Connect4MenuModel {
+public class Connect4SettingsModel {
 
 	// default_values
 	private int colNum = 6; // x
@@ -26,7 +26,7 @@ public class Connect4MenuModel {
 	 * 
 	 * @author Khuram C.
 	 */
-	public Connect4MenuModel() {
+	public Connect4SettingsModel() {
 	}
 
 	// getters and setters

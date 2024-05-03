@@ -26,7 +26,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import connect4Menu.model.Connect4MenuModel;
+import connect4Menu.model.Connect4SettingsModel;
 import connect4Menu.model.Player1Colors;
 import connect4Menu.model.Player2Colors;
 import connect4Menu.model.PlayerColors;
@@ -42,7 +42,7 @@ import java.awt.Component;
  * 
  * @author Khuram C.
  */
-public class Connect4SettingsMenuView extends JFrame {
+public class Connect4SettingsView extends JFrame {
 
 	private JPanel contentPane = new JPanel();
 	private final ButtonGroup sizeButtonGroup = new ButtonGroup();
@@ -60,12 +60,12 @@ public class Connect4SettingsMenuView extends JFrame {
 	 * 
 	 * @author Khuram C.
 	 */
-	public Connect4SettingsMenuView() {
+	public Connect4SettingsView() {
 		// general settings//
 		setTitle("Connect 4 Settings"); 
 		int windowWidth = 900;
 		int windowHeight = 400;
-		setBounds(400, 100, windowWidth, windowHeight);
+		setBounds(300, 100, windowWidth, windowHeight);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.contentPane = new JPanel();
 		contentPane.setBackground(Color.BLACK);
@@ -193,9 +193,9 @@ public class Connect4SettingsMenuView extends JFrame {
 		timerSlider.setEnabled(false);
 		timerSlider.setOpaque(false);
 		timerSlider.setForeground(new Color(255, 215, 0));
-		timerSlider.setMaximum(Connect4MenuModel.maxTimerTime);
-		timerSlider.setMinimum(Connect4MenuModel.minTimerTime);
-		timerSlider.setValue(Connect4MenuModel.minTimerTime);
+		timerSlider.setMaximum(Connect4SettingsModel.maxTimerTime);
+		timerSlider.setMinimum(Connect4SettingsModel.minTimerTime);
+		timerSlider.setValue(Connect4SettingsModel.minTimerTime);
 		timerSlider.setSize(timerSliderWidth,timerSliderHeight);
 		timerSlider.setLocation(leftMiddleX-timerSliderWidth/2, timerSliderY);
 		contentPane.add(timerSlider);
@@ -205,7 +205,7 @@ public class Connect4SettingsMenuView extends JFrame {
 		int timerTextFieldHeight = 20;
 		int timerTextFieldY = timerSliderY + 25;
 		timerTextField = new JTextField();
-		timerTextField.setText(Integer.toString(Connect4MenuModel.minTimerTime));
+		timerTextField.setText(Integer.toString(Connect4SettingsModel.minTimerTime));
 		timerTextField.setEnabled(false);
 		timerTextField.setVisible(false);
 		timerTextField.setFont(new Font("Britannic Bold", Font.PLAIN, 13));

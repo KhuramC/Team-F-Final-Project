@@ -11,10 +11,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import connect4Menu.exceptions.InvalidTimerTimeException;
-import connect4Menu.model.Connect4MenuModel;
+import connect4Menu.model.Connect4SettingsModel;
 import connect4Menu.model.Player;
 import connect4Menu.model.PlayerColors;
-import connect4Menu.view.Connect4SettingsMenuView;
+import connect4Menu.view.Connect4SettingsView;
 import mvcinterfaces.MenuController;
 
 /**
@@ -23,10 +23,10 @@ import mvcinterfaces.MenuController;
  * 
  * @author Khuram C.
  */
-public class Connect4MenuController implements MenuController {
+public class Connect4SettingsController implements MenuController {
 
-	private Connect4MenuModel model;
-	private Connect4SettingsMenuView settingsView;
+	private Connect4SettingsModel model;
+	private Connect4SettingsView settingsView;
 	private Connect4GameController gameController;
 
 	/**
@@ -35,9 +35,9 @@ public class Connect4MenuController implements MenuController {
 	 * 
 	 * @author Khuram C.
 	 */
-	public Connect4MenuController() {
-		this.model = new Connect4MenuModel();
-		this.settingsView = new Connect4SettingsMenuView();
+	public Connect4SettingsController() {
+		this.model = new Connect4SettingsModel();
+		this.settingsView = new Connect4SettingsView();
 		
 		settingsView.addListenertoTimerToggleButton(new TimerToggleButtonListener());
 		settingsView.addListenertoTimerSlider(new TimerSliderListener());
@@ -107,9 +107,9 @@ public class Connect4MenuController implements MenuController {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				int timerTextFieldValue = Integer.parseInt(settingsView.getTimerTextFieldValue());
-				if (timerTextFieldValue > Connect4MenuModel.maxTimerTime
-						|| timerTextFieldValue < Connect4MenuModel.minTimerTime) {
-					throw new InvalidTimerTimeException(Connect4MenuModel.minTimerTime, Connect4MenuModel.maxTimerTime);
+				if (timerTextFieldValue > Connect4SettingsModel.maxTimerTime
+						|| timerTextFieldValue < Connect4SettingsModel.minTimerTime) {
+					throw new InvalidTimerTimeException(Connect4SettingsModel.minTimerTime, Connect4SettingsModel.maxTimerTime);
 				}
 				settingsView.setTimerSliderValue(timerTextFieldValue);
 				settingsView.changeErrorLabelText("");
@@ -117,8 +117,8 @@ public class Connect4MenuController implements MenuController {
 				settingsView.changeErrorLabelText("Put in an integer!");
 			} catch (InvalidTimerTimeException exc) {
 				settingsView.changeErrorLabelText(
-						"Put in an integer from " + Integer.toString(Connect4MenuModel.minTimerTime) + " to "
-								+ Integer.toString(Connect4MenuModel.maxTimerTime) + "s.");
+						"Put in an integer from " + Integer.toString(Connect4SettingsModel.minTimerTime) + " to "
+								+ Integer.toString(Connect4SettingsModel.maxTimerTime) + "s.");
 			}
 		}
 	}
