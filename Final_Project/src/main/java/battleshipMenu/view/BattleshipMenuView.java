@@ -12,7 +12,6 @@ public class BattleshipMenuView extends JFrame {
     private JComboBox<String> p2ColorComboBox;
     private JComboBox<String> selectBoardSizeComboBox;
     private JComboBox<String> selectTimerComboBox;
-    private JComboBox<String> selectOpponentComboBox;
     private JComboBox<String> selectShipSetComboBox;
     
     public JButton startGameButton;
@@ -34,14 +33,14 @@ public class BattleshipMenuView extends JFrame {
         JLabel p1ColorLabel = new JLabel("Player 1 Ship Color:");
         p1ColorLabel.setBounds(50, 50, 150, 30);
         contentPane.add(p1ColorLabel);
-        p1ColorComboBox = new JComboBox<>(new String[]{"Green", "Yellow", "Purple", "Orange"});
+        p1ColorComboBox = new JComboBox<>(new String[]{"Gray","Green", "Yellow", "Purple", "Orange"});
         p1ColorComboBox.setBounds(180, 50, 150, 30);
         contentPane.add(p1ColorComboBox);
 
         JLabel p2ColorLabel = new JLabel("Player 2 Ship Color:");
         p2ColorLabel.setBounds(50, 100, 150, 30);
         contentPane.add(p2ColorLabel);
-        p2ColorComboBox = new JComboBox<>(new String[]{"Green", "Yellow", "Purple", "Orange"});
+        p2ColorComboBox = new JComboBox<>(new String[]{"Gray","Green", "Yellow", "Purple", "Orange"});
         p2ColorComboBox.setBounds(180, 100, 150, 30);
         contentPane.add(p2ColorComboBox);
 
@@ -64,18 +63,11 @@ public class BattleshipMenuView extends JFrame {
         selectTimerComboBox.setBounds(480, 100, 150, 30);
         contentPane.add(selectTimerComboBox);
 
-        JLabel opponentLabel1 = new JLabel("Select Opponent:");
-        opponentLabel1.setBounds(350, 150, 150, 30);
-        contentPane.add(opponentLabel1);
-        selectOpponentComboBox = new JComboBox<>(new String[]{"Player vs Player", "Player vs Computer"});
-        selectOpponentComboBox.setBounds(480, 150, 150, 30);
-        contentPane.add(selectOpponentComboBox);
-
         JLabel shipSet = new JLabel("Select Ship Set:");
-        shipSet.setBounds(350, 200, 150, 30);
+        shipSet.setBounds(350, 150, 150, 30);
         contentPane.add(shipSet);
         selectShipSetComboBox = new JComboBox<>(new String[]{"Stealth", "Normal", "Massive"});
-        selectShipSetComboBox.setBounds(480, 200, 150, 30);
+        selectShipSetComboBox.setBounds(480, 150, 150, 30);
         contentPane.add(selectShipSetComboBox);
 
         // Start game button
@@ -88,7 +80,9 @@ public class BattleshipMenuView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Get the selected board size from the combo box
                 String selectedBoardSize = (String) selectBoardSizeComboBox.getSelectedItem();
-                
+                String player1ShipColor = (String) p1ColorComboBox.getSelectedItem();
+                String player2ShipColor = (String) p2ColorComboBox.getSelectedItem();
+                String shootingTimer = (String) selectTimerComboBox.getSelectedItem();
                 // Convert the selected board size to MapSize enum
                 MapSize boardSize = MapSize.fromString(selectedBoardSize);
 
@@ -99,7 +93,7 @@ public class BattleshipMenuView extends JFrame {
                 int numCols = boardSize.getCols();
 
                 // Create BattleshipPlacePhase instance with the selected board size
-                BattleshipPlacePhase placeView = new BattleshipPlacePhase(numRows, numCols, selectedShipSet);
+                BattleshipPlacePhase placeView = new BattleshipPlacePhase(numRows, numCols, selectedShipSet, player1ShipColor, player2ShipColor, shootingTimer);
                 placeView.setVisible(true);
             }
         });
@@ -132,7 +126,5 @@ public class BattleshipMenuView extends JFrame {
     public String getSelectedShipSet() {
         return (String) selectShipSetComboBox.getSelectedItem();
     }
-    public String getOpponent() {
-    	return (String) selectOpponentComboBox.getSelectedItem();
-    }
+
 }

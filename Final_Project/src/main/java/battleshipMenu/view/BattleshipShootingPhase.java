@@ -18,15 +18,24 @@ public class BattleshipShootingPhase extends JFrame {
     Color lightBlue = new Color(173, 216, 230);
     Color hitColor = Color.RED;
     Color missColor = Color.BLUE;
-
+   
+    private int initialTurnTimeInSeconds;
+    private Timer turnTimer;
+    private int remainingTimeInSeconds;
+    
+    private JLabel timerLabel;
     private JButton[][] player1BoardCells;
-    private JButton[][] player2BoardCells;
+    private JButton[][] player2BoardCells; 
+    private JButton startGameButton;
+    private JButton coinFlipButton;
     private JTextArea explanationTextArea;
     
     private JPanel startGamePanel;
-    private JButton startGameButton;
-    private JButton coinFlipButton; // New button for coin flip
 
+    private Color Player1ShipColor;
+    private Color Player2ShipColor;
+   
+    private String shootingTimer;
     private String[][] player1GameBoard;
     private String[][] player1GameBoardState;
     private String[][] player2GameBoard;
@@ -35,7 +44,7 @@ public class BattleshipShootingPhase extends JFrame {
 
     private boolean isPlayer1Turn = true;
 
-    public BattleshipShootingPhase(int numRows, int numCols, String[][] player2GameBoardState, String[][] player1GameBoardState) {
+    public BattleshipShootingPhase(int numRows, int numCols, String[][] player2GameBoardState, String[][] player1GameBoardState, Color P1ShipColor, Color P2ShipColor, String shootingTimer) {
         this.numRows = numRows;
         this.numCols = numCols;
         currentPlayer = 0; // 0 for not determined yet
@@ -43,6 +52,10 @@ public class BattleshipShootingPhase extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1800, 1200);
 
+        
+        this.shootingTimer = shootingTimer;
+        this.Player1ShipColor = P1ShipColor;
+        this.Player2ShipColor = P2ShipColor;
         this.player2GameBoardState = player2GameBoardState; // Initialize player 2's game board state
         this.player1GameBoardState = player1GameBoardState;
 
@@ -76,7 +89,9 @@ public class BattleshipShootingPhase extends JFrame {
         startGamePanel.add(explanationTextArea);
         
         
-        
+        timerLabel = new JLabel("Remaining Time: ");
+        timerLabel.setBounds(150, numRows * 50 + 200, 200, 30); // Adjust position and size as needed
+        startGamePanel.add(timerLabel);
         
         
         JLabel WhatPlayer = new JLabel("Player 1's Shooting Board");
@@ -205,6 +220,17 @@ public class BattleshipShootingPhase extends JFrame {
             currentPlayer = 2; // Tails
             JOptionPane.showMessageDialog(null, "You got tails. Player 2 goes first.");
         }
+     // Set initial turn time based on shootingTimer
+        if (shootingTimer.equals("No Timer")) {
+            initialTurnTimeInSeconds = 0; // No timer
+        } else if (shootingTimer.equals("30 sec")) {
+            initialTurnTimeInSeconds = 30; // 30 seconds
+        } else if (shootingTimer.equals("1 min")) {
+            initialTurnTimeInSeconds = 60; // 1 minute
+        }
+
+        // Start the turn timer
+        startTurnTimer(initialTurnTimeInSeconds);
     }
     private void shootCell(JButton cellButton, int row, int col, String[][] targetGameBoardState) {
         if (!targetGameBoardState[row][col].equals("H") && !targetGameBoardState[row][col].equals("M")) {
@@ -227,6 +253,7 @@ public class BattleshipShootingPhase extends JFrame {
                 // Switch player turn
                 currentPlayer = (currentPlayer == 1) ? 2 : 1;
                 JOptionPane.showMessageDialog(null, "Player " + currentPlayer + "'s turn");
+                restartTurnTimer();
             }
         } else {
             JOptionPane.showMessageDialog(null, "You can't shoot at this cell. Please select another one.");
@@ -257,19 +284,59 @@ public class BattleshipShootingPhase extends JFrame {
         return true; // All ships are sunk
     }
     private void disableAllButtons() {
-        // Disable all buttons on the game boards
-        for (JButton[] row : P1Board) {
-            for (JButton button : row) {
-                button.setEnabled(false);
-            }
-        }
-        for (JButton[] row : P2Board) {
-            for (JButton button : row) {
-                button.setEnabled(false);
+        // Disable all buttons on the game boards and reveal non-hit ship locations
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
+                // Disable buttons for player 1's board
+                JButton buttonP1 = P1Board[row][col];
+                buttonP1.setEnabled(false);
+
+                // Disable buttons for player 2's board
+                JButton buttonP2 = P2Board[row][col];
+                buttonP2.setEnabled(false);
             }
         }
     }
-    
+    private void startTurnTimer(int seconds) {
+        remainingTimeInSeconds = seconds;
+        turnTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                remainingTimeInSeconds--;
+                timerLabel.setText("Remaining Time: " + remainingTimeInSeconds + " sec");
+                if (remainingTimeInSeconds <= 0) {
+                    endTurn();
+                }
+            }
+        });
+        turnTimer.start();
+    }
+    private void restartTurnTimer() {
+        stopTurnTimer();
+        startTurnTimer(initialTurnTimeInSeconds);
+    }
+
+    private void stopTurnTimer() {
+        if (turnTimer != null && turnTimer.isRunning()) {
+            turnTimer.stop();
+        }
+    }
+    private void endTurn() {
+        // Existing code...
+
+        // Switch player turn
+        currentPlayer = (currentPlayer == 1) ? 2 : 1;
+        JOptionPane.showMessageDialog(null, "Player " + currentPlayer + "'s turn");
+
+        // Restart timer for the next player
+        if (shootingTimer.equals("30 sec")) {
+            startTurnTimer(30);
+        } else if (shootingTimer.equals("1 min")) {
+            startTurnTimer(60);
+        } else {
+            // No timer option, do nothing
+        }
+    }
     public void setPlayer1GameBoard(String[][] gameBoard) {
         this.player1GameBoard = gameBoard;
     }

@@ -33,14 +33,16 @@ public class BattleshipPlacePhaseP2 extends JFrame {
  // Declare a set to keep track of placed ships
     private Set<String> placedShipSet = new HashSet<>();
   
-
+    private Color Player1ShipColor;
+    private Color Player2ShipColor;
     
     private int numRows; // Number of rows in the game board
     private int numCols; // Number of columns in the game board
     
     private String selectedShip; // Store the selected ship
     private List<Point> placedShips; // Store the cells where ships are placed
-
+    
+    private String shootingTimer;
     private String[][] player2GameBoardState;
     private boolean player2GameBoardStateSaved = false; // Initialize as false
     private String[][] player1GameBoardState;
@@ -48,7 +50,7 @@ public class BattleshipPlacePhaseP2 extends JFrame {
     // Flag to toggle ship orientation
     private boolean isVertical = true; // Default is vertical
     
-    public BattleshipPlacePhaseP2(int numRows, int numCols, String shipSet, String[][] player1GameBoardState) {
+    public BattleshipPlacePhaseP2(int numRows, int numCols, String shipSet, String[][] player1GameBoardState, Color player1ShipColor, Color player2ShipColor, String shootingTimer) {
        
     	System.out.println("numRows: " + numRows + ", numCols: " + numCols); // Debugging print statement
     	setTitle("Battleship - Ship Placement Phase");
@@ -58,6 +60,9 @@ public class BattleshipPlacePhaseP2 extends JFrame {
         placedShips = new ArrayList<>(); // Initialize the list of placed ships
         player2GameBoardState = new String[numRows][numCols]; // Initialize player 1's game board state
 
+        this.shootingTimer = shootingTimer;
+        this.Player1ShipColor = player1ShipColor;
+        this.Player2ShipColor = player2ShipColor;
         this.player1GameBoardState = player1GameBoardState;
         
         // Initialize each cell in player 1's game board state array with the default value representing water
@@ -183,7 +188,7 @@ public class BattleshipPlacePhaseP2 extends JFrame {
                                     for (int i = 0; i < shipSize; i++) {
                                         int nextRow = finalRow + (isVertical ? i : 0);
                                         int nextCol = finalCol + (isVertical ? 0 : i);
-                                        boardCells[nextRow][nextCol].setBackground(Color.GRAY);
+                                        boardCells[nextRow][nextCol].setBackground(Player2ShipColor);
                                         placedShips.add(new Point(nextRow, nextCol));
                                     }
                                     
@@ -232,7 +237,7 @@ public class BattleshipPlacePhaseP2 extends JFrame {
                         
                      // Open BattleshipShootingPhase with the appropriate grid size
                         SwingUtilities.invokeLater(() -> {
-                            BattleshipShootingPhase shootingPhase = new BattleshipShootingPhase(numRows, numCols, player2GameBoardState, player1GameBoardState);
+                            BattleshipShootingPhase shootingPhase = new BattleshipShootingPhase(numRows, numCols, player2GameBoardState, player1GameBoardState, Player1ShipColor, Player2ShipColor, shootingTimer );
                             shootingPhase.setVisible(true);
                         });
                         // Here you can proceed to the next phase or perform any other action
@@ -369,31 +374,21 @@ public class BattleshipPlacePhaseP2 extends JFrame {
 
         return true; // Placement is valid
     }
+    private Color mapColor(String colorName) {
+        switch (colorName) {
+            case "Green":
+                return Color.GREEN;
+            case "Yellow":
+                return Color.YELLOW;
+            case "Purple":
+                return new Color(128, 0, 128); // Custom purple color
+            case "Orange":
+                return Color.ORANGE;
+            default:
+                return Color.WHITE; // Default to white if color is not recognized
+        }
+    }
     public String[][] getPlayer2GameBoardState() {
         return player2GameBoardState;
-    }
-    
-    // Methods for handling user interaction (e.g., placing ships, rotating ships)
-
-    // Method to update UI based on game state (e.g., highlighting selected cells)
-
-    // Other necessary methods...
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            // Get the selected board size from BattleshipMenuView
-            String selectedBoardSize = "Small (7x7)";
-            String selectedShipSet = "Stealth"; // Replace with actual selected ship set
-            // Replace with actual selected size
-            MapSize boardSize = MapSize.fromString(selectedBoardSize);
-
-            // Extract rows and columns from the selected board size
-            int numRows = boardSize.getRows();
-            int numCols = boardSize.getCols();
-            
-            BattleshipPlacePhase placePhase = new BattleshipPlacePhase(numRows, numCols, selectedShipSet);
-            placePhase.setVisible(true);
-            
-        });
     }
 }
