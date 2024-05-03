@@ -12,8 +12,8 @@ import javax.swing.event.ChangeListener;
 
 import connect4Menu.exceptions.InvalidTimerTimeException;
 import connect4Menu.model.Connect4SettingsModel;
-import connect4Menu.model.Player;
-import connect4Menu.model.PlayerColors;
+import connect4Menu.model.player.IPlayerColors;
+import connect4Menu.model.player.Player;
 import connect4Menu.view.Connect4SettingsView;
 import mvcinterfaces.MenuController;
 
@@ -112,11 +112,11 @@ public class Connect4SettingsController implements MenuController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			changeColor((JComboBox<PlayerColors>) e.getSource());
+			changeColor((JComboBox<IPlayerColors>) e.getSource());
 		}
 		
-		public boolean changeColor(JComboBox<PlayerColors> comboBox) {
-			PlayerColors color = (PlayerColors) comboBox.getSelectedItem();
+		public boolean changeColor(JComboBox<IPlayerColors> comboBox) {
+			IPlayerColors color = (IPlayerColors) comboBox.getSelectedItem();
 			model.changePlayerColor(color.getAllowedPlayer(), color);
 			return true;
 		}

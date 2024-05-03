@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import connect4Menu.model.player.Player;
 import connect4Menu.view.ObserverEndGame;
 import connect4Menu.view.ObserverInvalidCols;
 import connect4Menu.view.ObserverSquarePlayed;

@@ -2,6 +2,11 @@ package connect4Menu.model;
 
 import java.util.Observable;
 
+import connect4Menu.model.player.IPlayerColors;
+import connect4Menu.model.player.Player;
+import connect4Menu.model.player.Player1Colors;
+import connect4Menu.model.player.Player2Colors;
+
 /**
  * A model from the MVC architecture for the Connect4 menus to play a game of
  * Connect4.
@@ -118,7 +123,7 @@ public class Connect4SettingsModel extends Observable {
 	 * @return boolean detailing success or not.
 	 * @author Khuram C.
 	 */
-	public boolean changePlayerColor(int playerNum,PlayerColors color) {
+	public boolean changePlayerColor(int playerNum,IPlayerColors color) {
 		Player player = getPlayer(playerNum);
 		if(player!=null) {
 			player.setColor(color);

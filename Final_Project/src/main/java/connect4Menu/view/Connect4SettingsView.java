@@ -29,9 +29,10 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import connect4Menu.model.Connect4SettingsModel;
-import connect4Menu.model.Player1Colors;
-import connect4Menu.model.Player2Colors;
-import connect4Menu.model.PlayerColors;
+import connect4Menu.model.player.IPlayerColors;
+import connect4Menu.model.player.Player1Colors;
+import connect4Menu.model.player.Player2Colors;
+
 import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.JInternalFrame;
@@ -51,7 +52,7 @@ public class Connect4SettingsView extends JFrame implements Observer {
 	private JToggleButton timerToggleButton;
 	private JSlider timerSlider;
 	private JTextField timerTextField;
-	private ArrayList<JComboBox<PlayerColors>> playerColorsComboBoxes = new ArrayList<>(2);
+	private ArrayList<JComboBox<IPlayerColors>> playerColorsComboBoxes = new ArrayList<>(2);
 	private JButton startGameButton;
 	private JLabel errorLabel;
 
@@ -252,7 +253,7 @@ public class Connect4SettingsView extends JFrame implements Observer {
 		int comboBoxWidth = 100;
 		int comboBoxHeight = 25;
 		int player1ComboBoxY = player1LabelY+25;
-		JComboBox<PlayerColors> player1ColorsComboBox = new JComboBox<>();
+		JComboBox<IPlayerColors> player1ColorsComboBox = new JComboBox<>();
 		player1ColorsComboBox.setModel(new DefaultComboBoxModel<>(Player1Colors.values()));
 		player1ColorsComboBox.setBackground(new Color(0, 0, 0));
 		player1ColorsComboBox.setForeground(new Color(255, 215, 0));
@@ -275,7 +276,7 @@ public class Connect4SettingsView extends JFrame implements Observer {
 
 		//Player2ComboBox
 		int player2ComboBoxY = player2LabelY+25;
-		JComboBox<PlayerColors> player2ColorsComboBox = new JComboBox<>();
+		JComboBox<IPlayerColors> player2ColorsComboBox = new JComboBox<>();
 		player2ColorsComboBox.setModel(new DefaultComboBoxModel<>(Player2Colors.values()));
 		player2ColorsComboBox.setBackground(new Color(0, 0, 0));
 		player2ColorsComboBox.setForeground(new Color(255, 215, 0));
@@ -325,7 +326,7 @@ public class Connect4SettingsView extends JFrame implements Observer {
 	 */
 	public boolean addListenertoPlayerColorsComboBoxes(ActionListener listener) {
 	
-		for(JComboBox<PlayerColors> comboBox : playerColorsComboBoxes) {
+		for(JComboBox<IPlayerColors> comboBox : playerColorsComboBoxes) {
 			comboBox.addActionListener(listener);
 		}
 		return true;

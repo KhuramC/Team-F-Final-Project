@@ -5,7 +5,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import connect4Menu.model.Player;
+import connect4Menu.model.player.Player;
 
 import javax.swing.JLabel;
 import java.awt.Font;

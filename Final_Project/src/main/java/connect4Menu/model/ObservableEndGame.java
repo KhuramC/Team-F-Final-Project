@@ -1,5 +1,6 @@
 package connect4Menu.model;
 
+import connect4Menu.model.player.Player;
 import connect4Menu.view.ObserverEndGame;
 
 public interface ObservableEndGame {
