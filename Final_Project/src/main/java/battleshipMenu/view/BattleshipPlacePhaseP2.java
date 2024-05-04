@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import battleshipMenu.model.BattleshipGameModel;
 
 import java.awt.*;
 
@@ -21,11 +22,11 @@ public class BattleshipPlacePhaseP2 extends JFrame {
     // Aesthetics
     Color lightBlue = new Color(173, 216, 230);
 
+    private BattleshipGameModel battleshipGameModel;
     // UI elements for ship placement
     private JPanel gameBoardPanel;
     private JButton[][] boardCells;
     private JButton rotateButton;
-    private JButton resetButton;
     private JComboBox<String> shipComboBox;
     private JButton doneButton; // Declare the Done button as a class-level variable
     private int shipsPlacedCount = 0; // Keep track of the number of ships placed
@@ -51,7 +52,7 @@ public class BattleshipPlacePhaseP2 extends JFrame {
     // Flag to toggle ship orientation
     private boolean isVertical = true; // Default is vertical
     
-    public BattleshipPlacePhaseP2(int numRows, int numCols, String shipSet, String[][] player1GameBoardState, Color player1ShipColor, Color player2ShipColor, String shootingTimer) {
+    public BattleshipPlacePhaseP2(int numRows, int numCols, String shipSet, String[][] player1GameBoardState, Color player1ShipColor, Color player2ShipColor, String shootingTimer, BattleshipGameModel battleshipGameModel) {
        
     	System.out.println("numRows: " + numRows + ", numCols: " + numCols); // Debugging print statement
     	setTitle("Battleship - Ship Placement Phase");
@@ -61,6 +62,7 @@ public class BattleshipPlacePhaseP2 extends JFrame {
         placedShips = new ArrayList<>(); // Initialize the list of placed ships
         player2GameBoardState = new String[numRows][numCols]; // Initialize player 1's game board state
 
+        this.battleshipGameModel = battleshipGameModel;
         this.shootingTimer = shootingTimer;
         this.Player1ShipColor = player1ShipColor;
         this.Player2ShipColor = player2ShipColor;
@@ -148,9 +150,6 @@ public class BattleshipPlacePhaseP2 extends JFrame {
         // Initialize buttons for ship placement options
         rotateButton = new JButton("Rotate Ship: Vertical");
         rotateButton.setBounds(800, 100, 250, 30); // Adjust position and size as needed
-
-        resetButton = new JButton("Reset Grid/Ship Placements");
-        resetButton.setBounds(800, 50, 250, 30); // Adjust position and size as needed
         
      // Add the "Done" button to the game board panel
         JButton doneButton = new JButton("Done");
@@ -159,8 +158,6 @@ public class BattleshipPlacePhaseP2 extends JFrame {
 
         // Add buttons to the game board panel
         gameBoardPanel.add(rotateButton);
-        gameBoardPanel.add(resetButton);
-
         
         shipComboBox = new JComboBox<>();
         shipComboBox.setBounds(800, 250, 150, 30);
@@ -198,7 +195,7 @@ public class BattleshipPlacePhaseP2 extends JFrame {
                                 int direction = isVertical ? 1 : 0; // Determine direction based on orientation
                                 
                                 // Check if the placement is valid for the entire ship
-                                if (isValidPlacement(finalRow, finalCol, shipSize, isVertical, numRows, numCols)) {
+                                if (isValidPlacementP2(finalRow, finalCol, shipSize, isVertical, numRows, numCols)) {
                                     // Place the ship
                                     for (int i = 0; i < shipSize; i++) {
                                         int nextRow = finalRow + (isVertical ? i : 0);
@@ -215,7 +212,7 @@ public class BattleshipPlacePhaseP2 extends JFrame {
                                     shipComboBox.removeItem(selectedShip);
                                     
                                  // Update the count of ships placed
-                                    updateShipsPlacedCount(); // Call the method here
+                                    updateShipsPlacedCountP2(); // Call the method here
                                 }
                             }
                         }
@@ -241,13 +238,14 @@ public class BattleshipPlacePhaseP2 extends JFrame {
         doneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	int shipsPlacedCount = battleshipGameModel.getShipsPlacedCountP2();
                 // Check if all 5 ships have been placed
                 if (shipsPlacedCount == 5) {
                     // Ask for confirmation
                     int choice = JOptionPane.showConfirmDialog(null, "Are you done placing ships?", "Confirmation", JOptionPane.YES_NO_OPTION);
                     if (choice == JOptionPane.YES_OPTION) {
                         // Implement the action when all ships are placed and the user confirms
-                    	savePlayer1GameBoardState();
+                    	savePlayer2GameBoardState();
                         System.out.println("All ships have been placed. Proceed to the next phase.");
                         
                      // Open BattleshipShootingPhase with the appropriate grid size
@@ -264,23 +262,7 @@ public class BattleshipPlacePhaseP2 extends JFrame {
                     JOptionPane.showMessageDialog(null, "Please place all 5 ships before proceeding.", "Information", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
-        });
-        
-//        resetButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//            	resetGridState();
-//            	System.out.println("Reset button pressed");
-//            	// Clear the placed ships list
-//                placedShips.clear();
-//                // Reset ship selection combo box
-//                resetShipComboBox(shipSet);
-//                // Reset ship placement to default (vertical)
-//                isVertical = true;
-//                rotateButton.setText("Rotate Ship: Vertical");
-//            }
-//        });
-//        
+        });      
         // Add the game board panel to the frame
         add(gameBoardPanel);
   }
@@ -313,97 +295,37 @@ public class BattleshipPlacePhaseP2 extends JFrame {
             shipComboBox.addItem(ship);
         }
     }
- // Update player 1's game board state when a ship is placed
+    // Update player 2's game board state when a ship is placed
     private void updatePlayer2GameBoardState() {
-        // Iterate through the list of placed ships
-        for (Point shipLocation : placedShips) {
-            int row = shipLocation.x;
-            int col = shipLocation.y;
-            // Update the corresponding cell in player 1's game board state array to indicate the presence of a ship
-            player2GameBoardState[row][col] = "O";
-        }
+    	// Call the corresponding method in BattleshipGameModel to update the game board state
+    	battleshipGameModel.updatePlayer2GameBoardState(new HashSet<>(placedShips));
     }
- // Method to save "Player 1's Game Board State"
-    private void savePlayer1GameBoardState() {
-        // Check if the game board state has already been saved
-        if (!isPlayer2GameBoardStateSaved()) {
-            // Save the game board state
-            // You can store it in a variable or write it to a file/database, depending on your requirements
-            // For demonstration purposes, let's print the game board state
-            System.out.println("Player 2's Game Board State Saved:");
-            printPlayer2GameBoardState();
-            // Set a flag indicating that the game board state has been saved
-            // You might need to modify this flag based on your actual implementation
-            // For demonstration purposes, let's assume a boolean flag named "player1GameBoardStateSaved"
-            player2GameBoardStateSaved = true;
+ // Method to save "Player 2's Game Board State"
+    private void savePlayer2GameBoardState() {
+    	if (!battleshipGameModel.isPlayer2GameBoardStateSaved()) {
+            battleshipGameModel.savePlayer2GameBoardState();
         } else {
-            System.out.println("Player 2's Game Board State has already been saved.");
+            System.out.println("Player 1's Game Board State has already been saved.");
         }
     }
  // Method to check if "Player 2's Game Board State" has already been saved
     private boolean isPlayer2GameBoardStateSaved() {
-        // Implement your logic to check if the game board state has been saved
-        // For demonstration purposes, let's assume a boolean flag named "player1GameBoardStateSaved"
-        return player2GameBoardStateSaved;
+    	return battleshipGameModel.isPlayer2GameBoardStateSaved();
     }
     // Method to print player 2's game board state
     private void printPlayer2GameBoardState() {
-        System.out.println("Player 2's Game Board State:");
-        for (String[] row : player2GameBoardState) {
-            for (String cell : row) {
-                System.out.print(cell + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
+    	battleshipGameModel.printPlayer2GameBoardState();
     }
-    private void updateShipsPlacedCount() {
-        shipsPlacedCount++;
-        // Check if all 5 ships have been placed
-        if (shipsPlacedCount == 5) {
-            doneButton.setEnabled(true); // Enable the "Done" button
-        }
+    private void updateShipsPlacedCountP2() {
+    	battleshipGameModel.updateShipsPlacedCountP2();
     }
-    private boolean isValidPlacement(int startRow, int startCol, int shipSize, boolean isVertical, int numRows, int numCols) {
-        // Debugging print statements
-        System.out.println("startRow: " + startRow + ", startCol: " + startCol + ", shipSize: " + shipSize + ", isVertical: " + isVertical);
-        System.out.println("numRows: " + numRows + ", numCols: " + numCols);
-
-        // Check if the placement is within the bounds of the game board
-        if (startRow < 0 || startCol < 0 || startRow >= numRows || startCol >= numCols) {
-        	JOptionPane.showMessageDialog(null, "Invalid Placement", "Error", JOptionPane.ERROR_MESSAGE);
-        	System.out.println("Placement is off the board");
-            return false; // Placement is off the board
-        }
-
-        // Check if the placement overlaps with any existing ships or is out of bounds
-        for (int i = 0; i < shipSize; i++) {
-            int row = startRow + (isVertical ? i : 0);
-            int col = startCol + (isVertical ? 0 : i);
-            if (row >= numRows || col >= numCols || !player2GameBoardState[row][col].equals("~")) {
-            	JOptionPane.showMessageDialog(null, "Invalid Placement", "Error", JOptionPane.ERROR_MESSAGE);
-            	System.out.println("Invalid Placement!");
-                return false; // Placement overlaps with an existing ship or is off the board
-            }
-        }
-
-        return true; // Placement is valid
+    private boolean isValidPlacementP2(int startRow, int startCol, int shipSize, boolean isVertical, int numRows, int numCols) {
+    	return battleshipGameModel.isValidPlacementP2(startRow, startCol, shipSize, isVertical, numRows, numCols);
     }
     private Color mapColor(String colorName) {
-        switch (colorName) {
-            case "Green":
-                return Color.GREEN;
-            case "Yellow":
-                return Color.YELLOW;
-            case "Purple":
-                return new Color(128, 0, 128); // Custom purple color
-            case "Orange":
-                return Color.ORANGE;
-            default:
-                return Color.WHITE; // Default to white if color is not recognized
-        }
+    	return battleshipGameModel.mapColor(colorName);
     }
     public String[][] getPlayer2GameBoardState() {
-        return player2GameBoardState;
+    	return battleshipGameModel.getPlayer2GameBoardState();
     }
 }

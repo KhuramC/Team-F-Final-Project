@@ -5,7 +5,6 @@ import battleshipMenu.model.BattleshipMenuModel;
 import battleshipMenu.view.BattleshipMenuView;
 import battleshipMenu.view.BattleshipPlacePhase;
 import battleshipMenu.model.BattleshipGameModel;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -46,7 +45,6 @@ public class BattleshipMenuController {
 
          // Initialize BattleshipGameModel
             BattleshipGameModel gameModel = new BattleshipGameModel(model.getMapSize().getRows(), model.getMapSize().getCols());
-            
             // Open the BattleshipPlacePhaseView
             BattleshipPlacePhase placePhaseView = new BattleshipPlacePhase(model.getMapSize().getRows(), model.getMapSize().getCols(), selectedShipSet, player1ShipColor, player2ShipColor, shootingTimer, gameModel); // Instantiate the place phase view
             placePhaseView.setVisible(true);
