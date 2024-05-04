@@ -7,14 +7,24 @@ import java.util.Set;
 
 import javax.swing.JOptionPane;
 
+/**
+ * The BattleshipGameModel class represents the model component of the Battleship game.
+ * It manages the game board states, ship placement, and validation.
+ */
 public class BattleshipGameModel {
-	private String[][] player2GameBoardState;
+    private String[][] player2GameBoardState;
     private String[][] player1GameBoardState;
     private boolean player2GameBoardStateSaved = false;
     private boolean player1GameBoardStateSaved = false;
     private int shipsPlacedCount = 0;
     private int shipsPlacedCountP2 = 0;
-    // Constructor
+
+    /**
+     * Constructor for the BattleshipGameModel class.
+     *
+     * @param numRows The number of rows in the game board.
+     * @param numCols The number of columns in the game board.
+     */
     public BattleshipGameModel(int numRows, int numCols) {
         player1GameBoardState = new String[numRows][numCols];
         // Initialize player 1's game board state
@@ -32,7 +42,11 @@ public class BattleshipGameModel {
         }
     }
 
-    // Update player 1's game board state when a ship is placed
+    /**
+     * Update player 1's game board state when a ship is placed.
+     *
+     * @param placedShips The set of points representing the locations of the placed ships.
+     */
     public void updatePlayer1GameBoardState(Set<Point> placedShips) {
         for (Point shipLocation : placedShips) {
             int row = shipLocation.x;
@@ -40,7 +54,10 @@ public class BattleshipGameModel {
             player1GameBoardState[row][col] = "O";
         }
     }
-    // Method to save "Player 1's Game Board State"
+
+    /**
+     * Save "Player 1's Game Board State" if it has not been saved already.
+     */
     public void savePlayer1GameBoardState() {
         if (!isPlayer1GameBoardStateSaved()) {
             // Save the game board state
@@ -52,12 +69,18 @@ public class BattleshipGameModel {
         }
     }
 
-    // Method to check if "Player 1's Game Board State" has already been saved
+    /**
+     * Check if "Player 1's Game Board State" has already been saved.
+     *
+     * @return true if "Player 1's Game Board State" has been saved, false otherwise.
+     */
     public boolean isPlayer1GameBoardStateSaved() {
         return player1GameBoardStateSaved;
     }
 
-    // Method to print player 1's game board state
+    /**
+     * Print player 1's game board state to the console.
+     */
     public void printPlayer1GameBoardState() {
         for (String[] row : player1GameBoardState) {
             for (String cell : row) {
@@ -67,7 +90,12 @@ public class BattleshipGameModel {
         }
         System.out.println();
     }
-    // Update player 1's game board state when a ship is placed
+
+    /**
+     * Update player 2's game board state when a ship is placed.
+     *
+     * @param placedShips The set of points representing the locations of the placed ships.
+     */
     public void updatePlayer2GameBoardState(Set<Point> placedShips) {
         for (Point shipLocation : placedShips) {
             int row = shipLocation.x;
@@ -75,7 +103,10 @@ public class BattleshipGameModel {
             player2GameBoardState[row][col] = "O";
         }
     }
-    // Method to save "Player 1's Game Board State"
+
+    /**
+     * Save "Player 2's Game Board State" if it has not been saved already.
+     */
     public void savePlayer2GameBoardState() {
         if (!isPlayer2GameBoardStateSaved()) {
             // Save the game board state
@@ -87,12 +118,18 @@ public class BattleshipGameModel {
         }
     }
 
-    // Method to check if "Player 1's Game Board State" has already been saved
+    /**
+     * Check if "Player 2's Game Board State" has already been saved.
+     *
+     * @return true if "Player 2's Game Board State" has been saved, false otherwise.
+     */
     public boolean isPlayer2GameBoardStateSaved() {
         return player2GameBoardStateSaved;
     }
 
-    // Method to print player 1's game board state
+    /**
+     * Print player 2's game board state to the console.
+     */
     public void printPlayer2GameBoardState() {
         for (String[] row : player2GameBoardState) {
             for (String cell : row) {
@@ -102,30 +139,59 @@ public class BattleshipGameModel {
         }
         System.out.println();
     }
-    // Method to update the count of ships placed
+
+    /**
+     * Update the count of ships placed for player 1.
+     */
     public void updateShipsPlacedCount() {
         shipsPlacedCount++;
     }
+
+    /**
+     * Get the count of ships placed for player 1.
+     *
+     * @return The count of ships placed for player 1.
+     */
     public int getShipsPlacedCount() {
         return shipsPlacedCount;
     }
-    // Method to update the count of ships placed
+
+    /**
+     * Update the count of ships placed for player 2.
+     */
     public void updateShipsPlacedCountP2() {
         shipsPlacedCountP2++;
     }
+
+    /**
+     * Get the count of ships placed for player 2.
+     *
+     * @return The count of ships placed for player 2.
+     */
     public int getShipsPlacedCountP2() {
         return shipsPlacedCountP2;
     }
-    // Method to validate ship placement
+
+    /**
+     * Validate ship placement on player 1's game board.
+     *
+     * @param startRow   The starting row index of the placement.
+     * @param startCol   The starting column index of the placement.
+     * @param shipSize   The size of the ship being placed.
+     * @param isVertical Flag indicating whether the ship is being placed vertically or horizontally.
+     * @param numRows    The number of rows on the game board.
+     * @param numCols    The number of columns on the game board.
+     * @return true if the placement is valid, false otherwise.
+     */
     public boolean isValidPlacement(int startRow, int startCol, int shipSize, boolean isVertical, int numRows, int numCols) {
-    	  // Debugging print statements
+        // Debugging print statements
         System.out.println("startRow: " + startRow + ", startCol: " + startCol + ", shipSize: " + shipSize + ", isVertical: " + isVertical);
         System.out.println("numRows: " + numRows + ", numCols: " + numCols);
 
         // Check if the placement is within the bounds of the game board
         if (startRow < 0 || startCol < 0 || startRow >= numRows || startCol >= numCols) {
-        	JOptionPane.showMessageDialog(null, "Invalid Placement", "Error", JOptionPane.ERROR_MESSAGE);
-        	System.out.println("Placement is off the board");
+            JOptionPane.showMessageDialog(null, "Invalid Placement", "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Placement is off the board");
             return false; // Placement is off the board
         }
 
@@ -134,23 +200,34 @@ public class BattleshipGameModel {
             int row = startRow + (isVertical ? i : 0);
             int col = startCol + (isVertical ? 0 : i);
             if (row >= numRows || col >= numCols || !player1GameBoardState[row][col].equals("~")) {
-            	JOptionPane.showMessageDialog(null, "Invalid Placement", "Error", JOptionPane.ERROR_MESSAGE);
-            	System.out.println("Invalid Placement!");
+                JOptionPane.showMessageDialog(null, "Invalid Placement", "Error", JOptionPane.ERROR_MESSAGE);
+                System.out.println("Invalid Placement!");
                 return false; // Placement overlaps with an existing ship or is off the board
             }
         }
         return true;
     }
-    // Method to validate ship placement
+
+    /**
+     * Validate ship placement on player 2's game board.
+     *
+     * @param startRow   The starting row index of the placement.
+     * @param startCol   The starting column index of the placement.
+     * @param shipSize   The size of the ship being placed.
+     * @param isVertical Flag indicating whether the ship is being placed vertically or horizontally.
+     * @param numRows    The number of rows on the game board.
+     * @param numCols    The number of columns on the game board.
+     * @return true if the placement is valid, false otherwise.
+     */
     public boolean isValidPlacementP2(int startRow, int startCol, int shipSize, boolean isVertical, int numRows, int numCols) {
-    	  // Debugging print statements
+        // Debugging print statements
         System.out.println("startRow: " + startRow + ", startCol: " + startCol + ", shipSize: " + shipSize + ", isVertical: " + isVertical);
         System.out.println("numRows: " + numRows + ", numCols: " + numCols);
 
         // Check if the placement is within the bounds of the game board
         if (startRow < 0 || startCol < 0 || startRow >= numRows || startCol >= numCols) {
-        	JOptionPane.showMessageDialog(null, "Invalid Placement", "Error", JOptionPane.ERROR_MESSAGE);
-        	System.out.println("Placement is off the board");
+            JOptionPane.showMessageDialog(null, "Invalid Placement", "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Placement is off the board");
             return false; // Placement is off the board
         }
 
@@ -159,14 +236,20 @@ public class BattleshipGameModel {
             int row = startRow + (isVertical ? i : 0);
             int col = startCol + (isVertical ? 0 : i);
             if (row >= numRows || col >= numCols || !player2GameBoardState[row][col].equals("~")) {
-            	JOptionPane.showMessageDialog(null, "Invalid Placement", "Error", JOptionPane.ERROR_MESSAGE);
-            	System.out.println("Invalid Placement!");
+                JOptionPane.showMessageDialog(null, "Invalid Placement", "Error", JOptionPane.ERROR_MESSAGE);
+                System.out.println("Invalid Placement!");
                 return false; // Placement overlaps with an existing ship or is off the board
             }
         }
         return true;
     }
-    // Method to map color names to Color objects
+
+    /**
+     * Map color names to Color objects.
+     *
+     * @param colorName The name of the color.
+     * @return The corresponding Color object.
+     */
     public Color mapColor(String colorName) {
         switch (colorName) {
             case "Green":
@@ -184,11 +267,20 @@ public class BattleshipGameModel {
         }
     }
 
-    // Getter method for player 1's game board state
+    /**
+     * Get player 1's game board state.
+     *
+     * @return The 2D array representing player 1's game board state.
+     */
     public String[][] getPlayer1GameBoardState() {
         return player1GameBoardState;
     }
-    // Getter method for player 1's game board state
+
+    /**
+     * Get player 2's game board state.
+     *
+     * @return The 2D array representing player 2's game board state.
+     */
     public String[][] getPlayer2GameBoardState() {
         return player2GameBoardState;
     }
