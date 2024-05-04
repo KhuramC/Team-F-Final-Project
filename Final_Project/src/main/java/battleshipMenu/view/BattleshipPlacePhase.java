@@ -100,99 +100,10 @@ public class BattleshipPlacePhase extends JFrame {
         initializeRotateButton();
         initializeShipComboBox(shipSet);
         addShipsToComboBox(shipSet);
-        
-        shipComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Get the selected ship from the combo box
-                selectedShip = (String) shipComboBox.getSelectedItem();
-                
-                if (placedShipSet.contains(selectedShip)) {
-                    shipComboBox.removeItem(selectedShip);
-                }
-            }
-        });
-
-     // Add mouse listener to the game board cells
-        for (int row = 0; row < numRows; row++) {
-            for (int col = 0; col < numCols; col++) {
-                JButton cellButton = boardCells[row][col];
-                int finalRow = row;
-                int finalCol = col;
-                
-                
-                
-                /**
-                 * Adds a mouse listener to a cell button on the game board. When the cell button is clicked,
-                 * checks if a ship is selected. If a ship is selected, verifies if the placement is valid for the
-                 * entire ship. If the placement is valid, places the ship on the game board, updates player 1's
-                 * game board state, updates the combo box options, and updates the count of ships placed.
-                 * 
-                 * @param finalRow      The final row index of the cell button.
-                 * @param finalCol      The final column index of the cell button.
-                 * @param selectedShip  The currently selected ship to be placed.
-                 * @param isVertical    Flag indicating whether the ship orientation is vertical.
-                 * @param numRows       The number of rows in the game board.
-                 * @param numCols       The number of columns in the game board.
-                 * @param player1ShipColor  The color to indicate player 1's ship on the game board.
-                 * @param placedShips   Set containing the placed ships' locations.
-                 */
-                cellButton.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        // Check if a ship is selected
-                        if (selectedShip != null) {
-                            // Get the selected ship
-                            ShipSet.Ship ship = ShipSet.getShip(selectedShip);
-                            if (ship != null) {
-                                int shipSize = ship.getSize();
-                                int direction = isVertical ? 1 : 0; // Determine direction based on orientation
-                                
-                                // Check if the placement is valid for the entire ship
-                                if (isValidPlacement(finalRow, finalCol, shipSize, isVertical, numRows, numCols)) {
-                                    // Place the ship
-                                    for (int i = 0; i < shipSize; i++) {
-                                        int nextRow = finalRow + (isVertical ? i : 0);
-                                        int nextCol = finalCol + (isVertical ? 0 : i);
-										boardCells[nextRow][nextCol].setBackground(player1ShipColor);
-                                        placedShips.add(new Point(nextRow, nextCol));
-                                    }
-                                    
-                                    // Update player 1's game board state
-                                    updatePlayer1GameBoardState();
-                                    printPlayer1GameBoardState();
-                                    
-                                 // Update combo box options
-                                    shipComboBox.removeItem(selectedShip);
-                                    
-                                 // Update the count of ships placed
-                                    updateShipsPlacedCount(); // Call the method here
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
-        /**
-         * ActionListener for the "Rotate" button. Toggles the orientation of the ship between vertical and horizontal
-         * when the button is clicked. Updates the button text to reflect the current ship orientation.
-         */
-
-        rotateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Toggle ship orientation
-                isVertical = !isVertical;
-                // Update button text based on ship orientation
-                if (isVertical) {
-                    rotateButton.setText("Rotate Ship: Vertical");
-                } else {
-                    rotateButton.setText("Rotate Ship: Horizontal");
-                }
-            }
-        });
-        
+        addMouseListenerToCellButtons(numRows,numCols);
+        addRotateButtonListener();
+        addShipComboBoxListener();        
+       
         /**
          * ActionListener for the "Done" button. Performs actions when the button is clicked,
          * such as checking if all ships have been placed, prompting the user for confirmation,
@@ -232,6 +143,104 @@ public class BattleshipPlacePhase extends JFrame {
         // Add the game board panel to the frame
         add(gameBoardPanel);
   }
+    /**
+     * Adds an ActionListener to the shipComboBox. When an action (selection) is performed
+     * on the shipComboBox, this listener gets the selected ship from the combo box.
+     * If the selected ship is already placed, it removes it from the combo box options.
+     */
+    private void addShipComboBoxListener() {
+        shipComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get the selected ship from the combo box
+                selectedShip = (String) shipComboBox.getSelectedItem();
+                
+                if (placedShipSet.contains(selectedShip)) {
+                    shipComboBox.removeItem(selectedShip);
+                }
+            }
+        });
+    }
+    /**
+     * ActionListener for the "Rotate" button. Toggles the orientation of the ship between vertical and horizontal
+     * when the button is clicked. Updates the button text to reflect the current ship orientation.
+     */
+    private void addRotateButtonListener() {
+    	 rotateButton.addActionListener(new ActionListener() {
+             @Override
+             public void actionPerformed(ActionEvent e) {
+                 // Toggle ship orientation
+                 isVertical = !isVertical;
+                 // Update button text based on ship orientation
+                 if (isVertical) {
+                     rotateButton.setText("Rotate Ship: Vertical");
+                 } else {
+                     rotateButton.setText("Rotate Ship: Horizontal");
+                 }
+             }
+         });
+    }
+    /**
+     * Adds a mouse listener to a cell button on the game board. When the cell button is clicked,
+     * checks if a ship is selected. If a ship is selected, verifies if the placement is valid for the
+     * entire ship. If the placement is valid, places the ship on the game board, updates player 1's
+     * game board state, updates the combo box options, and updates the count of ships placed.
+     * 
+     * @param finalRow      The final row index of the cell button.
+     * @param finalCol      The final column index of the cell button.
+     * @param selectedShip  The currently selected ship to be placed.
+     * @param isVertical    Flag indicating whether the ship orientation is vertical.
+     * @param numRows       The number of rows in the game board.
+     * @param numCols       The number of columns in the game board.
+     * @param player1ShipColor  The color to indicate player 1's ship on the game board.
+     * @param placedShips   Set containing the placed ships' locations.
+     */
+    private void addMouseListenerToCellButtons(int numRows, int numCols) {
+    	// Add mouse listener to the game board cells
+    	for (int row = 0; row < numRows; row++) {
+    	    for (int col = 0; col < numCols; col++) {
+    	        JButton cellButton = boardCells[row][col];
+    	        int finalRow = row;
+    	        int finalCol = col;
+
+    	        cellButton.addMouseListener(new MouseAdapter() {
+    	            @Override
+    	            public void mouseClicked(MouseEvent e) {
+    	                // Check if a ship is selected
+    	                if (selectedShip != null) {
+    	                    // Get the selected ship
+    	                    ShipSet.Ship ship = ShipSet.getShip(selectedShip);
+    	                    if (ship != null) {
+    	                        int shipSize = ship.getSize();
+    	                        int direction = isVertical ? 1 : 0; // Determine direction based on orientation
+
+    	                        // Check if the placement is valid for the entire ship
+    	                        if (isValidPlacement(finalRow, finalCol, shipSize, isVertical, numRows, numCols)) {
+    	                            // Place the ship
+    	                            for (int i = 0; i < shipSize; i++) {
+    	                                int nextRow = finalRow + (isVertical ? i : 0);
+    	                                int nextCol = finalCol + (isVertical ? 0 : i);
+    	                                boardCells[nextRow][nextCol].setBackground(player1ShipColor);
+    	                                placedShips.add(new Point(nextRow, nextCol));
+    	                            }
+
+    	                            // Update player 1's game board state
+    	                            updatePlayer1GameBoardState();
+    	                            printPlayer1GameBoardState();
+
+    	                            // Update combo box options
+    	                            shipComboBox.removeItem(selectedShip);
+
+    	                            // Update the count of ships placed
+    	                            updateShipsPlacedCount(); // Call the method here
+    	                        }
+    	                    }
+    	                }
+    	            }
+    	        });
+    	    }
+    	}
+    }
     /**
      * Initializes the game board panel with a custom paint component for drawing grid lines.
      * 
