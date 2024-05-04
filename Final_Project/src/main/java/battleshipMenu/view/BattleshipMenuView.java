@@ -1,15 +1,13 @@
 package battleshipMenu.view;
 
 import javax.swing.*;
-import battleshipMenu.model.MapSize;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
-import javax.imageio.ImageIO;
 
+/**
+ * The view class responsible for displaying the Battleship game menu.
+ * This class extends JFrame to create a graphical user interface.
+ */
 public class BattleshipMenuView extends JFrame {
 	   
     private JComboBox<String> p1ColorComboBox;
@@ -21,6 +19,10 @@ public class BattleshipMenuView extends JFrame {
     public JButton startGameButton;
     private JPanel contentPane = new JPanel();
 
+    /**
+    * Constructor for the BattleshipMenuView class.
+    * Sets up the graphical user interface elements.
+    */
     public BattleshipMenuView() {
         setTitle("♦ Battleship ♦");
         setBounds(100, 100, 700, 600);
@@ -88,26 +90,46 @@ public class BattleshipMenuView extends JFrame {
         startGameButton.setBounds(480, 500, 150, 30);
         contentPane.add(startGameButton);
     }
+    
+    /**
+     * Adds an ActionListener to the startGameButton.
+     * @param listener The ActionListener to be added.
+     */
     public void addStartGameButtonListener(ActionListener listener) {
         startGameButton.addActionListener(listener);
     }
-    // Getter methods for selected options
+    /**
+     * Gets the selected color for Player 1's ships.
+     * @return The selected color for Player 1's ships.
+     */
     public String getPlayer1Color() {
         return (String) p1ColorComboBox.getSelectedItem();
     }
-
+    /**
+     * Gets the selected color for Player 2's ships.
+     * @return The selected color for Player 2's ships.
+     */
     public String getPlayer2Color() {
         return (String) p2ColorComboBox.getSelectedItem();
     }
-
+    /**
+     * Gets the selected board size.
+     * @return The selected board size.
+     */
     public String getSelectedBoardSize() {
         return (String) selectBoardSizeComboBox.getSelectedItem();
     }  
-
+    /**
+     * Gets the selected timer option.
+     * @return The selected timer option.
+     */
     public String getSelectedTimer() {
         return (String) selectTimerComboBox.getSelectedItem();
     }
-
+    /**
+     * Gets the selected ship set.
+     * @return The selected ship set.
+     */
     public String getSelectedShipSet() {
         return (String) selectShipSetComboBox.getSelectedItem();
     }
