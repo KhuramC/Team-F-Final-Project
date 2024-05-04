@@ -17,42 +17,49 @@ import java.awt.event.MouseEvent;
 
 import java.awt.*;
 
+/**
+ * The view class responsible for the ship placement phase of the Battleship game.
+ * This class extends JFrame to create a graphical user interface.
+ */
 public class BattleshipPlacePhase extends JFrame {
     
     // Aesthetics
     Color lightBlue = new Color(173, 216, 230);
-   
+    private Color player1ShipColor;
+    private Color player2ShipColor;
+    
     private BattleshipGameModel battleshipGameModel;
     // UI elements for ship placement
     private JPanel gameBoardPanel;
     private JButton[][] boardCells;
     private JButton rotateButton;
-    private JButton resetButton;
-    private JComboBox<String> shipComboBox;
-    private JButton doneButton; // Declare the Done button as a class-level variable
+    private JButton doneButton;
     
-    private JTextArea explanationTextArea;
-    
-    private Color player1ShipColor;
-    private Color player2ShipColor;
-    
- // Declare a set to keep track of placed ships
-    private Set<String> placedShipSet = new HashSet<>();
-    private String selectedShipSet;
+    private JComboBox<String> shipComboBox; // Combobox with ship set
+    private JTextArea explanationTextArea; // Text area
 
-    private String shootingTimer;
     private int numRows; // Number of rows in the game board
     private int numCols; // Number of columns in the game board
-    
-    private String selectedShip; // Store the selected ship
-    private List<Point> placedShips; // Store the cells where ships are placed
 
     public String[][] player1GameBoardState;
-    private boolean player1GameBoardStateSaved = false; // Initialize as false
+    private String shootingTimer;
+    private String selectedShip; // Store the selected ship
+    private String selectedShipSet;
     
-    // Flag to toggle ship orientation
-    private boolean isVertical = true; // Default is vertical
+    private List<Point> placedShips; // Store the cells where ships are placed
+    private Set<String> placedShipSet = new HashSet<>();
     
+    private boolean isVertical = true; // Default is vertical 
+    /**
+     * Constructor for the BattleshipPlacePhase class.
+     * @param numRows Number of rows in the game board.
+     * @param numCols Number of columns in the game board.
+     * @param shipSet Selected ship set.
+     * @param P1shipColor Color for Player 1's ships.
+     * @param P2shipColor Color for Player 2's ships.
+     * @param shootingTimer Selected shooting timer option.
+     * @param battleshipGameModel Reference to the BattleshipGameModel.
+     */
     public BattleshipPlacePhase(int numRows, int numCols, String shipSet, String P1shipColor, String P2shipColor, String shootingTimer, BattleshipGameModel battleshipGameModel) {
        
     	System.out.println("numRows: " + numRows + ", numCols: " + numCols); // Debugging print statement
@@ -69,102 +76,29 @@ public class BattleshipPlacePhase extends JFrame {
         
         player1ShipColor = mapColor(P1shipColor);
         player2ShipColor = mapColor(P2shipColor);
-        
-        // Initialize each cell in player 1's game board state array with the default value representing water
-        for (int row = 0; row < numRows; row++) {
-            for (int col = 0; col < numCols; col++) {
-                player1GameBoardState[row][col] = "~";
-            }
-        }
 
         // Initialize UI elements and layout
         initializeUI(numRows, numCols, shipSet);
     }
-
+    /**
+     * Initializes the user interface for the ship placement phase.
+     *
+     * @param numRows  The number of rows in the game board.
+     * @param numCols  The number of columns in the game board.
+     * @param shipSet  The selected ship set. Valid values are "Stealth", "Normal", and "Massive".
+     *                 Determines the set of ships available for placement.
+     */
     private void initializeUI(int numRows, int numCols, String shipSet) {
-        // Initialize game board panel and cells
-        gameBoardPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                // Call DrawGrid to draw the grid lines
-                DrawGrid.drawGridLines(g, numRows, numCols, 50, 50, 50);
-            }
-        };
-        gameBoardPanel.setLayout(null); // Use absolute layout
-        doneButton = new JButton("Done");
-
-        explanationTextArea = new JTextArea();
-        explanationTextArea.setBounds(50, numRows * 50 + 100, numRows * 50, 100); // Adjust position and size as needed
-        explanationTextArea.setEditable(false); // Make it read-only
-        explanationTextArea.setLineWrap(true); // Enable line wrapping
-        explanationTextArea.setWrapStyleWord(true); // Wrap at word boundaries
-        explanationTextArea.setFont(explanationTextArea.getFont().deriveFont(Font.BOLD, 14));
-        explanationTextArea.setText("Welcome to the 'Ship Placement' phase. This is where player 1 will select and place their ships. Use the 'rotate' button to rotate the placement of your ships. Select 'Done' once done placing all 5 ships to continue to the next phase."); // Initial text
-        gameBoardPanel.add(explanationTextArea);
-        
-        JLabel WhatPlayer = new JLabel("Player 1's Game Board");
-        int labelWidth = 300; // Adjust as needed
-        int labelHeight = 30; // Adjust as needed
-        int labelX = (numCols * 50 ) / 2; // Center horizontally
-        int labelY = numRows * 50 + 60; // Position slightly below the P1Board
-        WhatPlayer.setBounds(labelX, labelY, labelWidth, labelHeight);
-        gameBoardPanel.add(WhatPlayer);
-        
-        JLabel placeLabel = new JLabel("↓↓ Select & Place Ships ↓↓");
-        placeLabel.setBounds(800, 215, 150, 30);
-        gameBoardPanel.add(placeLabel);
-        
-        // Create buttons for game board cells and place them manually
-        int cellSize = 50; // Adjust size as needed
-        int startX = 50;
-        int startY = 50;
-
-     // Add column labels (letters)
-        for (int col = 0; col < numCols; col++) {
-            JLabel columnLabel = new JLabel(String.valueOf((char)('A' + col)));
-            columnLabel.setBounds(startX + col * cellSize + cellSize / 2, startY - 30, 20, 20);
-            gameBoardPanel.add(columnLabel);
-        }
-
-        // Add row labels (numbers)
-        for (int row = 0; row < numRows; row++) {
-            JLabel rowLabel = new JLabel(String.valueOf(row + 1));
-            rowLabel.setBounds(startX - 30, startY + row * cellSize + cellSize / 2, 20, 20);
-            gameBoardPanel.add(rowLabel);
-        }
-
-
-        boardCells = new JButton[numRows][numCols];
-        for (int row = 0; row < numRows; row++) {
-            for (int col = 0; col < numCols; col++) {
-                JButton cellButton = new JButton();
-                cellButton.setBounds(startX + col * cellSize, startY + row * cellSize, cellSize, cellSize);
-                cellButton.setBackground(lightBlue);
-                cellButton.setText("〰");
-                boardCells[row][col] = cellButton;
-                gameBoardPanel.add(cellButton);
-            }
-        }
-        
-
-        // Initialize buttons for ship placement options
-        rotateButton = new JButton("Rotate Ship: Vertical");
-        rotateButton.setBounds(800, 100, 250, 30); // Adjust position and size as needed
-        
-     // Add the "Done" button to the game board panel
-        JButton doneButton = new JButton("Done");
-        doneButton.setBounds(800, 400, 150, 30); // Adjust position and size as needed
-        gameBoardPanel.add(doneButton);
-
-        // Add buttons to the game board panel
-        gameBoardPanel.add(rotateButton);
-
-        
-        shipComboBox = new JComboBox<>();
-        shipComboBox.setBounds(800, 250, 150, 30);
-        gameBoardPanel.add(shipComboBox);
-     // Add ship buttons based on selected ship set
+    	initializeGameBoardPanel(numRows, numCols);
+    	initializeDoneButton();
+    	initializeExplanationTextArea(numRows);
+    	initializePlayerLabel(numRows, numCols);
+        initializePlaceLabel();
+        initializeColumnLabels(numCols);
+        initializeRowLabels(numRows);
+        initializeCellButtons(numRows, numCols);
+        initializeRotateButton();
+        initializeShipComboBox(shipSet);
         addShipsToComboBox(shipSet);
         
         shipComboBox.addActionListener(new ActionListener() {
@@ -185,6 +119,24 @@ public class BattleshipPlacePhase extends JFrame {
                 JButton cellButton = boardCells[row][col];
                 int finalRow = row;
                 int finalCol = col;
+                
+                
+                
+                /**
+                 * Adds a mouse listener to a cell button on the game board. When the cell button is clicked,
+                 * checks if a ship is selected. If a ship is selected, verifies if the placement is valid for the
+                 * entire ship. If the placement is valid, places the ship on the game board, updates player 1's
+                 * game board state, updates the combo box options, and updates the count of ships placed.
+                 * 
+                 * @param finalRow      The final row index of the cell button.
+                 * @param finalCol      The final column index of the cell button.
+                 * @param selectedShip  The currently selected ship to be placed.
+                 * @param isVertical    Flag indicating whether the ship orientation is vertical.
+                 * @param numRows       The number of rows in the game board.
+                 * @param numCols       The number of columns in the game board.
+                 * @param player1ShipColor  The color to indicate player 1's ship on the game board.
+                 * @param placedShips   Set containing the placed ships' locations.
+                 */
                 cellButton.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -222,7 +174,11 @@ public class BattleshipPlacePhase extends JFrame {
                 });
             }
         }
-     // Add action listener to the rotate button
+        /**
+         * ActionListener for the "Rotate" button. Toggles the orientation of the ship between vertical and horizontal
+         * when the button is clicked. Updates the button text to reflect the current ship orientation.
+         */
+
         rotateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -237,6 +193,11 @@ public class BattleshipPlacePhase extends JFrame {
             }
         });
         
+        /**
+         * ActionListener for the "Done" button. Performs actions when the button is clicked,
+         * such as checking if all ships have been placed, prompting the user for confirmation,
+         * and proceeding to the next phase of the game if conditions are met.
+         */
         doneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -271,8 +232,146 @@ public class BattleshipPlacePhase extends JFrame {
         // Add the game board panel to the frame
         add(gameBoardPanel);
   }
-
- // Method to add ship buttons based on the selected ship set
+    /**
+     * Initializes the game board panel with a custom paint component for drawing grid lines.
+     * 
+     * @param numRows The number of rows in the game board.
+     * @param numCols The number of columns in the game board.
+     */
+    private void initializeGameBoardPanel(int numRows, int numCols) {
+        gameBoardPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                DrawGrid.drawGridLines(g, numRows, numCols, 50, 50, 50);
+            }
+        };
+        gameBoardPanel.setLayout(null);
+    }
+    /**
+     * Initializes the "Done" button and adds it to the game board panel.
+     */
+    private void initializeDoneButton() {
+        doneButton = new JButton("Done");
+        doneButton.setBounds(800, 400, 150, 30);
+        gameBoardPanel.add(doneButton);
+    }
+    /**
+     * Initializes the explanation text area and adds it to the game board panel.
+     * 
+     * @param numRows The number of rows in the game board.
+     */
+    private void initializeExplanationTextArea(int numRows) {
+        explanationTextArea = new JTextArea();
+        explanationTextArea.setBounds(50, numRows * 50 + 100, numRows * 50, 100);
+        explanationTextArea.setEditable(false);
+        explanationTextArea.setLineWrap(true);
+        explanationTextArea.setWrapStyleWord(true);
+        explanationTextArea.setFont(explanationTextArea.getFont().deriveFont(Font.BOLD, 14));
+        explanationTextArea.setText("Welcome to the 'Ship Placement' phase. This is where player 1 will select and place their ships. Use the 'rotate' button to rotate the placement of your ships. Select 'Done' once done placing all 5 ships to continue to the next phase.");
+        gameBoardPanel.add(explanationTextArea);
+    }
+    /**
+     * Initializes the label indicating the player's game board and adds it to the game board panel.
+     * 
+     * @param numRows The number of rows in the game board.
+     * @param numCols The number of columns in the game board.
+     */
+    private void initializePlayerLabel(int numRows, int numCols) {
+        JLabel WhatPlayer = new JLabel("Player 1's Game Board");
+        int labelWidth = 300; // Adjust as needed
+        int labelHeight = 30; // Adjust as needed
+        int labelX = (numCols * 50) / 2; // Center horizontally
+        int labelY = numRows * 50 + 60; // Position slightly below the P1Board
+        WhatPlayer.setBounds(labelX, labelY, labelWidth, labelHeight);
+        gameBoardPanel.add(WhatPlayer);
+    }
+    /**
+     * Initializes the label indicating the ship selection and placement area.
+     */
+    private void initializePlaceLabel() {
+        JLabel placeLabel = new JLabel("↓↓ Select & Place Ships ↓↓");
+        placeLabel.setBounds(800, 215, 150, 30);
+        gameBoardPanel.add(placeLabel);
+    }
+    /**
+     * Initializes the column labels (letters) for the game board.
+     * 
+     * @param numCols The number of columns in the game board.
+     */
+    private void initializeColumnLabels(int numCols) {
+        int cellSize = 50; // Adjust size as needed
+        int startX = 50;
+        int startY = 50;
+        // Add column labels (letters)
+        for (int col = 0; col < numCols; col++) {
+            JLabel columnLabel = new JLabel(String.valueOf((char) ('A' + col)));
+            columnLabel.setBounds(startX + col * cellSize + cellSize / 2, startY - 30, 20, 20);
+            gameBoardPanel.add(columnLabel);
+        }
+    }
+    /**
+     * Initializes the row labels (numbers) for the game board.
+     * 
+     * @param numRows The number of rows in the game board.
+     */
+    private void initializeRowLabels(int numRows) {
+        int cellSize = 50; // Adjust size as needed
+        int startX = 50;
+        int startY = 50;
+        // Add row labels (numbers)
+        for (int row = 0; row < numRows; row++) {
+            JLabel rowLabel = new JLabel(String.valueOf(row + 1));
+            rowLabel.setBounds(startX - 30, startY + row * cellSize + cellSize / 2, 20, 20);
+            gameBoardPanel.add(rowLabel);
+        }
+    }
+    /**
+     * Initializes the cell buttons for the game board and adds them to the game board panel.
+     * 
+     * @param numRows The number of rows in the game board.
+     * @param numCols The number of columns in the game board.
+     */
+    private void initializeCellButtons(int numRows, int numCols) {
+        int cellSize = 50; // Adjust size as needed
+        int startX = 50;
+        int startY = 50;
+        boardCells = new JButton[numRows][numCols];
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
+                JButton cellButton = new JButton();
+                cellButton.setBounds(startX + col * cellSize, startY + row * cellSize, cellSize, cellSize);
+                cellButton.setBackground(lightBlue);
+                cellButton.setText("〰");
+                boardCells[row][col] = cellButton;
+                gameBoardPanel.add(cellButton);
+            }
+        }
+    }
+    /**
+     * Initializes the button for rotating the ship orientation and adds it to the game board panel.
+     */
+    private void initializeRotateButton() {
+        rotateButton = new JButton("Rotate Ship: Vertical");
+        rotateButton.setBounds(800, 100, 250, 30); // Adjust position and size as needed
+        gameBoardPanel.add(rotateButton);
+    }
+    /**
+     * Initializes the ship combo box and adds it to the game board panel.
+     * 
+     * @param shipSet The set of available ship types.
+     */
+    private void initializeShipComboBox(String shipSet) {
+        shipComboBox = new JComboBox<>();
+        shipComboBox.setBounds(800, 250, 150, 30);
+        gameBoardPanel.add(shipComboBox);
+    }
+    /**
+     * Adds ship buttons to the combo box based on the selected ship set.
+     *
+     * @param shipSet The selected ship set. Valid values are "Stealth", "Normal", and "Massive".
+     *                If an invalid ship set is provided, no ship buttons are added.
+     */
     private void addShipsToComboBox(String shipSet) {
         switch (shipSet) {
             case "Stealth":
@@ -285,11 +384,14 @@ public class BattleshipPlacePhase extends JFrame {
                 placeShipButtons(ShipSet.MASSIVE);
                 break;
             default:
-                // Handle other ship sets or provide a default behavior
                 break;
         }
     }
-    // Method to place ship buttons based on the ship set
+    /**
+     * Method to place ship buttons based on the ship set.
+     *
+     * @param shipSet The list of ship names to be displayed as options for placement.
+     */
     private void placeShipButtons(List<String> shipSet) {
         int x = 800; // Initial x position for ship buttons
         int y = 250; // Initial y position for ship buttons
@@ -300,12 +402,15 @@ public class BattleshipPlacePhase extends JFrame {
             shipComboBox.addItem(ship);
         }
     }
- // Update player 1's game board state when a ship is placed
+    /**
+     * Update player 1's game board state when a ship is placed.
+     */
     private void updatePlayer1GameBoardState() {
-    	// Call the corresponding method in BattleshipGameModel to update the game board state
     	battleshipGameModel.updatePlayer1GameBoardState(new HashSet<>(placedShips));
     }
- // Method to save "Player 1's Game Board State"
+    /**
+     * Save player 1's game board state if it has not been saved already.
+     */
     private void savePlayer1GameBoardState() {
     	if (!battleshipGameModel.isPlayer1GameBoardStateSaved()) {
             battleshipGameModel.savePlayer1GameBoardState();
@@ -313,23 +418,54 @@ public class BattleshipPlacePhase extends JFrame {
             System.out.println("Player 1's Game Board State has already been saved.");
         }
     }
- // Method to check if "Player 1's Game Board State" has already been saved
+    /**
+     * Check if player 1's game board state has already been saved.
+     *
+     * @return true if player 1's game board state has been saved, false otherwise.
+     */
     private boolean isPlayer1GameBoardStateSaved() {
     	return battleshipGameModel.isPlayer1GameBoardStateSaved();
     }
-    // Method to print player 1's game board state
+    /**
+     * Print player 1's game board state to the console.
+     */
     private void printPlayer1GameBoardState() {
     	battleshipGameModel.printPlayer1GameBoardState();
     }
+    /**
+     * Update the count of ships placed for player 1.
+     */
     private void updateShipsPlacedCount() {
     	battleshipGameModel.updateShipsPlacedCount();
     }
+    /**
+     * Check if a ship placement is valid on player 1's game board.
+     *
+     * @param startRow   The starting row index of the placement.
+     * @param startCol   The starting column index of the placement.
+     * @param shipSize   The size of the ship being placed.
+     * @param isVertical Flag indicating whether the ship is being placed vertically or horizontally.
+     * @param numRows    The number of rows on the game board.
+     * @param numCols    The number of columns on the game board.
+     * @return true if the placement is valid, false otherwise.
+     */
     private boolean isValidPlacement(int startRow, int startCol, int shipSize, boolean isVertical, int numRows, int numCols) {
     	return battleshipGameModel.isValidPlacement(startRow, startCol, shipSize, isVertical, numRows, numCols);
     }
+    /**
+     * Map a color name to a Color object.
+     *
+     * @param colorName The name of the color.
+     * @return The corresponding Color object.
+     */
     private Color mapColor(String colorName) {
     	return battleshipGameModel.mapColor(colorName);
     }
+    /**
+     * Get player 1's game board state.
+     *
+     * @return The 2D array representing player 1's game board state.
+     */
     public String[][] getPlayer1GameBoardState() {
     	return battleshipGameModel.getPlayer1GameBoardState();
     }
