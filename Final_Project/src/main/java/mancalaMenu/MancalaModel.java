@@ -1,10 +1,10 @@
 package mancalaMenu;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.util.ArrayList;
-
 /**
+ * Model for Mancala.
+ */
+
+/*
  * Representation of the Mancala game board and number for each pit
  * 
  *    ----------------------------------
@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * 	  | 13|-----------------------| 6 |
  * P2 |   | 12|11 |10 | 9 | 8 | 7 |   |
  *    ----------------------------------
- * 
+ *  Right pit is P1 Left pit is P2
  */
 public class MancalaModel {
 	
@@ -44,6 +44,7 @@ public class MancalaModel {
 			}
         	
         }
+        this.setGameState(STATE.STARTED);
         currentPlayer = Player.P1; // Player 1 starts
     }
 	
@@ -56,29 +57,30 @@ public class MancalaModel {
 	 * @param pitIndex of the selected pit.
 	 */
 	public void moveStones(int pitIndex) {
-		
-		if (isValidMove(pitIndex)) {
-	        int stonesToMove = pits[pitIndex];
-	        pits[pitIndex] = 0;
-	        int currentPit = distributeStones(stonesToMove, getNextPit(pitIndex));
-	        
-	        // Check for capture.
-	        if (isCapture(currentPlayer, stonesToMove)) {
-	        	moveStones(currentPit);
-	        }
+		// Check move validity.
+		if (!isValidMove(pitIndex)) {
+			return;
 		}
+		
+	    int stonesToMove = pits[pitIndex];
+	    pits[pitIndex] = 0;
+	    int currentPit = distributeStones(stonesToMove, getNextPit(pitIndex));
+	        
+	    // Check for capture.
+	    if (isCapture(currentPlayer, stonesToMove, currentPit)) {
+	    	moveStones(currentPit);
+	    }
 		
 		// Check if game is over
 		if (isGameOver()) {
 			collectRemainingStones();
 			gameState = STATE.COMPLETE;
 		} else { // Switch turns if one side isn't empty at end of turn.
-            if (!isCapture(currentPlayer, stonesToMove)) {
+            if (!isCapture(currentPlayer, stonesToMove, currentPit)) {
                 currentPlayer = currentPlayer == Player.P1 ? Player.P2 : Player.P1;
             }
 		}
 	}
-
 
 	/**
 	 * Collect the remaining stones from opponent's side and return them to their mancala.
@@ -107,15 +109,24 @@ public class MancalaModel {
 	}
 
 	/**
-	 * 
+	 * 	Returns true if capture
 	 * @param currentPlayer
 	 * @param stonesToMove
 	 * @return
 	 */
-	private boolean isCapture(Player currentPlayer, int stonesToMove) {
-		// TODO Auto-generated method stub
-		return false;
+	private boolean isCapture(Player currentPlayer, int stonesToMove, int currentPit) {
+		return stonesToMove == 0 && pits[currentPit] == 1 && pits[getOppositePit(currentPit)] > 0;
 	}
+
+	/**
+	 * 
+	 * @param currentPit
+	 * @return
+	 */
+	private int getOppositePit(int currentPit) {
+		return PitCount - currentPit - 2;
+	}
+
 
 
 	/**
@@ -165,7 +176,7 @@ public class MancalaModel {
 	 * @param pitIndex
 	 * @return Boolean
 	 */
-	private boolean isValidMove(int pitIndex) {
+	public boolean isValidMove(int pitIndex) {
 		return currentPlayer == Player.P1 && pitIndex < RightMancala && pits[pitIndex] > 0 || 
 				currentPlayer == Player.P2 && pitIndex > RightMancala && pits[pitIndex] > 0;
 	}
@@ -191,8 +202,8 @@ public class MancalaModel {
 	 * @param currentPlayer
 	 * @return
 	 */
-	private int getPlayerPitStartIndex(Player currentPlayer) {
-		if (currentPlayer == Player.P2) {
+	public static int getPlayerPitStartIndex(Player currentPlayer) {
+		if (currentPlayer == Player.P1) {
 			return 0;
 		} else {
 			return RightMancala + 1;
@@ -253,5 +264,41 @@ public class MancalaModel {
 		this.pits = pits;
 	}
 	
-	
+
+
+	/**
+	 * @return the pitcount
+	 */
+	public static int getPitcount() {
+		return PitCount;
+	}
+
+
+
+	/**
+	 * @return the leftmancala
+	 */
+	public static int getLeftmancala() {
+		return LeftMancala;
+	}
+
+
+
+	/**
+	 * @return the rightmancala
+	 */
+	public static int getRightmancala() {
+		return RightMancala;
+	}
+
+
+
+	/**
+	 * @return the initialstonecount
+	 */
+	public static int getInitialstonecount() {
+		return initialStoneCount;
+	}
+
+
 }
