@@ -301,7 +301,7 @@ public class BattleshipPlacePhase extends JFrame {
         explanationTextArea.setLineWrap(true);
         explanationTextArea.setWrapStyleWord(true);
         explanationTextArea.setFont(explanationTextArea.getFont().deriveFont(Font.BOLD, 14));
-        explanationTextArea.setText("Welcome to the 'Ship Placement' phase. This is where player 1 will select and place their ships. Use the 'rotate' button to rotate the placement of your ships. Select 'Done' once done placing all 5 ships to continue to the next phase.");
+        explanationTextArea.setText("Welcome to the 'Ship Placement' phase. This is where player 1 will select and place their ships. Use the 'rotate' button to rotate the placement of your ships. Select 'Done' once all 5 ships have been placed to continue to the shooting phase.");
         gameBoardPanel.add(explanationTextArea);
     }
     /**

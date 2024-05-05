@@ -139,7 +139,7 @@ public class BattleshipShootingPhase extends JFrame {
         explanationTextArea.setLineWrap(true);
         explanationTextArea.setWrapStyleWord(true);
         explanationTextArea.setFont(explanationTextArea.getFont().deriveFont(Font.BOLD, 14));
-        explanationTextArea.setText("Welcome to the shooting phase of Battleship. To start off, player 1 must select Coinflip and choose heads or tails. If player 1 guesses correctly, he will shoot first. Incorrect, and he will shoot second. Once that is done, you can select a cell on your board to 'Shoot at'. If it is a hit, it will be marked with an 'H' and red. If it is a miss, it will be marked with an 'M' and blue. This will continue until all pieces of the ships have sunk. Enjoy!");
+        explanationTextArea.setText("Welcome to the shooting phase of Battleship. To start off, you must select Coinflip. Coinflip is in charge of deciding who goes first. Heads will mean player 1 is first, tails will mean player 2 is first. Once that is done, the timer will start (if selected) and then you can select a cell on your board to 'Shoot at'. If it is a hit, it will be marked with an 'H' and red. If it is a miss, it will be marked with an 'M' and blue. This will continue until all pieces of the ships have sunk. 'Un-sunk' ships will reveal themselves once a winner is decided. Good luck and Enjoy!");
         startGamePanel.add(explanationTextArea);
     }
     /**
