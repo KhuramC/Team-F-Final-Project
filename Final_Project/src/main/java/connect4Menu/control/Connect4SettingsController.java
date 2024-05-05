@@ -6,6 +6,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -83,26 +84,27 @@ public class Connect4SettingsController implements MenuController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			parseForTimerTime();
-			
+			JTextField textField = (JTextField) e.getSource();
+			parseForTimerTime(textField.getText());	
 		}
-		public boolean parseForTimerTime(){
+		
+		public String parseForTimerTime(String timerTextFieldText){
 			try {
-				int timerTextFieldValue = Integer.parseInt(settingsView.getTimerTextFieldValue());
+				int timerTextFieldValue = Integer.parseInt(timerTextFieldText);
 				if (timerTextFieldValue > Connect4SettingsModel.maxTimerTime
 						|| timerTextFieldValue < Connect4SettingsModel.minTimerTime) {
 					throw new InvalidTimerTimeException(Connect4SettingsModel.minTimerTime, Connect4SettingsModel.maxTimerTime);
 				}
 				model.setTimerTime(timerTextFieldValue);
 				settingsView.changeErrorLabelText("");
-				return true;
+				
 			} catch (NumberFormatException exc) {
 				settingsView.changeErrorLabelText("Put in an integer!");
 			} catch (InvalidTimerTimeException exc) {
 				settingsView.changeErrorLabelText("Put in an integer from " + Integer.toString(Connect4SettingsModel.minTimerTime) 
 				+ " to " + Integer.toString(Connect4SettingsModel.maxTimerTime) + "s.");
 			}
-			return false;
+			return settingsView.getErrorLabelText();
 		}
 	}
 
