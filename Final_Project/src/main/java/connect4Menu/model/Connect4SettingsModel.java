@@ -127,6 +127,7 @@ public class Connect4SettingsModel extends Observable {
 		Player player = getPlayer(playerNum);
 		if(player!=null) {
 			player.setColor(color);
+			return true;
 		}
 		return false;
 	}
