@@ -16,6 +16,8 @@ import javax.swing.Timer;
 /**
  * The BattleshipGameModel class represents the model component of the Battleship game.
  * It manages the game board states, ship placement, and validation.
+ * 
+ * @author Roney
  */
 public class BattleshipGameModel {
     private String[][] player2GameBoardState;
@@ -33,6 +35,8 @@ public class BattleshipGameModel {
      *
      * @param numRows The number of rows in the game board.
      * @param numCols The number of columns in the game board.
+     * 
+     * @author Roney
      */
     public BattleshipGameModel(int numRows, int numCols) {
         player1GameBoardState = new String[numRows][numCols];
@@ -55,6 +59,8 @@ public class BattleshipGameModel {
      * Update player 1's game board state when a ship is placed.
      *
      * @param placedShips The set of points representing the locations of the placed ships.
+     * 
+     * @author Roney
      */
     public void updatePlayer1GameBoardState(Set<Point> placedShips) {
         for (Point shipLocation : placedShips) {
@@ -66,6 +72,8 @@ public class BattleshipGameModel {
 
     /**
      * Save "Player 1's Game Board State" if it has not been saved already.
+     * 
+     * @author Roney
      */
     public void savePlayer1GameBoardState() {
         if (!isPlayer1GameBoardStateSaved()) {
@@ -82,6 +90,8 @@ public class BattleshipGameModel {
      * Check if "Player 1's Game Board State" has already been saved.
      *
      * @return true if "Player 1's Game Board State" has been saved, false otherwise.
+     * 
+     * @author Roney
      */
     public boolean isPlayer1GameBoardStateSaved() {
         return player1GameBoardStateSaved;
@@ -89,6 +99,8 @@ public class BattleshipGameModel {
 
     /**
      * Print player 1's game board state to the console.
+     * 
+     * @author Roney
      */
     public void printPlayer1GameBoardState() {
         for (String[] row : player1GameBoardState) {
@@ -104,6 +116,8 @@ public class BattleshipGameModel {
      * Update player 2's game board state when a ship is placed.
      *
      * @param placedShips The set of points representing the locations of the placed ships.
+     * 
+     * @author Roney
      */
     public void updatePlayer2GameBoardState(Set<Point> placedShips) {
         for (Point shipLocation : placedShips) {
@@ -115,6 +129,8 @@ public class BattleshipGameModel {
 
     /**
      * Save "Player 2's Game Board State" if it has not been saved already.
+     * 
+     * @author Roney
      */
     public void savePlayer2GameBoardState() {
         if (!isPlayer2GameBoardStateSaved()) {
@@ -131,6 +147,8 @@ public class BattleshipGameModel {
      * Check if "Player 2's Game Board State" has already been saved.
      *
      * @return true if "Player 2's Game Board State" has been saved, false otherwise.
+     * 
+     * @author Roney
      */
     public boolean isPlayer2GameBoardStateSaved() {
         return player2GameBoardStateSaved;
@@ -138,6 +156,8 @@ public class BattleshipGameModel {
 
     /**
      * Print player 2's game board state to the console.
+     * 
+     * @author Roney
      */
     public void printPlayer2GameBoardState() {
         for (String[] row : player2GameBoardState) {
@@ -151,6 +171,8 @@ public class BattleshipGameModel {
 
     /**
      * Update the count of ships placed for player 1.
+     * 
+     * @author Roney
      */
     public void updateShipsPlacedCount() {
         shipsPlacedCount++;
@@ -160,6 +182,8 @@ public class BattleshipGameModel {
      * Get the count of ships placed for player 1.
      *
      * @return The count of ships placed for player 1.
+     * 
+     * @author Roney
      */
     public int getShipsPlacedCount() {
         return shipsPlacedCount;
@@ -167,6 +191,8 @@ public class BattleshipGameModel {
 
     /**
      * Update the count of ships placed for player 2.
+     * 
+     * @author Roney
      */
     public void updateShipsPlacedCountP2() {
         shipsPlacedCountP2++;
@@ -176,6 +202,8 @@ public class BattleshipGameModel {
      * Get the count of ships placed for player 2.
      *
      * @return The count of ships placed for player 2.
+     * 
+     * @author Roney
      */
     public int getShipsPlacedCountP2() {
         return shipsPlacedCountP2;
@@ -191,6 +219,8 @@ public class BattleshipGameModel {
      * @param numRows    The number of rows on the game board.
      * @param numCols    The number of columns on the game board.
      * @return true if the placement is valid, false otherwise.
+     * 
+     * @author Roney
      */
     public boolean isValidPlacement(int startRow, int startCol, int shipSize, boolean isVertical, int numRows, int numCols) {
         // Debugging print statements
@@ -227,6 +257,8 @@ public class BattleshipGameModel {
      * @param numRows    The number of rows on the game board.
      * @param numCols    The number of columns on the game board.
      * @return true if the placement is valid, false otherwise.
+     * 
+     * @author Roney
      */
     public boolean isValidPlacementP2(int startRow, int startCol, int shipSize, boolean isVertical, int numRows, int numCols) {
         // Debugging print statements
@@ -258,6 +290,8 @@ public class BattleshipGameModel {
      *
      * @param colorName The name of the color.
      * @return The corresponding Color object.
+     * 
+     * @author Roney
      */
     public Color mapColor(String colorName) {
         switch (colorName) {
@@ -280,6 +314,8 @@ public class BattleshipGameModel {
      * Get player 1's game board state.
      *
      * @return The 2D array representing player 1's game board state.
+     * 
+     * @author Roney
      */
     public String[][] getPlayer1GameBoardState() {
         return player1GameBoardState;
@@ -289,31 +325,11 @@ public class BattleshipGameModel {
      * Get player 2's game board state.
      *
      * @return The 2D array representing player 2's game board state.
+     * 
+     * @author Roney
      */
     public String[][] getPlayer2GameBoardState() {
         return player2GameBoardState;
     }
-    public void flipCoin() {
-        Random random = new Random();
-        int result = random.nextInt(2); // Generate a random number (0 or 1)
 
-        // Determine currentPlayer based on the result
-        if (result == 0) {
-            currentPlayer = 1; // Heads
-        } else {
-            currentPlayer = 2; // Tails
-        }
-
-        // Set initial turn time based on shootingTimer
-        if (shootingTimer.equals("No Timer")) {
-            initialTurnTimeInSeconds = 0; // No timer
-        } else if (shootingTimer.equals("30 sec")) {
-            initialTurnTimeInSeconds = 30; // 30 seconds
-        } else if (shootingTimer.equals("1 min")) {
-            initialTurnTimeInSeconds = 60; // 1 minute
-        }
-    }
-    public int getInitialTurnTimeInSeconds() {
-        return initialTurnTimeInSeconds;
-    }
 }

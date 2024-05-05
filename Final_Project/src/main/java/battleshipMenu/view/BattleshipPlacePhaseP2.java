@@ -20,6 +20,8 @@ import java.awt.*;
 /**
  * The view class responsible for the ship placement phase for player 2 of the Battleship game.
  * This class extends JFrame to create a graphical user interface.
+ * 
+ * @author Roney
  */
 public class BattleshipPlacePhaseP2 extends JFrame {
     
@@ -67,6 +69,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
      * @param P2shipColor Color for Player 2's ships.
      * @param shootingTimer Selected shooting timer option.
      * @param battleshipGameModel Reference to the BattleshipGameModel.
+     * 
+     * @author Roney
      */
     public BattleshipPlacePhaseP2(int numRows, int numCols, String shipSet, String[][] player1GameBoardState, Color player1ShipColor, Color player2ShipColor, String shootingTimer, BattleshipGameModel battleshipGameModel) {
        
@@ -101,6 +105,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
      * @param numCols  The number of columns in the game board.
      * @param shipSet  The selected ship set. Valid values are "Stealth", "Normal", and "Massive".
      *                 Determines the set of ships available for placement.
+     *                 
+     *                 @author Roney
      */
     private void initializeUI(int numRows, int numCols, String shipSet) {
     	initializeGameBoardPanel(numRows, numCols);
@@ -122,6 +128,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
          * ActionListener for the "Done" button. Performs actions when the button is clicked,
          * such as checking if all ships have been placed, prompting the user for confirmation,
          * and proceeding to the next phase of the game if conditions are met.
+         * 
+         * @author Roney
          */
         doneButton.addActionListener(new ActionListener() {
             @Override
@@ -158,6 +166,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
      * Adds an ActionListener to the shipComboBox. When an action (selection) is performed
      * on the shipComboBox, this listener gets the selected ship from the combo box.
      * If the selected ship is already placed, it removes it from the combo box options.
+     * 
+     * @author Roney
      */
     private void addShipComboBoxListener() {
         shipComboBox.addActionListener(new ActionListener() {
@@ -175,6 +185,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
     /**
      * ActionListener for the "Rotate" button. Toggles the orientation of the ship between vertical and horizontal
      * when the button is clicked. Updates the button text to reflect the current ship orientation.
+     * 
+     * @author Roney
      */
     private void addRotateButtonListener() {
     	 rotateButton.addActionListener(new ActionListener() {
@@ -200,6 +212,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
      * 
      * @param numRows The number of rows in the game board.
      * @param numCols The number of columns in the game board.
+     * 
+     * @author Roney
      */
     private void addMouseListenerToCellButtons(int numRows, int numCols) {
         for (int row = 0; row < numRows; row++) {
@@ -250,6 +264,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
      * 
      * @param numRows The number of rows in the game board.
      * @param numCols The number of columns in the game board.
+     * 
+     * @author Roney
      */
     private void initializeGameBoardPanel(int numRows, int numCols) {
         gameBoardPanel = new JPanel() {
@@ -263,6 +279,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
     }
     /**
      * Initializes the "Done" button and adds it to the game board panel.
+     * 
+     * @author Roney
      */
     private void initializeDoneButton() {
         doneButton = new JButton("Done");
@@ -273,6 +291,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
      * Initializes the explanation text area and adds it to the game board panel.
      * 
      * @param numRows The number of rows in the game board.
+     * 
+     * @author Roney
      */
     private void initializeExplanationTextArea(int numRows) {
         explanationTextArea = new JTextArea();
@@ -289,6 +309,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
      * 
      * @param numRows The number of rows in the game board.
      * @param numCols The number of columns in the game board.
+     * 
+     * @author Roney
      */
     private void initializePlayerLabel(int numRows, int numCols) {
         JLabel WhatPlayer = new JLabel("Player 1's Game Board");
@@ -301,6 +323,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
     }
     /**
      * Initializes the label indicating the ship selection and placement area.
+     * 
+     * @author Roney
      */
     private void initializePlaceLabel() {
         JLabel placeLabel = new JLabel("↓↓ Select & Place Ships ↓↓");
@@ -311,6 +335,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
      * Initializes the column labels (letters) for the game board.
      * 
      * @param numCols The number of columns in the game board.
+     * 
+     * @author Roney
      */
     private void initializeColumnLabels(int numCols) {
         int cellSize = 50; // Adjust size as needed
@@ -327,6 +353,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
      * Initializes the row labels (numbers) for the game board.
      * 
      * @param numRows The number of rows in the game board.
+     * 
+     * @author Roney
      */
     private void initializeRowLabels(int numRows) {
         int cellSize = 50; // Adjust size as needed
@@ -344,6 +372,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
      * 
      * @param numRows The number of rows in the game board.
      * @param numCols The number of columns in the game board.
+     * 
+     * @author Roney
      */
     private void initializeCellButtons(int numRows, int numCols) {
         int cellSize = 50; // Adjust size as needed
@@ -363,6 +393,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
     }
     /**
      * Initializes the button for rotating the ship orientation and adds it to the game board panel.
+     * 
+     * @author Roney
      */
     private void initializeRotateButton() {
         rotateButton = new JButton("Rotate Ship: Vertical");
@@ -373,6 +405,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
      * Initializes the ship combo box and adds it to the game board panel.
      * 
      * @param shipSet The set of available ship types.
+     * 
+     * @author Roney
      */
     private void initializeShipComboBox(String shipSet) {
         shipComboBox = new JComboBox<>();
@@ -383,6 +417,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
      * Adds ship buttons to the ship combo box based on the selected ship set.
      * 
      * @param shipSet The selected ship set. Can be "Stealth", "Normal", or "Massive".
+     * 
+     * @author Roney
      */
     private void addShipsToComboBox(String shipSet) {
         switch (shipSet) {
@@ -404,6 +440,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
      * Places ship buttons in the ship combo box based on the ship set.
      * 
      * @param shipSet The list of ship names in the selected ship set.
+     * 
+     * @author Roney
      */
     private void placeShipButtons(List<String> shipSet) {
         int x = 800; // Initial x position for ship buttons
@@ -418,6 +456,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
     /**
      * Updates player 2's game board state when a ship is placed.
      * Calls the corresponding method in BattleshipGameModel to update the game board state.
+     * 
+     * @author Roney
      */
     private void updatePlayer2GameBoardState() {
     	// Call the corresponding method in BattleshipGameModel to update the game board state
@@ -427,6 +467,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
      * Saves "Player 2's Game Board State" if it has not been saved already.
      * 
      * @return True if the state was saved successfully, false otherwise.
+     * 
+     * @author Roney
      */
     private void savePlayer2GameBoardState() {
     	if (!battleshipGameModel.isPlayer2GameBoardStateSaved()) {
@@ -439,18 +481,24 @@ public class BattleshipPlacePhaseP2 extends JFrame {
      * Checks if "Player 2's Game Board State" has already been saved.
      * 
      * @return True if the state has been saved, false otherwise.
+     * 
+     * @author Roney
      */
     private boolean isPlayer2GameBoardStateSaved() {
     	return battleshipGameModel.isPlayer2GameBoardStateSaved();
     }
     /**
      * Prints player 2's game board state.
+     * 
+     * @author Roney
      */
     private void printPlayer2GameBoardState() {
     	battleshipGameModel.printPlayer2GameBoardState();
     }
     /**
      * Updates the count of ships placed by player 2.
+     * 
+     * @author Roney
      */
     private void updateShipsPlacedCountP2() {
     	battleshipGameModel.updateShipsPlacedCountP2();
@@ -465,6 +513,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
      * @param numRows    The number of rows in the game board.
      * @param numCols    The number of columns in the game board.
      * @return True if the placement is valid, false otherwise.
+     * 
+     * @author Roney
      */
     private boolean isValidPlacementP2(int startRow, int startCol, int shipSize, boolean isVertical, int numRows, int numCols) {
     	return battleshipGameModel.isValidPlacementP2(startRow, startCol, shipSize, isVertical, numRows, numCols);
@@ -474,6 +524,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
      * 
      * @param colorName The name of the color.
      * @return The Color object corresponding to the color name.
+     * 
+     * @author Roney
      */
     private Color mapColor(String colorName) {
     	return battleshipGameModel.mapColor(colorName);
@@ -482,6 +534,8 @@ public class BattleshipPlacePhaseP2 extends JFrame {
      * Retrieves player 2's game board state.
      * 
      * @return A 2D array representing player 2's game board state.
+     * 
+     * @author Roney
      */
     public String[][] getPlayer2GameBoardState() {
     	return battleshipGameModel.getPlayer2GameBoardState();

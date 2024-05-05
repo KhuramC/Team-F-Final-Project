@@ -6,9 +6,17 @@ import battleshipMenu.model.ShipSet;
 
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Tests for the ShipSet class.
+ * 
+ * @author Roney
+ */
 public class ShipSetTest {
-    
+	/**
+     * Test the getShipList method.
+     * 
+     * @author Roney
+     */
     @Test
     public void testGetShipList() {
         List<String> stealth = ShipSet.getShipList("STEALTH");
@@ -35,7 +43,12 @@ public class ShipSetTest {
         assertEquals("Battleship (4x1)", massive.get(3));
         assertEquals("Submarine (3x1)", massive.get(4));
     }
-    
+    /**
+     * Test the getShip method.
+     * 
+     * @author Roney
+     */
+
     @Test
     public void testGetShip() {
         ShipSet.Ship cruiser = ShipSet.getShip("Cruiser (2x1)");

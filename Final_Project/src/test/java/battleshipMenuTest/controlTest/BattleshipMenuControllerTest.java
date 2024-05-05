@@ -32,6 +32,7 @@ public class BattleshipMenuControllerTest {
     /**
      * Tests the initiate method.
      *
+     *@author Roney
      */
     @Test
     public void testInitiate() {
@@ -43,6 +44,7 @@ public class BattleshipMenuControllerTest {
      * Tests the StartGameButtonListener subclass's actionPerformed method.
      * Verifies that the game settings are updated and the BattleshipPlacePhaseView is opened.
      * 
+     * @author Roney
      */
     @Test
     public void testStartGameButtonListenerActionPerformed() {

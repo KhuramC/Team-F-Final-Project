@@ -13,6 +13,8 @@ import java.util.Random;
 /**
  * Represents the GUI for the shooting phase of the Battleship game.
  * Extends JFrame to create the game window.
+ * 
+ * @author Roney
  */
 public class BattleshipShootingPhase extends JFrame {
 
@@ -31,6 +33,8 @@ public class BattleshipShootingPhase extends JFrame {
     private Timer turnTimer;
     private int remainingTimeInSeconds;
     
+    private JLabel player1Label;
+    private JLabel player2Label;
     private JLabel timerLabel;
     private JButton startGameButton;
     private JButton coinFlipButton;
@@ -58,17 +62,19 @@ public class BattleshipShootingPhase extends JFrame {
      * @param P2ShipColor          Color of Player 2's ships.
      * @param shootingTimer        Timer setting for shooting phase.
      * @param battleshipGameModel  Model containing game data and logic.
+     * 
+     * @author Roney
      */
     public BattleshipShootingPhase(int numRows, int numCols, String[][] player2GameBoardState, String[][] player1GameBoardState, Color P1ShipColor, Color P2ShipColor, String shootingTimer, BattleshipGameModel battleshipGameModel) {
         this.numRows = numRows;
         this.numCols = numCols;
-        currentPlayer = 0; // 0 for not determined yet
+        setCurrentPlayer(0); // 0 for not determined yet
         setTitle("Battleship - Shooting Phase");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1800, 1200);
 
         this.battleshipGameModel = battleshipGameModel;
-        this.shootingTimer = shootingTimer;
+        this.setShootingTimer(shootingTimer);
         this.Player1ShipColor = P1ShipColor;
         this.Player2ShipColor = P2ShipColor;
         
@@ -85,6 +91,8 @@ public class BattleshipShootingPhase extends JFrame {
      * 
      * @param numRows The number of rows in the game board.
      * @param numCols The number of columns in the game board.
+     * 
+     * @author Roney
      */
     private void initializeStartGamePanel(int numRows, int numCols) {
         initializePanelLayout(numRows, numCols);
@@ -100,8 +108,10 @@ public class BattleshipShootingPhase extends JFrame {
      * 
      * @param numRows The number of rows in the game board.
      * @param numCols The number of columns in the game board.
+     * 
+     * @author Roney
      */
-    private void initializePanelLayout(int numRows, int numCols) {
+    public void initializePanelLayout(int numRows, int numCols) {
         startGamePanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -116,8 +126,10 @@ public class BattleshipShootingPhase extends JFrame {
      * Initializes the explanation text area with the provided text and adds it to the start game panel.
      * 
      * @param numRows The number of rows in the game board.
+     * 
+     * @author Roney
      */
-    private void initializeExplanationTextArea(int numRows) {
+    public void initializeExplanationTextArea(int numRows) {
     	P1Board = new JButton[numRows][numCols];
     	P2Board = new JButton[numRows][numCols];
     	
@@ -134,8 +146,10 @@ public class BattleshipShootingPhase extends JFrame {
      * Initializes the timer label and adds it to the start game panel.
      * 
      * @param numRows The number of rows in the game board.
+     * 
+     * @author Roney
      */
-    private void initializeTimerLabel(int numRows) {
+    public void initializeTimerLabel(int numRows) {
         timerLabel = new JLabel("Remaining Time: ");
         timerLabel.setBounds(150, numRows * 50 + 200, 200, 30);
         startGamePanel.add(timerLabel);
@@ -145,10 +159,12 @@ public class BattleshipShootingPhase extends JFrame {
      * 
      * @param numRows The number of rows in the game board.
      * @param numCols The number of columns in the game board.
+     * 
+     * @author Roney
      */
-    private void initializePlayerLabels(int numRows, int numCols) {
+    public void initializePlayerLabels(int numRows, int numCols) {
         // Player 1 label
-        JLabel player1Label = new JLabel("Player 1's Shooting Board");
+        player1Label = new JLabel("Player 1's Shooting Board");
         int labelWidth = 300;
         int labelHeight = 30;
         int labelX = (numCols * 50 ) / 2;
@@ -157,7 +173,7 @@ public class BattleshipShootingPhase extends JFrame {
         startGamePanel.add(player1Label);
 
         // Player 2 label
-        JLabel player2Label = new JLabel("Player 2's Shooting Board");
+        player2Label = new JLabel("Player 2's Shooting Board");
         int labelWidth2 = 300;
         int labelHeight2 = 30;
         int labelX2 = ((numCols * 50) / 2) + 850;
@@ -170,8 +186,10 @@ public class BattleshipShootingPhase extends JFrame {
      * 
      * @param numRows The number of rows in the game board.
      * @param numCols The number of columns in the game board.
+     * 
+     * @author Roney
      */
-    private void initializePlayerBoards(int numRows, int numCols) {
+    public void initializePlayerBoards(int numRows, int numCols) {
         initializePlayerBoard(P1Board, 50, 50, numRows, numCols, battleshipGameModel.getPlayer2GameBoardState(), 1);
         initializePlayerBoard(P2Board, 900, 50, numRows, numCols, battleshipGameModel.getPlayer1GameBoardState(), 2);
     }
@@ -185,8 +203,10 @@ public class BattleshipShootingPhase extends JFrame {
      * @param numCols The number of columns in the game board.
      * @param targetGameBoardState The game board state to associate with the player board.
      * @param player The player number associated with the board.
+     * 
+     * @author Roney
      */
-    private void initializePlayerBoard(JButton[][] board, int startX, int startY, int numRows, int numCols, String[][] targetGameBoardState, int player) {
+    public void initializePlayerBoard(JButton[][] board, int startX, int startY, int numRows, int numCols, String[][] targetGameBoardState, int player) {
         int cellSize = 50;
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
@@ -199,7 +219,7 @@ public class BattleshipShootingPhase extends JFrame {
                 cellButton.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        if (currentPlayer == player) {
+                        if (getCurrentPlayer() == player) {
                             shootCell(cellButton, currentRow, currentCol, targetGameBoardState);
                         }
                     }
@@ -211,8 +231,10 @@ public class BattleshipShootingPhase extends JFrame {
     }
     /**
      * Initializes the coinflip button and adds it to the start game panel.
+     * 
+     * @author Roney
      */
-    private void initializeCoinFlipButton() {
+    public void initializeCoinFlipButton() {
         coinFlipButton = new JButton("Coinflip");
         coinFlipButton.setBounds(50, numRows * 50 + 250, 100, 30);
         coinFlipButton.addActionListener(e -> coinFlipButtonClicked());
@@ -222,30 +244,32 @@ public class BattleshipShootingPhase extends JFrame {
      * Handles the event when the coin flip button is clicked.
      * Flips a coin to determine the starting player, displays the result, sets the initial turn time based on the shooting timer,
      * and starts the turn timer.
+     * 
+     * @author Roney
      */
-    private void coinFlipButtonClicked() {
+    public void coinFlipButtonClicked() {
         Random random = new Random();
         int result = random.nextInt(2); // Generate a random number (0 or 1)
 
         // Determine currentPlayer based on the result
         if (result == 0) {
-            currentPlayer = 1; // Heads
+            setCurrentPlayer(1); // Heads
             JOptionPane.showMessageDialog(null, "You got heads. Player 1 goes first.");
         } else {
-            currentPlayer = 2; // Tails
+            setCurrentPlayer(2); // Tails
             JOptionPane.showMessageDialog(null, "You got tails. Player 2 goes first.");
         }
      // Set initial turn time based on shootingTimer
-        if (shootingTimer.equals("No Timer")) {
-            initialTurnTimeInSeconds = 0; // No timer
-        } else if (shootingTimer.equals("30 sec")) {
-            initialTurnTimeInSeconds = 30; // 30 seconds
-        } else if (shootingTimer.equals("1 min")) {
-            initialTurnTimeInSeconds = 60; // 1 minute
+        if (getShootingTimer().equals("No Timer")) {
+            setInitialTurnTimeInSeconds(0); // No timer
+        } else if (getShootingTimer().equals("30 sec")) {
+            setInitialTurnTimeInSeconds(30); // 30 seconds
+        } else if (getShootingTimer().equals("1 min")) {
+            setInitialTurnTimeInSeconds(60); // 1 minute
         }
 
         // Start the turn timer
-        startTurnTimer(initialTurnTimeInSeconds);
+        startTurnTimer(getInitialTurnTimeInSeconds());
     }
     /**
      * Handles shooting a cell on the game board and updates the game state accordingly.
@@ -253,8 +277,10 @@ public class BattleshipShootingPhase extends JFrame {
      * @param row The row index of the cell to be shot.
      * @param col The column index of the cell to be shot.
      * @param targetGameBoardState The 2D array representing the target player's game board state.
+     * 
+     * @author Roney
      */
-    private void shootCell(JButton cellButton, int row, int col, String[][] targetGameBoardState) {
+    public void shootCell(JButton cellButton, int row, int col, String[][] targetGameBoardState) {
         if (!targetGameBoardState[row][col].equals("H") && !targetGameBoardState[row][col].equals("M")) {
             int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to shoot here?", "Confirm Shot", JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION) {
@@ -273,8 +299,8 @@ public class BattleshipShootingPhase extends JFrame {
                 // Check game state
                 checkGameState();
                 // Switch player turn
-                currentPlayer = (currentPlayer == 1) ? 2 : 1;
-                JOptionPane.showMessageDialog(null, "Player " + currentPlayer + "'s turn");
+                setCurrentPlayer((getCurrentPlayer() == 1) ? 2 : 1);
+                JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer() + "'s turn");
                 restartTurnTimer();
             }
         } else {
@@ -283,8 +309,10 @@ public class BattleshipShootingPhase extends JFrame {
     }
     /**
      * Checks the game state to determine if any player has won.
+     * 
+     * @author Roney
      */
-    private void checkGameState() {
+    public void checkGameState() {
         // Check if all ships of any player have been sunk
         boolean allShipsSunkP1 = allShipsSunk(battleshipGameModel.getPlayer2GameBoardState());
         boolean allShipsSunkP2 = allShipsSunk(battleshipGameModel.getPlayer1GameBoardState());
@@ -301,8 +329,10 @@ public class BattleshipShootingPhase extends JFrame {
      * Checks if all ships on the game board have been sunk.
      * @param gameBoardState The 2D array representing the game board state.
      * @return true if all ships are sunk, false otherwise.
+     * 
+     * @author Roney
      */
-    private boolean allShipsSunk(String[][] gameBoardState) {
+    public boolean allShipsSunk(String[][] gameBoardState) {
         // Check if all ships have been sunk
         for (String[] row : gameBoardState) {
             for (String cell : row) {
@@ -315,8 +345,10 @@ public class BattleshipShootingPhase extends JFrame {
     }
     /**
      * Disables all buttons on the game boards after end game and reveals non-hit ship locations for the loser.
+     * 
+     * @author Roney
      */
-    private void disableAllButtons() {
+    public void disableAllButtons() {
     	
     	// Determine which player has lost
         boolean player1Lost = allShipsSunk(battleshipGameModel.getPlayer2GameBoardState());
@@ -344,56 +376,225 @@ public class BattleshipShootingPhase extends JFrame {
     /**
      * Starts the turn timer with the specified duration in seconds.
      * @param seconds The duration of the turn timer in seconds.
+     * 
+     * @author Roney
      */
-    private void startTurnTimer(int seconds) {
-        remainingTimeInSeconds = seconds;
-        if (remainingTimeInSeconds > 0) {
-            turnTimer = new Timer(1000, new ActionListener() {
+    public void startTurnTimer(int seconds) {
+        setRemainingTimeInSeconds(seconds);
+        if (getRemainingTimeInSeconds() > 0) {
+            setTurnTimer(new Timer(1000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    remainingTimeInSeconds--;
-                    timerLabel.setText("Remaining Time: " + remainingTimeInSeconds + " sec");
-                    if (remainingTimeInSeconds <= 0) {
+                    setRemainingTimeInSeconds(getRemainingTimeInSeconds() - 1);
+                    timerLabel.setText("Remaining Time: " + getRemainingTimeInSeconds() + " sec");
+                    if (getRemainingTimeInSeconds() <= 0) {
                         endTurn();
                     }
                 }
-            });
-            turnTimer.start();
+            }));
+            getTurnTimer().start();
         } else {
         }
     }
     /**
      * Restarts the turn timer with the initial turn time.
+     * 
+     * @author Roney
      */
-    private void restartTurnTimer() {
+    public void restartTurnTimer() {
         stopTurnTimer();
-        startTurnTimer(initialTurnTimeInSeconds);
+        startTurnTimer(getInitialTurnTimeInSeconds());
     }
     /**
      * Stops the turn timer.
+     * 
+     * @author Roney
      */
-    private void stopTurnTimer() {
-        if (turnTimer != null && turnTimer.isRunning()) {
-            turnTimer.stop();
+    public void stopTurnTimer() {
+        if (getTurnTimer() != null && getTurnTimer().isRunning()) {
+            getTurnTimer().stop();
         }
     }
     /**
      * Ends the current player's turn and switches to the next player.
      * Restarts the timer for the next player if applicable.
+     * 
+     * @author Roney
      */
-    private void endTurn() {
+    public void endTurn() {
 
         // Switch player turn
-        currentPlayer = (currentPlayer == 1) ? 2 : 1;
-        JOptionPane.showMessageDialog(null, "Player " + currentPlayer + "'s turn");
+        setCurrentPlayer((getCurrentPlayer() == 1) ? 2 : 1);
+        JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer() + "'s turn");
 
         // Restart timer for the next player
-        if (shootingTimer.equals("30 sec")) {
+        if (getShootingTimer().equals("30 sec")) {
             startTurnTimer(30);
-        } else if (shootingTimer.equals("1 min")) {
+        } else if (getShootingTimer().equals("1 min")) {
             startTurnTimer(60);
         } else {
             // No timer option, do nothing
         }
+    }
+    /**
+     * Gets the initial turn time in seconds.
+     * @return The initial turn time in seconds.
+     * @author Roney
+     */
+    public int getInitialTurnTimeInSeconds() {
+        return initialTurnTimeInSeconds;
+    }
+
+    /**
+     * Sets the initial turn time in seconds.
+     * @param initialTurnTimeInSeconds The initial turn time in seconds to be set.
+     * @author Roney
+     */
+    public void setInitialTurnTimeInSeconds(int initialTurnTimeInSeconds) {
+        this.initialTurnTimeInSeconds = initialTurnTimeInSeconds;
+    }
+
+    /**
+     * Gets the turn timer.
+     * @return The turn timer.
+     * @author Roney
+     */
+    public Timer getTurnTimer() {
+        return turnTimer;
+    }
+
+    /**
+     * Sets the turn timer.
+     * @param turnTimer The turn timer to be set.
+     * @author Roney
+     */
+    public void setTurnTimer(Timer turnTimer) {
+        this.turnTimer = turnTimer;
+    }
+
+    /**
+     * Gets the shooting timer.
+     * @return The shooting timer.
+     * @author Roney
+     */
+    public String getShootingTimer() {
+        return shootingTimer;
+    }
+
+    /**
+     * Sets the shooting timer.
+     * @param shootingTimer The shooting timer to be set.
+     * @author Roney
+     */
+    public void setShootingTimer(String shootingTimer) {
+        this.shootingTimer = shootingTimer;
+    }
+
+    /**
+     * Gets the remaining time in seconds.
+     * @return The remaining time in seconds.
+     * @author Roney
+     */
+    public int getRemainingTimeInSeconds() {
+        return remainingTimeInSeconds;
+    }
+
+    /**
+     * Sets the remaining time in seconds.
+     * @param remainingTimeInSeconds The remaining time in seconds to be set.
+     * @author Roney
+     */
+    public void setRemainingTimeInSeconds(int remainingTimeInSeconds) {
+        this.remainingTimeInSeconds = remainingTimeInSeconds;
+    }
+
+    /**
+     * Gets the current player.
+     * @return The current player.
+     * @author Roney
+     */
+    public int getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    /**
+     * Sets the current player.
+     * @param currentPlayer The current player to be set.
+     * @author Roney
+     */
+    public void setCurrentPlayer(int currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    /**
+     * Gets the start game panel.
+     * @return The start game panel. 
+     * @author Roney
+     */
+    public JPanel getStartGamePanel() {
+        return startGamePanel; 
+    }
+
+    /**
+     * Gets the label for player 1.
+     * @return The label for player 1. 
+     * @author Roney
+     */
+    public JLabel getPlayer1Label() {
+        return player1Label;
+    }
+
+    /**
+     * Gets the label for player 2.
+     * @return The label for player 2. 
+     * @author Roney
+     */
+    public JLabel getPlayer2Label() {
+        return player2Label;
+    }
+
+    /**
+     * Gets the timer label.
+     * @return The timer label. 
+     * @author Roney
+     */
+    public JLabel getTimerLabel() {
+        return timerLabel;
+    }
+
+    /**
+     * Gets the explanation text area.
+     * @return The explanation text area. 
+     * @author Roney
+     */
+    public JTextArea getExplanationTextArea() {
+        return explanationTextArea;
+    }
+
+    /**
+     * Gets the board for player 1.
+     * @return The board for player 1. 
+     * @author Roney
+     */
+    public JButton[][] getP1Board() {
+        return P1Board;
+    }
+
+    /**
+     * Gets the board for player 2.
+     * @return The board for player 2. 
+     * @author Roney
+     */
+    public JButton[][] getP2Board() {
+        return P2Board;
+    }
+
+    /**
+     * Gets the coin flip button.
+     * @return The coin flip button. 
+     * @author Roney
+     */
+    public JButton getCoinFlipButton() {
+        return coinFlipButton;
     }
 }

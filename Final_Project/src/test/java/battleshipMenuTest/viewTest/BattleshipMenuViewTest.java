@@ -2,7 +2,8 @@ package battleshipMenuTest.viewTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 import battleshipMenu.control.BattleshipMenuController;
@@ -30,7 +31,7 @@ public class BattleshipMenuViewTest {
     /**
      * Tests the addStartGameButtonListener method.
      * 
-     * @see BattleshipMenuView#addStartGameButtonListener(ActionListener)
+     * @author Roney
      */
     @Test
     public void testAddStartGameButtonListener() {
@@ -44,7 +45,7 @@ public class BattleshipMenuViewTest {
     /**
      * Tests the getPlayer1Color method.
      * 
-     * @see BattleshipMenuView#getPlayer1Color()
+     * @author Roney
      */
     @Test
     public void testGetPlayer1Color() {
@@ -61,7 +62,7 @@ public class BattleshipMenuViewTest {
     /**
      * Tests the getPlayer2Color method.
      * 
-     * @see BattleshipMenuView#getPlayer2Color()
+     * @author Roney
      */
     @Test
     public void testGetPlayer2Color() {
@@ -76,7 +77,7 @@ public class BattleshipMenuViewTest {
     /**
      * Tests the getSelectedBoardSize method.
      * 
-     * @see BattleshipMenuView#getSelectedBoardSize()
+     * @author Roney
      */
     @Test
     public void testGetSelectedBoardSize() {
@@ -91,7 +92,7 @@ public class BattleshipMenuViewTest {
     /**
      * Tests the getSelectedTimer method.
      * 
-     * @see BattleshipMenuView#getSelectedTimer()
+     * @author Roney
      */
     @Test
     public void testGetSelectedTimer() {
@@ -106,7 +107,7 @@ public class BattleshipMenuViewTest {
     /**
      * Tests the getSelectedShipSet method.
      * 
-     * @see BattleshipMenuView#getSelectedShipSet()
+     * @author Roney
      */
     @Test
     public void testGetSelectedShipSet() {

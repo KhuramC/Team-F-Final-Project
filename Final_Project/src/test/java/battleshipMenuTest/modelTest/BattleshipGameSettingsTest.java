@@ -12,6 +12,8 @@ public class BattleshipGameSettingsTest {
 
     /**
      * Tests the getPlayer1ShipColor method.
+     * 
+     * @author Roney
      */
     @Test
     public void testGetPlayer1ShipColor() {
@@ -28,6 +30,8 @@ public class BattleshipGameSettingsTest {
 
     /**
      * Tests the getPlayer2ShipColor method.
+     * 
+     * @author Roney
      */
     @Test
     public void testGetPlayer2ShipColor() {
@@ -44,6 +48,8 @@ public class BattleshipGameSettingsTest {
 
     /**
      * Tests the getMapSize method.
+     * 
+     * @author Roney
      */
     @Test
     public void testGetMapSize() {
@@ -60,6 +66,8 @@ public class BattleshipGameSettingsTest {
 
     /**
      * Tests the getShipSet method.
+     * 
+     * @author Roney
      */
     @Test
     public void testGetShipSet() {
@@ -76,6 +84,8 @@ public class BattleshipGameSettingsTest {
 
     /**
      * Tests the getShootingTimer method.
+     * 
+     * @author Roney
      */
     @Test
     public void testGetShootingTimer() {

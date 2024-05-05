@@ -7,13 +7,22 @@ import battleshipMenu.view.BattleshipPlacePhase;
 import battleshipMenu.model.BattleshipGameModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * Controller class for the Battleship menu.
+ * @author Roney
+ */
 public class BattleshipMenuController {
 
     private BattleshipMenuModel model;
     private BattleshipMenuView view;
     private BattleshipGameModel gameModel;
-    
+    /**
+     * Constructor for the BattleshipMenuController.
+     * @param model The BattleshipMenuModel.
+     * @param view The BattleshipMenuView.
+     * 
+     * @author Roney
+     */
     public BattleshipMenuController(BattleshipMenuModel model, BattleshipMenuView view) {
         this.model = model;
         this.view = view;
@@ -21,12 +30,20 @@ public class BattleshipMenuController {
         // Add action listener to the start game button
         view.addStartGameButtonListener(new StartGameButtonListener());
     }
-
+    /**
+     * Initiates the Battleship menu view.
+     * 
+     * @author Roney
+     */
     public void initiate() {
         view.setVisible(true);
     }
 
-    // Inner class to handle start game button click
+    /**
+     * ActionListener for the start game button.
+     * 
+     * @author Roney
+     */
     public class StartGameButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

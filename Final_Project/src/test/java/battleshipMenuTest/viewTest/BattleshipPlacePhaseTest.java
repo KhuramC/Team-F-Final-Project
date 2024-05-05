@@ -28,6 +28,8 @@ public class BattleshipPlacePhaseTest {
 
     /**
      * Tests the initialization of the game board panel.
+     * 
+     * @author Roney
      */
     @Test
     public void testInitializeGameBoardPanel() {
@@ -36,6 +38,8 @@ public class BattleshipPlacePhaseTest {
 
     /**
      * Tests the initialization of the "Done" button.
+     * 
+     * @author Roney
      */
     @Test
     public void testInitializeDoneButton() {
@@ -44,6 +48,8 @@ public class BattleshipPlacePhaseTest {
 
     /**
      * Tests the initialization of the explanation text area.
+     * 
+     * @author Roney
      */
     @Test
     public void testInitializeExplanationTextArea() {
@@ -52,6 +58,8 @@ public class BattleshipPlacePhaseTest {
 
     /**
      * Tests the initialization of the player label.
+     * 
+     * @author Roney
      */
     @Test
     public void testInitializePlayerLabel() {
@@ -60,6 +68,8 @@ public class BattleshipPlacePhaseTest {
 
     /**
      * Tests the initialization of the place label.
+     * 
+     * @author Roney
      */
     @Test
     public void testInitializePlaceLabel() {
@@ -68,6 +78,8 @@ public class BattleshipPlacePhaseTest {
 
     /**
      * Tests the initialization of the column labels.
+     * 
+     * @author Roney
      */
     @Test
     public void testInitializeColumnLabels() {
@@ -77,6 +89,8 @@ public class BattleshipPlacePhaseTest {
 
     /**
      * Tests the initialization of the row labels.
+     * 
+     * @author Roney
      */
     @Test
     public void testInitializeRowLabels() {
@@ -86,6 +100,8 @@ public class BattleshipPlacePhaseTest {
 
     /**
      * Tests the initialization of the cell buttons.
+     * 
+     * @author Roney
      */
     @Test
     public void testInitializeCellButtons() {
@@ -96,6 +112,8 @@ public class BattleshipPlacePhaseTest {
 
     /**
      * Tests the initialization of the rotate button.
+     * 
+     * @author Roney
      */
     @Test
     public void testInitializeRotateButton() {
@@ -104,6 +122,8 @@ public class BattleshipPlacePhaseTest {
 
     /**
      * Tests the initialization of the ship combo box.
+     * 
+     * @author Roney
      */
     @Test
     public void testInitializeShipComboBox() {
@@ -112,6 +132,8 @@ public class BattleshipPlacePhaseTest {
 
     /**
      * Tests the addition of ships to the combo box.
+     * 
+     * @author Roney
      */
     @Test
     public void testAddShipsToComboBox() {
@@ -120,6 +142,8 @@ public class BattleshipPlacePhaseTest {
 
     /**
      * Tests the mapping of color names to Color objects.
+     * 
+     * @author Roney
      */
     @Test
     public void testMapColor() {

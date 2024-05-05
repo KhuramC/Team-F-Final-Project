@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import battleshipMenu.model.BattleshipGameModel;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,7 +29,9 @@ class BattleshipGameModelTest {
 
     /**
      * Tests the updatePlayer1GameBoardState method. erifying that it correctly updates player 1's game board state
- * with the provided ship placements.
+     * with the provided ship placements.
+     * 
+     * @author Roney
      */
     @Test
     void testUpdatePlayer1GameBoardState() {
@@ -39,7 +42,11 @@ class BattleshipGameModelTest {
         assertEquals("O", gameModel.getPlayer1GameBoardState()[0][0]);
         assertEquals("O", gameModel.getPlayer1GameBoardState()[1][1]);
     }
- // Test case for savePlayer1GameBoardState()
+    /**
+     * Test case for savePlayer1GameBoardState().
+     * 
+     * @author Roney
+     */
     @Test
     public void testSavePlayer1GameBoardState() {
         BattleshipGameModel gameModel = new BattleshipGameModel(10, 10);
@@ -47,14 +54,22 @@ class BattleshipGameModelTest {
         assertTrue(gameModel.isPlayer1GameBoardStateSaved());
     }
 
-    // Test case for isPlayer1GameBoardStateSaved() when not saved
+    /**
+     * Test case for isPlayer1GameBoardStateSaved() when not saved.
+     * 
+     * @author Roney
+     */
     @Test
     public void testIsPlayer1GameBoardStateSaved_NotSaved() {
         BattleshipGameModel gameModel = new BattleshipGameModel(10, 10);
         assertFalse(gameModel.isPlayer1GameBoardStateSaved());
     }
 
-    // Test case for isPlayer1GameBoardStateSaved() when saved
+    /**
+     * Test case for isPlayer1GameBoardStateSaved() when saved.
+     * 
+     * @author Roney
+     */
     @Test
     public void testIsPlayer1GameBoardStateSaved_Saved() {
         BattleshipGameModel gameModel = new BattleshipGameModel(10, 10);
@@ -63,6 +78,8 @@ class BattleshipGameModelTest {
     }
     /**
      * Tests the updatePlayer2GameBoardState method.
+     * 
+     * @author Roney
      */
     @Test
     void testUpdatePlayer2GameBoardState() {
@@ -73,7 +90,11 @@ class BattleshipGameModelTest {
         assertEquals("O", gameModel.getPlayer2GameBoardState()[3][4]);
         assertEquals("O", gameModel.getPlayer2GameBoardState()[5][6]);
     }
- // Test case for savePlayer1GameBoardState()
+    /**
+     * Test case for savePlayer2GameBoardState().
+     * 
+     * @author Roney
+     */
     @Test
     public void testSavePlayer2GameBoardState() {
         BattleshipGameModel gameModel = new BattleshipGameModel(10, 10);
@@ -81,22 +102,32 @@ class BattleshipGameModelTest {
         assertTrue(gameModel.isPlayer2GameBoardStateSaved());
     }
 
-    // Test case for isPlayer1GameBoardStateSaved() when not saved
+    /**
+     * Test case for isPlayer2GameBoardStateSaved() when not saved.
+     * 
+     * @author Roney
+     */
     @Test
     public void testIsPlayer2GameBoardStateSaved_NotSaved() {
         BattleshipGameModel gameModel = new BattleshipGameModel(10, 10);
         assertFalse(gameModel.isPlayer2GameBoardStateSaved());
     }
 
-    // Test case for isPlayer1GameBoardStateSaved() when saved
+    /**
+     * Test case for isPlayer2GameBoardStateSaved() when saved.
+     * 
+     * @author Roney
+     */
     @Test
     public void testIsPlayer2GameBoardStateSaved_Saved() {
         BattleshipGameModel gameModel = new BattleshipGameModel(10, 10);
-        gameModel.savePlayer1GameBoardState();
+        gameModel.savePlayer2GameBoardState();
         assertTrue(gameModel.isPlayer2GameBoardStateSaved());
     }
     /**
      * Tests the updateShipsPlacedCount method.
+     * 
+     * @author Roney
      */
     @Test
     public void testUpdateShipsPlacedCount() {
@@ -114,6 +145,8 @@ class BattleshipGameModelTest {
 
     /**
      * Tests the getShipsPlacedCount method.
+     * 
+     * @author Roney
      */
     @Test
     public void testGetShipsPlacedCount() {
@@ -125,6 +158,8 @@ class BattleshipGameModelTest {
 
     /**
      * Tests the updateShipsPlacedCountP2 method.
+     * 
+     * @author Roney
      */
     @Test
     public void testUpdateShipsPlacedCountP2() {
@@ -142,6 +177,8 @@ class BattleshipGameModelTest {
 
     /**
      * Tests the getShipsPlacedCountP2 method.
+     * 
+     * @author Roney
      */
     @Test
     public void testGetShipsPlacedCountP2() {
@@ -152,6 +189,8 @@ class BattleshipGameModelTest {
     }
     /**
      * Tests the isValidPlacement method.
+     * 
+     * @author Roney
      */
     @Test
     void testIsValidPlacement() {
@@ -163,6 +202,8 @@ class BattleshipGameModelTest {
 
     /**
      * Tests the isValidPlacementP2 method.
+     * 
+     * @author Roney
      */
     @Test
     void testIsValidPlacementP2() {
@@ -174,18 +215,22 @@ class BattleshipGameModelTest {
 
     /**
      * Tests the mapColor method.
+     * 
+     * @author Roney
      */
     @Test
     void testMapColor() {
-        assertEquals("GREEN", gameModel.mapColor("Green").toString());
-        assertEquals("YELLOW", gameModel.mapColor("Yellow").toString());
-        assertEquals("java.awt.Color[r=128,g=0,b=128]", gameModel.mapColor("Purple").toString());
-        assertEquals("ORANGE", gameModel.mapColor("Orange").toString());
-        assertEquals("GRAY", gameModel.mapColor("Gray").toString());
-        assertEquals("java.awt.Color[r=255,g=255,b=255]", gameModel.mapColor("Invalid").toString());
+    	assertEquals(Color.GREEN, gameModel.mapColor("Green"));
+        assertEquals(Color.YELLOW, gameModel.mapColor("Yellow"));
+        assertEquals(new Color(128, 0, 128), gameModel.mapColor("Purple"));
+        assertEquals(Color.ORANGE, gameModel.mapColor("Orange"));
+        assertEquals(Color.GRAY, gameModel.mapColor("Gray"));
+        assertEquals(Color.WHITE, gameModel.mapColor("Invalid"));
     };
     /**
      * Tests the getPlayer1GameBoardState method.
+     * 
+     * @author Roney
      */
     @Test
     public void testGetPlayer1GameBoardState() {
@@ -210,6 +255,8 @@ class BattleshipGameModelTest {
 
     /**
      * Tests the getPlayer2GameBoardState method.
+     * 
+     * @author Roney
      */
     @Test
     public void testGetPlayer2GameBoardState() {

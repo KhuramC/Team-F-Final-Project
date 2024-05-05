@@ -7,7 +7,11 @@ import battleshipMenu.model.ShipColor;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ShipColorTest {
-    
+	/**
+     * Tests the enum values of ShipColor.
+     * 
+     * @author Roney
+     */
     @Test
     public void testEnumValues() {
         assertEquals(5, ShipColor.values().length);
