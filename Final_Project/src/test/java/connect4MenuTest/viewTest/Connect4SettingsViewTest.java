@@ -58,6 +58,15 @@ class Connect4SettingsViewTest extends Connect4SettingsView{
 	}
 	
 	/**
+	 * Tests the getErrorLabelText method. The default value is an empty string, so that is what we expect.
+	 * @author Khuram C.
+	 */
+	@Test
+	void testGetErrorLabelText() {
+		String expected = "";
+		assertEquals(expected, view.getErrorLabelText());
+	}
+	/**
 	 * Tests the branch of the update method in which a boolean is passed. The error label's visibility is directly tied to it
 	 * so we should be able to test based on that. This requires inheriting from the Connect4SettingsView to get access to it.
 	 * @param expected visibility of errorLabel.

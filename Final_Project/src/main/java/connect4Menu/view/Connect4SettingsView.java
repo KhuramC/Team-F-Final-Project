@@ -425,6 +425,15 @@ public class Connect4SettingsView extends JFrame implements Observer {
 	public void changeErrorLabelText(String text) {
 		errorLabel.setText(text);
 	}
+	
+	/**
+	 * Returns the text held in the errorLabel.
+	 * @return String in errorLabel.
+	 * @author Khuram C.
+	 */
+	public String getErrorLabelText() {
+		return errorLabel.getText();
+	}
 
 	/**
 	 * Update method for when the timer is toggled, or whenever the time set for the timer has been changed.
