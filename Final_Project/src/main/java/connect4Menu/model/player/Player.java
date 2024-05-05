@@ -2,14 +2,8 @@ package connect4Menu.model.player;
 
 public class Player {
 
-	@Override
-	public String toString() {
-		return "Player [name=" + name + ", color=" + color + "]";
-	}
-
 	private String name;
 	private IPlayerColors color;
-	private boolean isWinner = false;
 	private boolean isTurn = false;
 	private int playerNum;
 
@@ -31,10 +25,6 @@ public class Player {
 		this.color = color;
 	}
 
-	public void setWinner() {
-		isWinner = true;
-	}
-
 	public boolean isTurn() {
 		return isTurn;
 	}
@@ -45,6 +35,24 @@ public class Player {
 
 	public int getPlayerNum() {
 		return playerNum;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o == null) {
+			return false;
+		}
+		Player p = (Player) o;
+		if(p == this) {
+			return true;
+		}
+		
+		if(p.name.equals(name) && p.getColor() == color && p.isTurn() == isTurn 
+				&& p.playerNum == playerNum ) {
+			return true;
+		}
+		return false;
+		
 	}
 
 }

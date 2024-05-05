@@ -17,6 +17,11 @@ public interface IPlayerColors {
 	 */
 	public int getAllowedPlayer();
 
+	/**
+	 * Returns the filePath associated with the color.
+	 * @return string representing color
+	 * @author Khuram C.
+	 */
 	public String getFilePath();
 
 }
