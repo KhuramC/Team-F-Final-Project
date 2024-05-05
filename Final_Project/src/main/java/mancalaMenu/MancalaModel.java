@@ -37,12 +37,11 @@ public class MancalaModel {
         // Initialize the pits with the specified number of stones
         pits = new int[PitCount]; // 12 pits (6 per player) + 2 stores (mancalas)
         for (int i = 0; i < PitCount; i++) {
-        	if (i != LeftMancala || i != RightMancala) {
-				pits[i] = initialStoneCount;
-			}else {
+        	if (i == LeftMancala || i == RightMancala) {
 				pits[i] = 0;
+        		continue;
 			}
-        	
+        	pits[i] = initialStoneCount;
         }
         this.setGameState(STATE.STARTED);
         currentPlayer = Player.P1; // Player 1 starts
@@ -68,7 +67,10 @@ public class MancalaModel {
 	    int currentPit = distributeStones(stonesToMove, getNextPit(pitIndex));
 	        
 	    // Check for capture.
-	    if (isCapture(currentPlayer, stonesToMove, currentPit)) {
+	    if (isCapture(currentPlayer, currentPit)) {
+	    	System.out.println("BRUHODUIFJIE");
+
+	    	pits[getOppositePit(currentPit)] = 0;
 	    	moveStones(currentPit);
 	    }
 		
@@ -77,7 +79,7 @@ public class MancalaModel {
 			collectRemainingStones();
 			gameState = STATE.COMPLETE;
 		} else { // Switch turns if one side isn't empty at end of turn.
-            if (!isCapture(currentPlayer, stonesToMove, currentPit)) {
+            if (!isCapture(currentPlayer, currentPit)) {
                 currentPlayer = currentPlayer == Player.P1 ? Player.P2 : Player.P1;
             }
 		}
@@ -115,11 +117,26 @@ public class MancalaModel {
 	 * 	Returns true if capture
 	 * @param currentPlayer
 	 * @param stonesToMove
-	 * @return
+	 * @return true if capture-able
 	 */
-	private boolean isCapture(Player currentPlayer, int stonesToMove, int currentPit) {
-		return stonesToMove == 0 && pits[currentPit] == 1 && pits[getOppositePit(currentPit)] > 0;
+	private boolean isCapture(Player currentPlayer, int currentPit) {
+	    int oppositePit = getOppositePit(currentPit);
+
+	    System.out.println("Current Pit: " + currentPit + ", Opposite Pit: " + oppositePit);
+
+	    // Check if the current pit is on the player's side and it's empty
+	    if ((currentPlayer == Player.P1 && currentPit >= 0 && currentPit < 6 && pits[currentPit] == 1) ||
+	        (currentPlayer == Player.P2 && currentPit >= 7 && currentPit < 13 && pits[currentPit] == 1)) {
+	        System.out.println("Current pit is empty.");
+	        // Check if the opposite pit on the opponent's side has stones
+	        if (pits[oppositePit] > 0) {
+	            System.out.println("Opposite pit has stones.");
+	            return true; // Capture occurs
+	        }
+	    }
+	    return false; // No capture
 	}
+
 
 	/**
 	 * 
@@ -140,14 +157,13 @@ public class MancalaModel {
 	 */
 	private int distributeStones(int stonesToMove, int currentPit) {
 		while (stonesToMove > 0) {
+	        stonesToMove--;
+	        pits[currentPit]++;
 			currentPit = getNextPit(currentPit);
 	        // Skip opponent's mancala
 	        if (isOpponentMancala(currentPit)) {
 	            continue;
 	        }
-	        
-	        pits[currentPit]++;
-	        stonesToMove--;
 		}
 		return currentPit;
 	}
@@ -158,10 +174,14 @@ public class MancalaModel {
 	 * @return boolean
 	 */
 	private boolean isOpponentMancala(int pit) {
-		return (currentPlayer == Player.P1 && pit == 6 ||
-	            (currentPlayer == Player.P2 && pit == 13));
+	    if (currentPlayer == Player.P1 && pit == LeftMancala) {
+	        return true; // Player 2's Mancala
+	    } else if (currentPlayer == Player.P2 && pit == RightMancala) {
+	        return true; // Player 1's Mancala
+	    } else {
+	        return false; // Not an opponent's Mancala
+	    }
 	}
-
 
 
 	/**
