@@ -51,8 +51,19 @@ public class Connect4GameController implements MenuController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton b = (JButton) e.getSource();
+			parseForColNum(b);
+		}
+		
+		/**
+		 * Parses the button for the column number to set in the model.
+		 * @param b JButton to parse.
+		 * @return boolean detailing successful parsing.
+		 * @author Khuram C.
+		 */
+		public boolean parseForColNum(JButton b) {
 			int colNum = Integer.parseInt(b.getText(), 4, 5, 10) - 1;
 			gameModel.select(colNum);
+			return true;
 		}
 	}
 
