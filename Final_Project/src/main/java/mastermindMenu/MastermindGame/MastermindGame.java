@@ -1,3 +1,5 @@
+package mastermindMenu.MastermindGame;
+
 import java.util.Random;
 
 import mastermindMenu.gameSettings.GameSettings;

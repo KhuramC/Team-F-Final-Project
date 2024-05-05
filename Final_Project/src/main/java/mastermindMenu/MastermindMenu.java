@@ -24,7 +24,7 @@ public class MastermindMenu{
 	            MastermindGame game = new MastermindGame(settings);
 	            GameController controller = new GameController(game);
 	            controller.startGame();
-	        }
+	        	}
 	        });
 	    }
 	}
