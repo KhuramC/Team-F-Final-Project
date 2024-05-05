@@ -1,4 +1,4 @@
-package connect4Menu.model;
+package connect4Menu.model.player;
 
 /**
  * An interface for enums to do with PlayerColors. This is to allow for
@@ -7,7 +7,7 @@ package connect4Menu.model;
  * 
  * @author Khuram C.
  */
-public interface PlayerColors {
+public interface IPlayerColors {
 
 	/**
 	 * Returns the player the color is associated with.

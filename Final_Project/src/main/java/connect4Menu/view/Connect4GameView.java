@@ -5,7 +5,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import connect4Menu.model.Player;
+import connect4Menu.model.player.Player;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -19,8 +19,6 @@ public class Connect4GameView extends JFrame
 	private final int squareLen = 75;
 	private final String emptySquarePath = "/connect4/images/connect4emptysquare.drawio.png";
 	private JPanel contentPane = new JPanel();
-	private final String p1SquarePath;
-	private final String p2SquarePath;
 	private JLabel timerLabel;
 	private JLabel turnLabel;
 	private JLabel endLabel;
@@ -28,9 +26,8 @@ public class Connect4GameView extends JFrame
 	private JLabel[][] board;
 	private JButton[] selectionButtons;
 
-	public Connect4GameView(int rowNum, int colNum, int timerTime, String p1FilePath, String p2FilePath) {
-		p1SquarePath = p1FilePath;
-		p2SquarePath = p2FilePath;
+	public Connect4GameView(int rowNum, int colNum, int timerTime) {
+
 		setTitle("Connect 4"); // general settings//
 		// setBounds(300,0,1000,1000);
 		int windowWidth = squareLen * (colNum + 2);

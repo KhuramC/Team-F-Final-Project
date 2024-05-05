@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import connect4Menu.model.player.Player;
 import connect4Menu.view.ObserverEndGame;
 import connect4Menu.view.ObserverInvalidCols;
 import connect4Menu.view.ObserverSquarePlayed;
@@ -26,15 +27,16 @@ public class Connect4GameModel
 
 	// need to observe whenever there's a winner or tie(reflect in view)//
 
-	public Connect4GameModel(Connect4MenuModel menuModel) {
+	public Connect4GameModel(Connect4SettingsModel menuModel) {
 		if (menuModel.isTimer()) {
 			this.timer = new CountDownTimer(menuModel.getTimerTime());
 
 		}
 		this.isTimer = menuModel.isTimer();
 		// timer.addObserver(this);
-		p1 = menuModel.getP1();
-		p2 = menuModel.getP2();
+		
+		p1 = menuModel.getPlayer(1);
+		p2 = menuModel.getPlayer(2);
 		int rowNum = menuModel.getRowNum();
 		int colNum = menuModel.getColNum();
 		board = new int[rowNum][colNum];

@@ -1,4 +1,4 @@
-package connect4Menu.model;
+package connect4Menu.model.player;
 
 /**
  * An enum representing the colors that a Player can be. Colors have a value of
@@ -6,7 +6,7 @@ package connect4Menu.model;
  * 
  * @author Khuram C.
  */
-public enum Player1Colors implements PlayerColors {
+public enum Player1Colors implements IPlayerColors {
 	RED("/connect4/images/connect4p1redsquare.drawio.png"), BLACK("/connect4/images/connect4p1blacksquare.drawio.png"),
 	GREEN("/connect4/images/connect4p1greensquare.drawio.png");
 

@@ -12,15 +12,6 @@ public class MainMenuModel extends Observable {
 	private GameType gameChosen = GameType.BATTLESHIP; // default value
 
 	/**
-	 * A default constructor for the MainMenuModel. Because the gameType already has
-	 * a default value, nothing is initialized.
-	 * 
-	 * @author Khuram C.
-	 */
-	public MainMenuModel() {
-	}
-
-	/**
 	 * Returns the game chosen to play.
 	 * 
 	 * @return gameType of game chosen.
