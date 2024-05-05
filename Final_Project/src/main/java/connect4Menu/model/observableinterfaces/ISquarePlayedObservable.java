@@ -1,9 +1,9 @@
-package connect4Menu.model;
+package connect4Menu.model.observableinterfaces;
 
 import connect4Menu.model.player.Player;
 import connect4Menu.view.ObserverSquarePlayed;
 
-public interface ObservableSquarePlayed {
+public interface ISquarePlayedObservable {
 
 	public void registerSquarePlayedObserver(ObserverSquarePlayed o);
 

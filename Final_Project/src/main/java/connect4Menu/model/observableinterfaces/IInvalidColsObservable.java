@@ -1,8 +1,8 @@
-package connect4Menu.model;
+package connect4Menu.model.observableinterfaces;
 
 import connect4Menu.view.ObserverInvalidCols;
 
-public interface ObservableInvalidCols {
+public interface IInvalidColsObservable {
 
 	public void registerInvalidColObserver(ObserverInvalidCols o);
 
