@@ -244,7 +244,7 @@ public class BattleshipPlacePhaseP2 extends JFrame {
                                     
                                     // Update player 2's game board state
                                     updatePlayer2GameBoardState();
-                                    printPlayer2GameBoardState();
+//                                    printPlayer2GameBoardState();
                                     
                                  // Update combo box options
                                     shipComboBox.removeItem(selectedShip);

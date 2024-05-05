@@ -79,7 +79,7 @@ public class BattleshipGameModel {
         if (!isPlayer1GameBoardStateSaved()) {
             // Save the game board state
             System.out.println("Player 1's Game Board State Saved:");
-            printPlayer1GameBoardState();
+//            printPlayer1GameBoardState();
             player1GameBoardStateSaved = true;
         } else {
             System.out.println("Player 1's Game Board State has already been saved.");
@@ -136,7 +136,7 @@ public class BattleshipGameModel {
         if (!isPlayer2GameBoardStateSaved()) {
             // Save the game board state
             System.out.println("Player 2's Game Board State Saved:");
-            printPlayer2GameBoardState();
+//            printPlayer2GameBoardState();
             player2GameBoardStateSaved = true;
         } else {
             System.out.println("Player 2's Game Board State has already been saved.");
