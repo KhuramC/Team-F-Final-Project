@@ -1,8 +1,8 @@
-package connect4Menu.view;
+package connect4Menu.view.observerinterfaces;
 
 import connect4Menu.model.player.Player;
 
-public interface ObserverSquarePlayed {
+public interface ISquarePlayedObserver {
 
 	public void updateBoard(Player p, int[] selection);
 

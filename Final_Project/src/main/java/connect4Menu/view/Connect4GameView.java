@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import connect4Menu.model.player.Player;
+import connect4Menu.view.observerinterfaces.*;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -14,7 +15,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class Connect4GameView extends JFrame
-		implements Observer, ObserverStartedTurn, ObserverSquarePlayed, ObserverEndGame, ObserverInvalidCols {
+		implements Observer, IStartedTurnObserver, ISquarePlayedObserver, IEndGameObserver, IInvalidColsObserver {
 
 	private final int squareLen = 75;
 	private final String emptySquarePath = "/connect4/images/connect4emptysquare.drawio.png";
