@@ -19,13 +19,13 @@ public class MastermindMenu{
 	        SwingUtilities.invokeLater(new Runnable() {
 	        
 	        @Override
-	        public void run() {
+	        public void run() { 
 	            GameSettings settings = new GameSettings();
 	            MastermindGame game = new MastermindGame(settings);
 	            GameController controller = new GameController(game);
 	            controller.startGame();
 	        	}
 	        });
-	    }
+	    }s
 	}
 
