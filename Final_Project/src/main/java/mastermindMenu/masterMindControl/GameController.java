@@ -41,7 +41,7 @@ public class GameController {
      * Toggles the color of a button based on a sequential click, cycling through predefined colors.
      * @param e The action event triggered by clicking a guess button.
      */
-    private void toggleColor(ActionEvent e) {
+    public void toggleColor(ActionEvent e) {
         JButton button = (JButton) e.getSource();
         Color currentColor = button.getBackground();
         Color[] colorMap = game.getSettings().getColorMap();
@@ -104,7 +104,7 @@ public class GameController {
      * @param guessButtonsRow The row of buttons to check.
      * @return true if all buttons are set; otherwise, false.
      */
-    private boolean isGuessComplete(JButton[] guessButtonsRow) {
+    public boolean isGuessComplete(JButton[] guessButtonsRow) {
         return Arrays.stream(guessButtonsRow).noneMatch(button -> button.getBackground() == Color.LIGHT_GRAY);
     }
     
@@ -113,7 +113,7 @@ public class GameController {
      * @param guess The current guess.
      * @return A string detailing the results of the guess.
      */
-    private String provideFeedback(String guess) {
+    public String provideFeedback(String guess) {
         int correctPosition = 0;
         int correctColor = 0;
         String[] secretCode = game.getSecretCode();

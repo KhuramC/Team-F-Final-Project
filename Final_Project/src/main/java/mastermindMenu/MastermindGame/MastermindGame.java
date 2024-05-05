@@ -60,4 +60,9 @@ public class MastermindGame {
     public GameSettings getSettings() {
         return settings;
     }
+    // Purely used for testing
+	public void setSecretCode(String[] strings) {
+		secretCode = strings;
+		
+	}
 }
