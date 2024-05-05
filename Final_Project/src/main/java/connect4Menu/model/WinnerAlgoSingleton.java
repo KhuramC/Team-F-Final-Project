@@ -1,14 +1,23 @@
 package connect4Menu.model;
 
-import connect4Menu.model.player.Player;
-
+/**
+ * A class for determining the winner of a Connect4 game. Because I didn't want everything to be static, I made it a Singleton class instead.
+ * There is never a need for more than one instance of this class.
+ * @author Khuram C.
+ */
 public class WinnerAlgoSingleton {
 
 	private int[][] board;
+	private int playerNum;
 	private static WinnerAlgoSingleton instance = null;
 	private WinnerAlgoSingleton() {
 	}
 	
+	/**
+	 * Gives an instance of this class to the user. If necessary, it will create a new instance to do so.
+	 * @return instance of WinnerAlgoSingleton.
+	 * @author Khuram C.
+	 */
 	public static WinnerAlgoSingleton getInstance() {
 		if(instance == null) {
 			instance = new WinnerAlgoSingleton();
@@ -17,62 +26,61 @@ public class WinnerAlgoSingleton {
 	}
 	
 	
-	
-	public boolean isWinner(Player p,int[][] board) {
+	/**
+	 * Main algorithm. Checks if there is a winner with the given player and playerNum due to a diagonal, vertical, or horizontal
+	 * connect 4.
+	 * @param playerNum number of player to check for.
+	 * @param board to check winner from.
+	 * @return boolean determining winner.
+	 * @author Khuram C.
+	 */
+	public boolean isWinner(int playerNum,int[][] board) {
 		this.board = board;
-		int playerNum = p.getPlayerNum();
-		if (isDiagonal(playerNum) || isVertical(playerNum) || isHorizontal(playerNum)) {
-			//p.setWinner();
-			System.out.println(p);
-			System.out.println("is a winer!");
-			return true;
-		}
-
-		return false;
-
+		this.playerNum = playerNum;
+		return(isDiagonal() || isVertical() || isHorizontal());
 	}
 
-	private boolean isDiagonal(int num) {
+	/**
+	 * Checks if there is a win diagonally. There are two directions a diagonal can go. Checking is only done looking down,
+	 * and since 0,0 corresponds to the upper left, the diagonal that goes down and right is considered the regular diagonal. Going
+	 * down and left is considered the backwards diagonal.
+	 * @return boolean determining winner.
+	 * @author Khuram C.
+	 */
+	private boolean isDiagonal() {
 		int rowNum = board.length;
 		int colNum = board[0].length;
-		for (int row = 0; row < rowNum - 3; row++) {
-			// down and right diagonals
-			for (int col = 0; col < (colNum / 2) + 1; col++) {
-				if (col + 3 >= colNum) {
-					continue;
-				}
-				if (board[row][col] != num) {
-					continue;
-				}
-				if (checkDiagonal(num, row, col, false)) {
+		//Because we are only checking down, it's impossible to have a connect4 in the last 3 rows.
+		for (int row = 0; row < rowNum - 3; row++) { 
+			for(int col = 0; col < colNum; col++) {
+				//checks if it's valid to have a diagonal and then if there actually is one. Due to short-circuiting in Java,
+				//this should never error out.
+				if(col+3 <= colNum - 1 && checkDiagonal(row,col,false)) {
+					//down and right diagonals
 					return true;
 				}
-			}
-			// down and left diagonals
-			for (int col = colNum - 1; col > colNum / 2; col--) {
-				if (col - 3 <= 0) {
-					continue;
-				}
-				if (board[row][col] != num) {
-					continue;
-				}
-				if (checkDiagonal(num, row, col, true)) {
+				if(col - 3 >= 0 && checkDiagonal(row,col,true) ) {
+					//down and left diagonals
 					return true;
-				}
+				}	
 			}
 		}
 		return false;
 	}
 
-	private boolean checkDiagonal(int playerNum, int startRowNum, int startColNum, boolean isBackwards) {
-		
-		//SEE WHY THIS IS WRONG
-		for (int i = 1; i < 4; i++) {
-			int j;
+	/**
+	 * Helper method for isDiagonal. Checks if the there is a diagonal 4 in a row (going down) starting at the given cell location. 
+	 * @param startRowNum rowNum of cell.
+	 * @param startColNum colNum of cell.
+	 * @param isBackwards whether it goes down and left(true) or it goes down and right(false).
+	 * @return boolean detailing if there is a a diagonal 4 in a row.
+	 * @author Khuram C.
+	 */
+	private boolean checkDiagonal(int startRowNum, int startColNum, boolean isBackwards) {
+		for (int i = 0; i < 4; i++) {
+			int j = i;
 			if (isBackwards) {
 				j = -i;
-			} else {
-				j = i;
 			}
 			if (board[startRowNum +i][startColNum + j] != playerNum) {
 				return false;
@@ -81,24 +89,34 @@ public class WinnerAlgoSingleton {
 		return true;
 	}
 
-	private boolean isVertical(int num) {
+	/**
+	 * Checks if there is a win vertically. Checking is only done going down.
+	 * @return boolean determining if a winner has been found.
+	 * @author Khuram C.
+	 */
+	private boolean isVertical() {
 		int rowNum = board.length;
 		int colNum = board[0].length;
+		//there can't be a vertical win going down in the last 3 rows; there's not enough space.
 		for (int row = 0; row < rowNum - 3; row++) {
 			for (int col = 0; col < colNum; col++) {
-				if (board[row][col] != num) {
-					continue;
-				}
-				if (checkVertical(num, row, col)) {
+				if (checkVertical(row, col)) {
 					return true;
 				}
 			}
 		}
 		return false;
 	}
-
-	private boolean checkVertical(int playerNum, int startRowNum, int startColNum) {
-		for (int i = 1; i < 4; i++) {
+	
+	/**
+	 * Helper method for isVertical. Checks if there is a vertical 4 in a row (going down) starting at the given cell location.
+	 * @param startRowNum rowNum of cell.
+	 * @param startColNum colNum of cell.
+	 * @return boolean detailing if there is a vertical 4 in a row.
+	 * @author Khuram C.
+	 */
+	private boolean checkVertical(int startRowNum, int startColNum) {
+		for (int i = 0; i < 4; i++) {
 			if (board[startRowNum + i][startColNum] != playerNum) {
 				return false;
 			}
@@ -106,30 +124,39 @@ public class WinnerAlgoSingleton {
 		return true;
 	}
 
-	private boolean isHorizontal(int num) {
+	
+	/**
+	 * Checks if there is a win horizontally. Checking is only done going right.
+	 * @return boolean determining if a winner has been found.
+	 * @author Khuram C.
+	 */
+	private boolean isHorizontal() {
 		int rowNum = board.length;
 		int colNum = board[0].length;
 		for (int row = 0; row < rowNum; row++) {
+			//there can't be a horizontal win going right in the last 3 cols; there's not enough space.
 			for (int col = 0; col < colNum - 3; col++) {
-				if (board[row][col] != num) {
-					continue;
-				}
-				if (checkHorizontal(num, row, col)) {
+				if (checkHorizontal(row, col)) {
 					return true;
 				}
-
 			}
 		}
 		return false;
 	}
 
-	private boolean checkHorizontal(int playerNum, int startRowNum, int startColNum) {
-		for (int i = 1; i < 4; i++) {
+	/**
+	 * Helper method for isHorizontal. Checks if there is a horizontal 4 in a row (going right) starting at the given cell location.
+	 * @param startRowNum rowNum of cell.
+	 * @param startColNum colNum of cell.
+	 * @return boolean detailing if there is a horizontal 4 in a row.
+	 * @author Khuram C.
+	 */
+	private boolean checkHorizontal(int startRowNum, int startColNum) {
+		for (int i = 0; i < 4; i++) {
 			if (board[startRowNum][startColNum + i] != playerNum) {
 				return false;
 			}
 		}
 		return true;
 	}
-
 }
