@@ -55,11 +55,12 @@ public class MancalaModel {
 	/**
 	 * Moves stones from the selected pit and distributes them on the board.
 	 * @param pitIndex of the selected pit.
+	 * @return True on success false if invalid
 	 */
-	public void moveStones(int pitIndex) {
+	public boolean moveStones(int pitIndex) {
 		// Check move validity.
-		if (!isValidMove(pitIndex)) {
-			return;
+		if (!isValidMove(pitIndex) && (this.getGameState() != STATE.INPLAY)) {
+			return false;
 		}
 		
 	    int stonesToMove = pits[pitIndex];
@@ -80,7 +81,9 @@ public class MancalaModel {
                 currentPlayer = currentPlayer == Player.P1 ? Player.P2 : Player.P1;
             }
 		}
+		return true;
 	}
+
 
 	/**
 	 * Collect the remaining stones from opponent's side and return them to their mancala.
@@ -298,7 +301,5 @@ public class MancalaModel {
 	 */
 	public static int getInitialstonecount() {
 		return initialStoneCount;
-	}
-
-
+	}	
 }

@@ -2,25 +2,24 @@ package mancalaMenu;
 
 import javax.swing.SwingUtilities;
 
-import mancalaMenu.*;
-
+import mancalaMenu.MancalaController;
+import mancalaMenu.MancalaView;
 // MVC design pattern
 
 public class MancalaMain {
-
-	public static void startMancala(String[] args) {
+	
+	private MancalaMain() {
+	}
+	public void initiate() {
 		SwingUtilities.invokeLater(new Runnable() {
+
 			@Override
 			public void run() {
-				// give arguments to mancala controller
-				MancalaView view = new MancalaView();
-				MancalaModel model = new MancalaModel();
-				MancalaController controller = new MancalaController(model, view);
-//				view
-//				model
-				
-				controller.initiate();
+				MancalaView mancalaView = new MancalaView(null);
+				mancalaView.setVisible(true);
 			}
 		});
+		
 	}
+
 }
