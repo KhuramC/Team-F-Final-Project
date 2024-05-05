@@ -26,6 +26,6 @@ public class MastermindMenu{
 	            controller.startGame();
 	        	}
 	        });
-	    }s
+	    }
 	}
 
