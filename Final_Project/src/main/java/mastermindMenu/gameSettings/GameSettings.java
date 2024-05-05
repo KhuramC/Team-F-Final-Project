@@ -6,9 +6,10 @@ import javax.swing.JOptionPane;
 
 
 /**
- * This class makes the colors allowed in the game and asks the user how long they 
+ * Configures the game settings for Mastermind, including the allowable colors,
+ * code length, and maximum number of tries.
+ * This class prompts the user for input to set these parameters upon instantiation.
  * @author Alon B.
- * 
  */
 public class GameSettings {
 	private static final String[] COLORS = {"R", "G", "B", "Y", "O", "P"};
@@ -16,12 +17,26 @@ public class GameSettings {
     private int codeLength;
     private int maxTries;
 
+    /**
+     * Constructs a new GameSettings object by initializing code length and max tries
+     * through user input dialogs.
+     */
     public GameSettings() {
-        // Initialize code length and max tries by prompting the user
-        setCodeLength();
-        setMaxTries();
+    	getUserInput();
     }
-
+    
+    /**
+     * Prompts the user to input the game settings for code length and maximum number of tries.
+     */
+    private void getUserInput() {
+    	setCodeLength();
+    	setMaxTries();
+    }
+    
+    /**
+     * Prompts the user to set the code length for the Mastermind game.
+     * Ensures that the input is a positive integer.
+     */
     private void setCodeLength() {
         String input;
         do {
@@ -37,7 +52,11 @@ public class GameSettings {
             }
         } while (codeLength <= 0);
     }
-
+    
+    /**
+     * Prompts the user to set the maximum number of tries allowed in the game.
+     * Ensures that the input is a positive integer.
+     */
     private void setMaxTries() {
         String input;
         do {

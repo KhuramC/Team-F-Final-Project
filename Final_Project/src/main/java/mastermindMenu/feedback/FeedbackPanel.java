@@ -30,4 +30,8 @@ public class FeedbackPanel extends JScrollPane {
 	    public void appendFeedback(String feedback) {
 	        feedbackArea.append(feedback + "\n");
 	    }
+	    
+	    public void clearFeedback() {
+	        feedbackArea.setText("");
+	    }
 	}

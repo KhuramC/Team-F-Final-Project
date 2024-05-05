@@ -15,19 +15,31 @@ import mastermindMenu.MastermindGame.MastermindGame;
 import mastermindMenu.feedback.FeedbackPanel;
 import mastermindMenu.gameBoard.GameBoard;
 
+/**
+ * /**
+ * Controls the logic and interactions within the Mastermind game,
+ * linking together the game's UI and the game state.
+ * @author Alon B.
+ * 
+ */
 public class GameController {
     private MastermindGame game; 
     private GameBoard board;
     private FeedbackPanel feedback;
-
+    
+    /**
+     * Constructs a GameController for managing a Mastermind game.
+     * @param game The Mastermind game logic handler.
+     */
     public GameController(MastermindGame game) {
         this.game = game;
         this.board = new GameBoard(game.getSettings().getMaxTries(), game.getSettings().getCodeLength(), this::toggleColor, this::submitGuess);
         this.feedback = new FeedbackPanel();
     }
     
-    /*
-     * @Param 
+    /**
+     * Toggles the color of a button based on a sequential click, cycling through predefined colors.
+     * @param e The action event triggered by clicking a guess button.
      */
     private void toggleColor(ActionEvent e) {
         JButton button = (JButton) e.getSource();
@@ -35,11 +47,14 @@ public class GameController {
         Color[] colorMap = game.getSettings().getColorMap();
         int nextColorIndex = Arrays.asList(colorMap).indexOf(currentColor) + 1;
         button.setBackground(colorMap[nextColorIndex % colorMap.length]);
-        button.setOpaque(true);  // Make sure the button is opaque
-        button.setBorderPainted(false);  // Optional: disable border painting if it interferes
+        button.setOpaque(true);
+        // button.setBorderPainted(false);  // Optional: disable border painting if it interferes
         button.repaint(); // Make sure the change is visible
     }
-
+    
+    /**
+     * Initiates and displays the game frame, including all components.
+     */
     public void startGame() {
         JFrame frame = new JFrame("Mastermind Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,6 +65,10 @@ public class GameController {
         frame.setVisible(true);
     }
     
+    /**
+     * Handles the guess submission logic, determining if the guess is correct and managing game progression.
+     * @param e The action event triggered by the submit button.
+     */
     private void submitGuess(ActionEvent e) {
         int row = Integer.parseInt(e.getActionCommand());
         if (row != game.getCurrentTry()) return; // Ensure only the current row can submit
@@ -67,6 +86,8 @@ public class GameController {
             JOptionPane.showMessageDialog(board, "Please select a color for each position in the row before submitting.", "Incomplete Guess", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        
+        board.disableRow(row);
 
         boolean isCorrect = guess.equals(String.join("", game.getSecretCode()));
         feedback.appendFeedback(isCorrect ? "Correct! The code was " + guess : provideFeedback(guess));
@@ -78,10 +99,20 @@ public class GameController {
         }
     }
 
+    /**
+     * Checks if all buttons in a row have been properly set to a color different from the default.
+     * @param guessButtonsRow The row of buttons to check.
+     * @return true if all buttons are set; otherwise, false.
+     */
     private boolean isGuessComplete(JButton[] guessButtonsRow) {
         return Arrays.stream(guessButtonsRow).noneMatch(button -> button.getBackground() == Color.LIGHT_GRAY);
     }
-
+    
+    /**
+     * Provides feedback for the current guess compared to the secret code.
+     * @param guess The current guess.
+     * @return A string detailing the results of the guess.
+     */
     private String provideFeedback(String guess) {
         int correctPosition = 0;
         int correctColor = 0;
@@ -109,22 +140,34 @@ public class GameController {
             }
         }
 
-        return correctPosition + " exact, " + correctColor + " correct color but wrong position.";
+        return "Row " + game.getCurrentTry() + "has " + correctPosition + " in the correct position and " + correctColor + " correct color(s) but wrong in the wrong position.";
     }
-
+    
+    
     private void handleGameWon() {
         JOptionPane.showMessageDialog(board, "You guessed the code! Starting new game.", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-        game.resetGame();
+        resetGame();
     }
+
 
     private void handleNextTurn(int currentRow) {
         if (currentRow + 1 < game.getSettings().getMaxTries()) {
             game.incrementCurrentTry();
-            board.getGuessButtons()[currentRow + 1][0].setEnabled(true); // Enable the next row
+           // board.getGuessButtons()[currentRow + 1][0].setEnabled(true); // Enable the next row
+            board.enableRow(currentRow + 1); // Enable next row
         } else {
             JOptionPane.showMessageDialog(board, "No more tries left! The correct code was " + String.join("", game.getSecretCode()), "Game Over", JOptionPane.INFORMATION_MESSAGE);
-            game.resetGame();
+            resetGame();
         }
+    }
+    
+    /**
+     * Resets both the game logic and UI components.
+     */
+    public void resetGame() {
+        game.resetGame();  // Reset the game logic
+        board.resetBoard();  // Reset the game board UI
+        feedback.clearFeedback();  // Clear the feedback panel
     }
 
     private Object[] colorToChar(Color color) {

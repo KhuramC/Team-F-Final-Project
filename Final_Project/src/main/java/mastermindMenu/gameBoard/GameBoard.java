@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.util.stream.IntStream;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -32,9 +35,12 @@ public class GameBoard extends JPanel {
 	        for (int i = 0; i < maxTries; i++) { // Set up all buttons
 	            for (int j = 0; j < codeLength; j++) {
 	                JButton button = new JButton();
+	                button.setEnabled(i == 0); // Initialize, only enable the first row
 	                button.setBackground(Color.LIGHT_GRAY);
 	                button.setPreferredSize(new Dimension(50, 50));
 	                button.addActionListener(colorListener); 
+	                button.setBorderPainted(true);
+	                button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); // Add a black line border with a thickness of 1 (has to be int)
 	                guessButtons[i][j] = button;
 	                add(button);
 	            }
@@ -43,6 +49,40 @@ public class GameBoard extends JPanel {
 	            submitButton.addActionListener(submitListener);
 	            add(submitButton);
 	        }
+	    }
+	   
+	    
+	    
+	    public void resetBoard() {
+	        IntStream.range(0, guessButtons.length).forEach(row -> {
+	            for (JButton button : guessButtons[row]) {
+	            	button.setBackground(Color.LIGHT_GRAY);  // Set default color
+	                button.setEnabled(row == 0);  // Enable only the first row
+	                button.repaint();
+	            }
+	        });
+	    }
+	    
+	    /**
+	     * Disables all the buttons in a specific row.
+	     * @param row The index of the row to disable.
+	     */
+	    public void disableRow(int row) {
+	        for (JButton button : guessButtons[row]) {
+	            button.setEnabled(false);
+	        }
+	    }
+	    
+	    /**
+	     * Enables all the buttons in a specific row.
+	     * @param row The index of the row to enable.
+	     */
+	    public void enableRow(int row) {
+	        for (JButton button : guessButtons[row]) {
+	            button.setEnabled(true);
+	            button.setBackground(Color.white);
+	            button.repaint();
+	            }
 	    }
 
 	    public JButton[][] getGuessButtons() {

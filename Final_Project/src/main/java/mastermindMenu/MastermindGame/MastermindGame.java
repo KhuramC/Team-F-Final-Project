@@ -1,7 +1,6 @@
 package mastermindMenu.MastermindGame;
 
 import java.util.Random;
-
 import mastermindMenu.gameSettings.GameSettings;
 
 
@@ -35,6 +34,7 @@ public class MastermindGame {
             secretCode[i] = settings.getColors()[random.nextInt(settings.getColors().length)];
         }
         currentTry = 0;
+        
     }
 
     public String[] getSecretCode() {
