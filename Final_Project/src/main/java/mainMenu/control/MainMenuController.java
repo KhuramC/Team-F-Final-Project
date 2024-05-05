@@ -103,7 +103,7 @@ public class MainMenuController implements MenuController {
 	 * 
 	 * @author Khuram C.
 	 */
-	public void initiate() {
+	public boolean initiate() {
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
@@ -111,5 +111,6 @@ public class MainMenuController implements MenuController {
 				startView.setVisible(true);
 			}
 		});
+		return true;
 	}
 }

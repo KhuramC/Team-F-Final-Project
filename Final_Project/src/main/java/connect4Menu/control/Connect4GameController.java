@@ -45,9 +45,10 @@ public class Connect4GameController implements MenuController {
 	}
 
 	@Override
-	public void initiate() {
+	public boolean initiate() {
 		gameView.setVisible(true);
 		gameModel.startTurn();
+		return true;
 
 	}
 

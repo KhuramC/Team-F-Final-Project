@@ -83,6 +83,10 @@ public class Connect4SettingsController implements MenuController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			parseForTimerTime();
+			
+		}
+		public boolean parseForTimerTime(){
 			try {
 				int timerTextFieldValue = Integer.parseInt(settingsView.getTimerTextFieldValue());
 				if (timerTextFieldValue > Connect4SettingsModel.maxTimerTime
@@ -91,12 +95,14 @@ public class Connect4SettingsController implements MenuController {
 				}
 				model.setTimerTime(timerTextFieldValue);
 				settingsView.changeErrorLabelText("");
+				return true;
 			} catch (NumberFormatException exc) {
 				settingsView.changeErrorLabelText("Put in an integer!");
 			} catch (InvalidTimerTimeException exc) {
 				settingsView.changeErrorLabelText("Put in an integer from " + Integer.toString(Connect4SettingsModel.minTimerTime) 
 				+ " to " + Integer.toString(Connect4SettingsModel.maxTimerTime) + "s.");
 			}
+			return false;
 		}
 	}
 
@@ -130,10 +136,16 @@ public class Connect4SettingsController implements MenuController {
 	public class StartGameButtonListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {	
+			startConnect4Round();
+		}
+		
+		public boolean startConnect4Round() {
 			Connect4GameController gameController = new Connect4GameController(model);
 			gameController.initiate();
 			settingsView.dispatchEvent(new WindowEvent(settingsView, WindowEvent.WINDOW_CLOSING));
+			return true;
+			
 		}
 	}
 
@@ -172,7 +184,8 @@ public class Connect4SettingsController implements MenuController {
 	 * 
 	 * @author Khuram C.
 	 */
-	public void initiate() {
+	public boolean initiate() {
+		
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
@@ -180,6 +193,8 @@ public class Connect4SettingsController implements MenuController {
 				settingsView.setVisible(true);
 			}
 		});
+		return true;
+		
 		
 	}
 

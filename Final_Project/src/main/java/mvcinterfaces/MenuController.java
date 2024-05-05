@@ -13,6 +13,6 @@ public interface MenuController {
 	 * 
 	 * @author Khuram C.
 	 */
-	public void initiate();
+	public boolean initiate();
 
 }
