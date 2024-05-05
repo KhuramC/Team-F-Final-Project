@@ -1,11 +1,17 @@
 package battleshipMenu.model;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 /**
  * The BattleshipGameModel class represents the model component of the Battleship game.
@@ -18,7 +24,10 @@ public class BattleshipGameModel {
     private boolean player1GameBoardStateSaved = false;
     private int shipsPlacedCount = 0;
     private int shipsPlacedCountP2 = 0;
-
+    private int remainingTimeInSeconds;
+    private String shootingTimer; // Declare shootingTimer as an instance variable
+    private int currentPlayer; // Declare currentPlayer as an instance variable
+    private int initialTurnTimeInSeconds;
     /**
      * Constructor for the BattleshipGameModel class.
      *
@@ -283,5 +292,28 @@ public class BattleshipGameModel {
      */
     public String[][] getPlayer2GameBoardState() {
         return player2GameBoardState;
+    }
+    public void flipCoin() {
+        Random random = new Random();
+        int result = random.nextInt(2); // Generate a random number (0 or 1)
+
+        // Determine currentPlayer based on the result
+        if (result == 0) {
+            currentPlayer = 1; // Heads
+        } else {
+            currentPlayer = 2; // Tails
+        }
+
+        // Set initial turn time based on shootingTimer
+        if (shootingTimer.equals("No Timer")) {
+            initialTurnTimeInSeconds = 0; // No timer
+        } else if (shootingTimer.equals("30 sec")) {
+            initialTurnTimeInSeconds = 30; // 30 seconds
+        } else if (shootingTimer.equals("1 min")) {
+            initialTurnTimeInSeconds = 60; // 1 minute
+        }
+    }
+    public int getInitialTurnTimeInSeconds() {
+        return initialTurnTimeInSeconds;
     }
 }

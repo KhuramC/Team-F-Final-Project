@@ -52,6 +52,7 @@ public class BattleshipPlacePhaseP2 extends JFrame {
     private String[][] player2GameBoardState;
     private boolean player2GameBoardStateSaved = false; // Initialize as false
     private String[][] player1GameBoardState;
+    private boolean player1GameBoardStateSaved = false;
     
     // Flag to toggle ship orientation
     private boolean isVertical = true; // Default is vertical
@@ -137,7 +138,7 @@ public class BattleshipPlacePhaseP2 extends JFrame {
                         
                      // Open BattleshipShootingPhase with the appropriate grid size
                         SwingUtilities.invokeLater(() -> {
-                            BattleshipShootingPhase shootingPhase = new BattleshipShootingPhase(numRows, numCols, player2GameBoardState, player1GameBoardState, Player1ShipColor, Player2ShipColor, shootingTimer );
+                            BattleshipShootingPhase shootingPhase = new BattleshipShootingPhase(numRows, numCols, player2GameBoardState, player1GameBoardState, Player1ShipColor, Player2ShipColor, shootingTimer,battleshipGameModel );
                             shootingPhase.setVisible(true);
                         });
                         // Here you can proceed to the next phase or perform any other action
