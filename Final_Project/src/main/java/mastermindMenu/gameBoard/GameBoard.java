@@ -16,11 +16,20 @@ public class GameBoard extends JPanel {
 	 private static final long serialVersionUID = 1L;
 	    private JButton[][] guessButtons;
 
+	    /**
+	     * Creates a game board with a specified number of attempts and code length.
+	     * Each row includes several buttons for setting the code colors and a submit button
+	     * to finalize the guess.
+	     * @param maxTries        The maximum number of guess attempts allowed.
+	     * @param codeLength      The length of the secret code, determining the number of buttons per row.
+	     * @param colorListener   The action listener for color change events on each guess button.
+	     * @param submitListener  The action listener for the submit button in each row.
+	     */
 	    public GameBoard(int maxTries, int codeLength, ActionListener colorListener, ActionListener submitListener) {
-	        setLayout(new GridLayout(maxTries, codeLength + 1));
+	        setLayout(new GridLayout(maxTries, codeLength + 1)); // Make grid with maxTries by codeLength and add one for submit button.
 	        guessButtons = new JButton[maxTries][codeLength];
 
-	        for (int i = 0; i < maxTries; i++) {
+	        for (int i = 0; i < maxTries; i++) { // Set up all buttons
 	            for (int j = 0; j < codeLength; j++) {
 	                JButton button = new JButton();
 	                button.setBackground(Color.LIGHT_GRAY);
@@ -29,7 +38,7 @@ public class GameBoard extends JPanel {
 	                guessButtons[i][j] = button;
 	                add(button);
 	            }
-	            JButton submitButton = new JButton("Submit");
+	            JButton submitButton = new JButton("Submit");// Set up submit buttons
 	            submitButton.setActionCommand(String.valueOf(i));
 	            submitButton.addActionListener(submitListener);
 	            add(submitButton);
