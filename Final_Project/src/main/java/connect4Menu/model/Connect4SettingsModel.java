@@ -16,8 +16,8 @@ import connect4Menu.model.player.Player2Colors;
 public class Connect4SettingsModel extends Observable {
 
 	// default_values
-	private int colNum = 6; // x
-	private int rowNum = 7; // y
+	private int colNum = 7; // x
+	private int rowNum = 6; // y
 	private boolean isTimer = false;
 	private int timerTime = 15;
 	private Player[] players = {new Player("Player 1", Player1Colors.RED, player1Num),
