@@ -54,7 +54,8 @@ public class Connect4SettingsView extends JFrame implements Observer {
 	private JTextField timerTextField;
 	private ArrayList<JComboBox<IPlayerColors>> playerColorsComboBoxes = new ArrayList<>(2);
 	private JButton startGameButton;
-	private JLabel errorLabel;
+	//for JUnit testing.
+	protected JLabel errorLabel;
 
 	/**
 	 * Default constructor for the Connect4SettingsMenuView. Constructs the View and
