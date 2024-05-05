@@ -16,6 +16,8 @@ public class GameSettings {
     private static final Color[] COLOR_MAP = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.ORANGE, Color.MAGENTA};
     private int codeLength;
     private int maxTries;
+	private String[] testColors;
+	private int testCodeLength;
 
     /**
      * Constructs a new GameSettings object by initializing code length and max tries
@@ -23,6 +25,24 @@ public class GameSettings {
      */
     public GameSettings() {
     	getUserInput();
+    }
+    
+    /**
+     * This is a test-friendly constuctor used to help 
+     * @param colors		testing colors
+     * @param codeLength	Testing code length
+     */
+    public GameSettings(String[] colors, int codeLength) {
+        this.testColors = colors;
+        this.testCodeLength = codeLength;
+    }
+
+    public String[] gettestColors() {
+        return testColors;
+    }
+
+    public int gettestCodeLength() {
+        return testCodeLength;
     }
     
     /**

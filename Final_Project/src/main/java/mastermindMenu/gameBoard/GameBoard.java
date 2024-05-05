@@ -31,25 +31,36 @@ public class GameBoard extends JPanel {
 	    public GameBoard(int maxTries, int codeLength, ActionListener colorListener, ActionListener submitListener) {
 	        setLayout(new GridLayout(maxTries, codeLength + 1)); // Make grid with maxTries by codeLength and add one for submit button.
 	        guessButtons = new JButton[maxTries][codeLength];
-
-	        for (int i = 0; i < maxTries; i++) { // Set up all buttons
-	            for (int j = 0; j < codeLength; j++) {
-	                JButton button = new JButton();
-	                button.setEnabled(i == 0); // Initialize, only enable the first row
-	                button.setBackground(Color.LIGHT_GRAY);
-	                button.setPreferredSize(new Dimension(50, 50));
-	                button.addActionListener(colorListener); 
-	                button.setBorderPainted(true);
-	                button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); // Add a black line border with a thickness of 1 (has to be int)
-	                guessButtons[i][j] = button;
-	                add(button);
-	            }
-	            JButton submitButton = new JButton("Submit");// Set up submit buttons
-	            submitButton.setActionCommand(String.valueOf(i));
-	            submitButton.addActionListener(submitListener);
-	            add(submitButton);
-	        }
+	        initializeButtons(maxTries, codeLength, colorListener, submitListener);
 	    }
+	    
+	    
+	    /**
+	     * Initializes the buttons on the game board.
+	     * @param maxTries The maximum number of attempts.
+	     * @param codeLength The length of the code in the game.
+	     * @param colorListener The action listener for color change actions.
+	     * @param submitListener The action listener for submit actions.
+	     */
+	    private void initializeButtons(int maxTries, int codeLength, ActionListener colorListener, ActionListener submitListener) {
+	    for (int i = 0; i < maxTries; i++) { // Set up all buttons
+            for (int j = 0; j < codeLength; j++) {
+                JButton button = new JButton();
+                button.setEnabled(i == 0); // Initialize, only enable the first row
+                button.setBackground(Color.LIGHT_GRAY);
+                button.setPreferredSize(new Dimension(50, 50));
+                button.addActionListener(colorListener); 
+                button.setBorderPainted(true);
+                button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); // Add a black line border with a thickness of 1 (has to be int)
+                guessButtons[i][j] = button;
+                add(button);
+            }
+            JButton submitButton = new JButton("Submit");// Set up submit buttons
+            submitButton.setActionCommand(String.valueOf(i));
+            submitButton.addActionListener(submitListener);
+            add(submitButton);
+        }
+	   }
 	   
 	    
 	    
@@ -64,26 +75,22 @@ public class GameBoard extends JPanel {
 	    }
 	    
 	    /**
-	     * Disables all the buttons in a specific row.
-	     * @param row The index of the row to disable.
+	     * Enables or disables a row of buttons.
+	     * @param row The row index to enable or disable.
+	     * @param enable True to enable the row, false to disable it.
 	     */
-	    public void disableRow(int row) {
+	    public void setRowEnabled(int row, boolean enable) {
 	        for (JButton button : guessButtons[row]) {
-	            button.setEnabled(false);
+	            button.setEnabled(enable);
 	        }
 	    }
-	    
-	    /**
-	     * Enables all the buttons in a specific row.
-	     * @param row The index of the row to enable.
-	     */
-	    public void enableRow(int row) {
-	        for (JButton button : guessButtons[row]) {
-	            button.setEnabled(true);
-	            button.setBackground(Color.white);
-	            button.repaint();
-	            }
-	    }
+//	    public void enableRow(int row) {
+//	        for (JButton button : guessButtons[row]) {
+//	            button.setEnabled(true);
+//	            button.setBackground(Color.white);
+//	            button.repaint();
+//	            }
+//	    }
 
 	    public JButton[][] getGuessButtons() {
 	        return guessButtons;

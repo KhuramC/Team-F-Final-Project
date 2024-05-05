@@ -34,4 +34,8 @@ public class FeedbackPanel extends JScrollPane {
 	    public void clearFeedback() {
 	        feedbackArea.setText("");
 	    }
+
+		public JTextArea getFeedbackArea() {
+			return feedbackArea;
+		}
 	}

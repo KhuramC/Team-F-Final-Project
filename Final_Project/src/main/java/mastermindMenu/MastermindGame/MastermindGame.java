@@ -13,6 +13,7 @@ public class MastermindGame {
     private GameSettings settings;
     private String[] secretCode;
     private int currentTry;
+     Random testRandom = new Random(); // used for testing 
     
     
     /**
@@ -38,6 +39,13 @@ public class MastermindGame {
     }
 
     public String[] getSecretCode() {
+        if(secretCode != null) {
+        	return secretCode;
+        }
+        
+        for (int i = 0; i < settings.getCodeLength(); i++) {
+			secretCode[i] = settings.getColors()[testRandom.nextInt(settings.getColors().length)];
+        }
         return secretCode;
     }
 

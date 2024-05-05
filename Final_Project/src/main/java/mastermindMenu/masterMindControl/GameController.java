@@ -87,7 +87,7 @@ public class GameController {
             return;
         }
         
-        board.disableRow(row);
+        board.setRowEnabled(row, false);
 
         boolean isCorrect = guess.equals(String.join("", game.getSecretCode()));
         feedback.appendFeedback(isCorrect ? "Correct! The code was " + guess : provideFeedback(guess));
@@ -140,27 +140,47 @@ public class GameController {
             }
         }
 
-        return "Row " + game.getCurrentTry() + "has " + correctPosition + " in the correct position and " + correctColor + " correct color(s) but wrong in the wrong position.";
+        return "Row " + game.getCurrentTry() + 1 + " has " + correctPosition + " in the correct position and " + correctColor + " correct color(s) but wrong in the wrong position.";
     }
     
     
     private void handleGameWon() {
-        JOptionPane.showMessageDialog(board, "You guessed the code! Starting new game.", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-        resetGame();
+        JOptionPane.showMessageDialog(board, "You guessed the code!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+        showPlayAgainOption();
     }
 
-
+    /**
+     * If the next turn is not the given maximum number of tries then the player has lost
+     * @param currentRow
+     */
     private void handleNextTurn(int currentRow) {
         if (currentRow + 1 < game.getSettings().getMaxTries()) {
             game.incrementCurrentTry();
            // board.getGuessButtons()[currentRow + 1][0].setEnabled(true); // Enable the next row
-            board.enableRow(currentRow + 1); // Enable next row
+            board.setRowEnabled(currentRow + 1, true); // Enable next row
         } else {
             JOptionPane.showMessageDialog(board, "No more tries left! The correct code was " + String.join("", game.getSecretCode()), "Game Over", JOptionPane.INFORMATION_MESSAGE);
-            resetGame();
+            showPlayAgainOption();
         }
     }
     
+    /** 
+     * Helper method to handle if user would like to play again
+     * If the user clicks no they will be redirected back to the main menu
+     */
+    private void showPlayAgainOption() {
+        int response = JOptionPane.showConfirmDialog(board,
+            "Would you like to play again?", "Game Over",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE);
+
+        if (response == JOptionPane.YES_OPTION) {
+            resetGame();
+        } else {
+            System.exit(0);  //Exit game if needed
+        }
+    }
+   
     /**
      * Resets both the game logic and UI components.
      */
