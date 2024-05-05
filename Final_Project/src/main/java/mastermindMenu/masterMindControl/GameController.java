@@ -25,13 +25,18 @@ public class GameController {
         this.board = new GameBoard(game.getSettings().getMaxTries(), game.getSettings().getCodeLength(), this::toggleColor, this::submitGuess);
         this.feedback = new FeedbackPanel();
     }
-
+    
+    /*
+     * @Param 
+     */
     private void toggleColor(ActionEvent e) {
         JButton button = (JButton) e.getSource();
         Color currentColor = button.getBackground();
         Color[] colorMap = game.getSettings().getColorMap();
         int nextColorIndex = Arrays.asList(colorMap).indexOf(currentColor) + 1;
         button.setBackground(colorMap[nextColorIndex % colorMap.length]);
+        button.setOpaque(true);  // Make sure the button is opaque
+        button.setBorderPainted(false);  // Optional: disable border painting if it interferes
         button.repaint(); // Make sure the change is visible
     }
 
@@ -50,16 +55,15 @@ public class GameController {
         if (row != game.getCurrentTry()) return; // Ensure only the current row can submit
 
         JButton[] guessButtonsRow = board.getGuessButtons()[row];
-//        String guess = Arrays.stream(guessButtonsRow)
-//                             .map(button -> colorToChar(button.getBackground()))
-//                             .collect(Collectors.joining());
         String guess = Arrays.stream(guessButtonsRow)
         	    .map(button -> colorToChar(button.getBackground()))
         	    .filter(Objects::nonNull)  // Ensure no null values are processed
         	    .map(result -> (String) result[1])  // Extract the String representation from the array
         	    .collect(Collectors.joining());  // Collect the strings into a single string
         
-        if (!isGuessComplete(guessButtonsRow)) {
+        
+        
+        if (!isGuessComplete(guessButtonsRow)) { // Basic Check
             JOptionPane.showMessageDialog(board, "Please select a color for each position in the row before submitting.", "Incomplete Guess", JOptionPane.WARNING_MESSAGE);
             return;
         }

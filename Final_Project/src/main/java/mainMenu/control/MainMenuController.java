@@ -10,6 +10,7 @@ import connect4Menu.Connect4Main;
 import mainMenu.model.*;
 import mainMenu.view.*;
 import mancalaMenu.MancalaMain;
+import mastermindMenu.MastermindMenu;
 import mvcinterfaces.MenuController;
 
 /**
@@ -85,6 +86,7 @@ public class MainMenuController implements MenuController {
 			case MASTERMIND:
 				System.out.println("You have chosen Mastermind!");
 				// start code to open new gui
+				MastermindMenu.startMastermind(); 	//start code to open new gui
 				break;
 			case MANCALA:
 				System.out.println("You have chosen Mancala!");

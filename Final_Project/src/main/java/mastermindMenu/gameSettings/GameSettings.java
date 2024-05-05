@@ -4,6 +4,12 @@ import java.awt.Color;
 
 import javax.swing.JOptionPane;
 
+
+/**
+ * This class makes the colors allowed in the game and asks the user how long they 
+ * @author Alon B.
+ * 
+ */
 public class GameSettings {
 	private static final String[] COLORS = {"R", "G", "B", "Y", "O", "P"};
     private static final Color[] COLOR_MAP = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.ORANGE, Color.MAGENTA};

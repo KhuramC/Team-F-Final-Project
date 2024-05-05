@@ -7,6 +7,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+
+/* 
+ * This class makes the board of buttons and instantiates the listeners as well as sets up the submit buton.
+ * @author Alon B.
+ */
 public class GameBoard extends JPanel {
 	 private static final long serialVersionUID = 1L;
 	    private JButton[][] guessButtons;
