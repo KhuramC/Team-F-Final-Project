@@ -21,7 +21,7 @@ import mvcinterfaces.MenuController;
 public class MainMenuController implements MenuController {
 
 	private MainMenuModel model;
-	protected MainMenuView startView;
+	private MainMenuView startView;
 
 	/**
 	 * A default constructor for the controller. Creates the associated model and
