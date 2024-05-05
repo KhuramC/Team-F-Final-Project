@@ -17,7 +17,7 @@ import mvcinterfaces.MenuController;
 public class MainMenuController implements MenuController{
 	
 	private MainMenuModel model;
-	private MainMenuStartView startView;
+	public MainMenuStartView startView;
 
     /**
      * A parameterized constructor for the controller. There is no need for a default constructor since

@@ -48,16 +48,16 @@ public class BattleshipMenuView extends JFrame {
         JLabel p1ColorLabel = new JLabel("Player 1 Ship Color:");
         p1ColorLabel.setBounds(50, 50, 150, 30);
         contentPane.add(p1ColorLabel);
-        p1ColorComboBox = new JComboBox<>(new String[]{"Gray","Green", "Yellow", "Purple", "Orange"});
-        p1ColorComboBox.setBounds(180, 50, 150, 30);
-        contentPane.add(p1ColorComboBox);
+        setP1ColorComboBox(new JComboBox<>(new String[]{"Gray","Green", "Yellow", "Purple", "Orange"}));
+        getP1ColorComboBox().setBounds(180, 50, 150, 30);
+        contentPane.add(getP1ColorComboBox());
         // Personal Options - MENU
         JLabel p2ColorLabel = new JLabel("Player 2 Ship Color:");
         p2ColorLabel.setBounds(50, 100, 150, 30);
         contentPane.add(p2ColorLabel);
-        p2ColorComboBox = new JComboBox<>(new String[]{"Gray","Green", "Yellow", "Purple", "Orange"});
-        p2ColorComboBox.setBounds(180, 100, 150, 30);
-        contentPane.add(p2ColorComboBox);
+        setP2ColorComboBox(new JComboBox<>(new String[]{"Gray","Green", "Yellow", "Purple", "Orange"}));
+        getP2ColorComboBox().setBounds(180, 100, 150, 30);
+        contentPane.add(getP2ColorComboBox());
 
         // Game Options - MENU
         JLabel gameOptionLabel = new JLabel("Game Options");
@@ -67,23 +67,23 @@ public class BattleshipMenuView extends JFrame {
         JLabel boardSizeLabel = new JLabel("Select Board Size:");
         boardSizeLabel.setBounds(350, 50, 150, 30);
         contentPane.add(boardSizeLabel);
-        selectBoardSizeComboBox = new JComboBox<>(new String[]{"Small (7x7)", "Normal (10x10)", "Large (13x13)"});
-        selectBoardSizeComboBox.setBounds(480, 50, 150, 30);
-        contentPane.add(selectBoardSizeComboBox);
+        setSelectBoardSizeComboBox(new JComboBox<>(new String[]{"Small (7x7)", "Normal (10x10)", "Large (13x13)"}));
+        getSelectBoardSizeComboBox().setBounds(480, 50, 150, 30);
+        contentPane.add(getSelectBoardSizeComboBox());
         // Game Options - MENU
         JLabel timerLabel = new JLabel("Select Timer:");
         timerLabel.setBounds(350, 100, 150, 30);
         contentPane.add(timerLabel);
-        selectTimerComboBox = new JComboBox<>(new String[]{"No Timer", "30 sec", "1 min"});
-        selectTimerComboBox.setBounds(480, 100, 150, 30);
-        contentPane.add(selectTimerComboBox);
+        setSelectTimerComboBox(new JComboBox<>(new String[]{"No Timer", "30 sec", "1 min"}));
+        getSelectTimerComboBox().setBounds(480, 100, 150, 30);
+        contentPane.add(getSelectTimerComboBox());
         // Game Options - MENU
         JLabel shipSet = new JLabel("Select Ship Set:");
         shipSet.setBounds(350, 150, 150, 30);
         contentPane.add(shipSet);
-        selectShipSetComboBox = new JComboBox<>(new String[]{"Stealth", "Normal", "Massive"});
-        selectShipSetComboBox.setBounds(480, 150, 150, 30);
-        contentPane.add(selectShipSetComboBox);
+        setSelectShipSetComboBox(new JComboBox<>(new String[]{"Stealth", "Normal", "Massive"}));
+        getSelectShipSetComboBox().setBounds(480, 150, 150, 30);
+        contentPane.add(getSelectShipSetComboBox());
 
         // Start game button
         startGameButton = new JButton("Start Game");
@@ -103,34 +103,124 @@ public class BattleshipMenuView extends JFrame {
      * @return The selected color for Player 1's ships.
      */
     public String getPlayer1Color() {
-        return (String) p1ColorComboBox.getSelectedItem();
+        return (String) getP1ColorComboBox().getSelectedItem();
     }
     /**
      * Gets the selected color for Player 2's ships.
      * @return The selected color for Player 2's ships.
      */
     public String getPlayer2Color() {
-        return (String) p2ColorComboBox.getSelectedItem();
+        return (String) getP2ColorComboBox().getSelectedItem();
     }
     /**
      * Gets the selected board size.
      * @return The selected board size.
      */
     public String getSelectedBoardSize() {
-        return (String) selectBoardSizeComboBox.getSelectedItem();
+        return (String) getSelectBoardSizeComboBox().getSelectedItem();
     }  
     /**
      * Gets the selected timer option.
      * @return The selected timer option.
      */
     public String getSelectedTimer() {
-        return (String) selectTimerComboBox.getSelectedItem();
+        return (String) getSelectTimerComboBox().getSelectedItem();
     }
     /**
      * Gets the selected ship set.
      * @return The selected ship set.
      */
     public String getSelectedShipSet() {
-        return (String) selectShipSetComboBox.getSelectedItem();
+        return (String) getSelectShipSetComboBox().getSelectedItem();
+    }
+
+    /**
+     * Retrieves the JComboBox representing the selection of board size.
+     * 
+     * @return The JComboBox representing the selection of board size.
+     */
+    public JComboBox<String> getSelectBoardSizeComboBox() {
+        return selectBoardSizeComboBox;
+    }
+
+    /**
+     * Sets the JComboBox for selecting the board size.
+     * 
+     * @param selectBoardSizeComboBox The JComboBox to set for selecting the board size.
+     */
+    public void setSelectBoardSizeComboBox(JComboBox<String> selectBoardSizeComboBox) {
+        this.selectBoardSizeComboBox = selectBoardSizeComboBox;
+    }
+
+    /**
+     * Retrieves the JComboBox representing the selection of the timer option.
+     * 
+     * @return The JComboBox representing the selection of the timer option.
+     */
+    public JComboBox<String> getSelectTimerComboBox() {
+        return selectTimerComboBox;
+    }
+
+    /**
+     * Sets the JComboBox for selecting the timer option.
+     * 
+     * @param selectTimerComboBox The JComboBox to set for selecting the timer option.
+     */
+    public void setSelectTimerComboBox(JComboBox<String> selectTimerComboBox) {
+        this.selectTimerComboBox = selectTimerComboBox;
+    }
+
+    /**
+     * Retrieves the JComboBox representing the selection of the ship set.
+     * 
+     * @return The JComboBox representing the selection of the ship set.
+     */
+    public JComboBox<String> getSelectShipSetComboBox() {
+        return selectShipSetComboBox;
+    }
+
+    /**
+     * Sets the JComboBox for selecting the ship set.
+     * 
+     * @param selectShipSetComboBox The JComboBox to set for selecting the ship set.
+     */
+    public void setSelectShipSetComboBox(JComboBox<String> selectShipSetComboBox) {
+        this.selectShipSetComboBox = selectShipSetComboBox;
+    }
+
+    /**
+     * Retrieves the JComboBox representing the selection of Player 1's ship color.
+     * 
+     * @return The JComboBox representing the selection of Player 1's ship color.
+     */
+    public JComboBox<String> getP1ColorComboBox() {
+        return p1ColorComboBox;
+    }
+
+    /**
+     * Sets the JComboBox for selecting Player 1's ship color.
+     * 
+     * @param p1ColorComboBox The JComboBox to set for selecting Player 1's ship color.
+     */
+    public void setP1ColorComboBox(JComboBox<String> p1ColorComboBox) {
+        this.p1ColorComboBox = p1ColorComboBox;
+    }
+
+    /**
+     * Retrieves the JComboBox representing the selection of Player 2's ship color.
+     * 
+     * @return The JComboBox representing the selection of Player 2's ship color.
+     */
+    public JComboBox<String> getP2ColorComboBox() {
+        return p2ColorComboBox;
+    }
+
+    /**
+     * Sets the JComboBox for selecting Player 2's ship color.
+     * 
+     * @param p2ColorComboBox The JComboBox to set for selecting Player 2's ship color.
+     */
+    public void setP2ColorComboBox(JComboBox<String> p2ColorComboBox) {
+        this.p2ColorComboBox = p2ColorComboBox;
     }
 }

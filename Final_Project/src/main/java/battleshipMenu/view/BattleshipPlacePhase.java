@@ -34,6 +34,10 @@ public class BattleshipPlacePhase extends JFrame {
     private JButton[][] boardCells;
     private JButton rotateButton;
     private JButton doneButton;
+    private JLabel placeLabel;
+    private JLabel[] columnLabels;
+    private JLabel[] rowLabels;
+    private JLabel playerLabel;
     
     private JComboBox<String> shipComboBox; // Combobox with ship set
     private JTextArea explanationTextArea; // Text area
@@ -287,19 +291,20 @@ public class BattleshipPlacePhase extends JFrame {
      * @param numCols The number of columns in the game board.
      */
     private void initializePlayerLabel(int numRows, int numCols) {
-        JLabel WhatPlayer = new JLabel("Player 1's Game Board");
+    	// Initialize playerLabel within the method
+        playerLabel = new JLabel("Player 1's Game Board");
         int labelWidth = 300; // Adjust as needed
         int labelHeight = 30; // Adjust as needed
         int labelX = (numCols * 50) / 2; // Center horizontally
         int labelY = numRows * 50 + 60; // Position slightly below the P1Board
-        WhatPlayer.setBounds(labelX, labelY, labelWidth, labelHeight);
-        gameBoardPanel.add(WhatPlayer);
+        playerLabel.setBounds(labelX, labelY, labelWidth, labelHeight);
+        gameBoardPanel.add(playerLabel);
     }
     /**
      * Initializes the label indicating the ship selection and placement area.
      */
     private void initializePlaceLabel() {
-        JLabel placeLabel = new JLabel("↓↓ Select & Place Ships ↓↓");
+        placeLabel = new JLabel("↓↓ Select & Place Ships ↓↓");
         placeLabel.setBounds(800, 215, 150, 30);
         gameBoardPanel.add(placeLabel);
     }
@@ -309,14 +314,16 @@ public class BattleshipPlacePhase extends JFrame {
      * @param numCols The number of columns in the game board.
      */
     private void initializeColumnLabels(int numCols) {
-        int cellSize = 50; // Adjust size as needed
+    	int cellSize = 50; // Adjust size as needed
         int startX = 50;
         int startY = 50;
+        columnLabels = new JLabel[numCols]; // Initialize the array
         // Add column labels (letters)
         for (int col = 0; col < numCols; col++) {
             JLabel columnLabel = new JLabel(String.valueOf((char) ('A' + col)));
             columnLabel.setBounds(startX + col * cellSize + cellSize / 2, startY - 30, 20, 20);
             gameBoardPanel.add(columnLabel);
+            columnLabels[col] = columnLabel; // Add label to the array
         }
     }
     /**
@@ -325,14 +332,16 @@ public class BattleshipPlacePhase extends JFrame {
      * @param numRows The number of rows in the game board.
      */
     private void initializeRowLabels(int numRows) {
-        int cellSize = 50; // Adjust size as needed
+    	int cellSize = 50; // Adjust size as needed
         int startX = 50;
         int startY = 50;
+        rowLabels = new JLabel[numRows]; // Initialize the array
         // Add row labels (numbers)
         for (int row = 0; row < numRows; row++) {
             JLabel rowLabel = new JLabel(String.valueOf(row + 1));
             rowLabel.setBounds(startX - 30, startY + row * cellSize + cellSize / 2, 20, 20);
             gameBoardPanel.add(rowLabel);
+            rowLabels[row] = rowLabel; // Add label to the array
         }
     }
     /**
@@ -467,7 +476,7 @@ public class BattleshipPlacePhase extends JFrame {
      * @param colorName The name of the color.
      * @return The corresponding Color object.
      */
-    private Color mapColor(String colorName) {
+    public Color mapColor(String colorName) {
     	return battleshipGameModel.mapColor(colorName);
     }
     /**
@@ -478,4 +487,94 @@ public class BattleshipPlacePhase extends JFrame {
     public String[][] getPlayer1GameBoardState() {
     	return battleshipGameModel.getPlayer1GameBoardState();
     }
+    /**
+     * Getter method for retrieving the game board panel.
+     *
+     * @return The JPanel representing the game board panel.
+     */
+    public JPanel getGameBoardPanel() {
+        return gameBoardPanel;
+    }
+
+    /**
+     * Getter method for retrieving the "Done" button.
+     *
+     * @return The JButton representing the "Done" button.
+     */
+    public JButton getDoneButton() {
+        return doneButton;
+    }
+
+    /**
+     * Getter method for retrieving the explanation text area.
+     *
+     * @return The JTextArea representing the explanation text area.
+     */
+    public JTextArea getExplanationTextArea() {
+        return explanationTextArea;
+    }
+
+    /**
+     * Getter method for retrieving the player label.
+     *
+     * @return The JLabel representing the player label.
+     */
+    public JLabel getPlayerLabel() {
+        return playerLabel;
+    }
+
+    /**
+     * Getter method for retrieving the place label.
+     *
+     * @return The JLabel representing the place label.
+     */
+    public JLabel getPlaceLabel() {
+        return placeLabel;
+    }
+
+    /**
+     * Getter method for retrieving the column labels.
+     *
+     * @return An array of JLabel objects representing the column labels.
+     */
+    public JLabel[] getColumnLabels() {
+        return columnLabels;
+    }
+
+    /**
+     * Getter method for retrieving the row labels.
+     *
+     * @return An array of JLabel objects representing the row labels.
+     */
+    public JLabel[] getRowLabels() {
+        return rowLabels;
+    }
+
+    /**
+     * Getter method for retrieving the cell buttons.
+     *
+     * @return A 2D array of JButton objects representing the cell buttons.
+     */
+    public JButton[][] getBoardCells() {
+        return boardCells;
+    }
+
+    /**
+     * Getter method for retrieving the rotate button.
+     *
+     * @return The JButton representing the rotate button.
+     */
+    public JButton getRotateButton() {
+        return rotateButton;
+    }
+
+    /**
+     * Getter method for retrieving the ship combo box.
+     *
+     * @return The JComboBox representing the ship combo box.
+     */
+    public JComboBox<String> getShipComboBox() {
+        return shipComboBox;
+    }
+
 }

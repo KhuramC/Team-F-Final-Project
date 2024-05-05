@@ -27,7 +27,7 @@ public class BattleshipMenuController {
     }
 
     // Inner class to handle start game button click
-    private class StartGameButtonListener implements ActionListener {
+    public class StartGameButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             // Extract selected options from the view
