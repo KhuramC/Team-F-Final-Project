@@ -29,8 +29,8 @@ public class Connect4SettingsController implements MenuController {
 	private Connect4SettingsView settingsView;
 
 	/**
-	 * A default constructor for the controller.  
-	 * The associated listeners for the view are also added. The view is also added as an observer to the model.
+	 * A default constructor for the controller. Creates the associated Model and View for the settings and adds it as an
+	 * Observer to the Model. The associated listeners for the View are also added.
 	 * 
 	 * @author Khuram C.
 	 */
@@ -180,7 +180,6 @@ public class Connect4SettingsController implements MenuController {
 		public void actionPerformed(ActionEvent e) {
 			JRadioButton b = (JRadioButton) e.getSource();
 			parseButtontoSetBoardSize(b);
-			
 		}
 		/**
 		 * Parses a button's text (in the form of 'rowNumxcolNum' to get the board size and set it.

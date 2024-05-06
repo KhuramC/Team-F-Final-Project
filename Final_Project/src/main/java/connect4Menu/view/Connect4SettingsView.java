@@ -41,7 +41,7 @@ import java.awt.Component;
 
 /**
  * A View from the MVC architecture used for choosing the settings of the
- * Connect4 game.
+ * Connect4 game. The View observes the Connect4SettingsModel.
  * 
  * @author Khuram C.
  */

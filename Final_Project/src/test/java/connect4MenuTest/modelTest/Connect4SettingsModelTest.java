@@ -30,22 +30,22 @@ class Connect4SettingsModelTest {
 	}
 
 	/**
-	 * Tests the getColNum method. The default value should be 6, so this tests if that is correct.
+	 * Tests the getColNum method. The default value should be 7, so this tests if that is correct.
 	 * @author Khuram C.
 	 */
 	@Test
 	void testGetColNum() {
-		int expectedColNum = 6; //default value.
+		int expectedColNum = 7; //default value.
 		assertEquals(expectedColNum,model.getColNum());
 	}
 	
 	/**
-	 * Tests the getRowNum method. The default value should be 7, so this tests if that is correct.
+	 * Tests the getRowNum method. The default value should be 6, so this tests if that is correct.
 	 * @author Khuram C.
 	 */
 	@Test
 	void testGetRowNum() {
-		int expectedRowNum = 7; //default value.
+		int expectedRowNum = 6; //default value.
 		assertEquals(expectedRowNum,model.getRowNum());
 	}
 	

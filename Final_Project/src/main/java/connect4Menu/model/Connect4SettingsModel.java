@@ -9,7 +9,7 @@ import connect4Menu.model.player.Player2Colors;
 
 /**
  * A model from the MVC architecture for the Connect4 menus to play a game of
- * Connect4.
+ * Connect4. The model is Observable and is observed by the Connect4SettingsView.
  * 
  * @author Khuram C.
  */
