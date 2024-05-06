@@ -48,7 +48,6 @@ public class GameController {
         int nextColorIndex = Arrays.asList(colorMap).indexOf(currentColor) + 1;
         button.setBackground(colorMap[nextColorIndex % colorMap.length]);
         button.setOpaque(true);
-        // button.setBorderPainted(false);  // Optional: disable border painting if it interferes
         button.repaint(); // Make sure the change is visible
     }
     

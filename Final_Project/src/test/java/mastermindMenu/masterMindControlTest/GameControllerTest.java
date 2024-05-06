@@ -1,17 +1,13 @@
+package mastermindMenu.masterMindControlTest;
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.util.Arrays;
 
 import javax.swing.JButton;
-
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import mastermindMenu.MastermindGame.MastermindGame;
 import mastermindMenu.gameSettings.GameSettings;
@@ -22,7 +18,7 @@ public class GameControllerTest {
     private MastermindGame game;
     private GameSettings settings;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         settings = new GameSettings();
         settings.setMaxTries(4);
