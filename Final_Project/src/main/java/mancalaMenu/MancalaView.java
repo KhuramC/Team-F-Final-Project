@@ -9,6 +9,8 @@ import java.util.Iterator;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class MancalaView extends JPanel {
     private static final long serialVersionUID = 1L;
@@ -17,6 +19,7 @@ public class MancalaView extends JPanel {
     
     JLabel leftStore;
     JLabel rightStore;
+    private JLabel textField;
 
     public MancalaView(MancalaController controller) {
         this.controller = controller;
@@ -35,6 +38,10 @@ public class MancalaView extends JPanel {
         JPanel panel = new JPanel();
         add(panel, BorderLayout.CENTER);
         panel.setLayout(new GridLayout(2, 6, 0, 0));
+        
+        textField = new JLabel();
+        add(textField, BorderLayout.NORTH);
+        textField.setHorizontalAlignment(SwingConstants.CENTER);
 
         pitButtons = new JButton[12]; // Initialize pitButtons array
 
@@ -68,6 +75,10 @@ public class MancalaView extends JPanel {
         // Update stores
         leftStore.setText("Left Mancala\n" + controller.getModel().getStoreP1());
         rightStore.setText("Right Mancala\n" + controller.getModel().getStoreP2());
+        
+        // Say who's turn it is.
+        textField.setText(controller.getModel().getCurrentPlayer() == 1 ? 
+                "Player 1's Turn" : "Player 2's Turn");
 
         revalidate(); // Re-layout the components
         repaint(); // Repaint the components
