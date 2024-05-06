@@ -6,15 +6,27 @@ import org.junit.jupiter.api.Test;
 
 import mastermindMenu.feedback.FeedbackPanel;
 
+/**
+ * Tests for the FeedbackPanel class of the Mastermind game.
+ * This class ensures that the feedback functionality (adding and clearing feedback) works as expected.
+ * @author Alon B.
+ */
 class mastermindFeedbackTest {
 	
 	private FeedbackPanel feedbackPanel;
 
+	/**
+     * Sets up a new FeedbackPanel before each test to ensure a clean state.
+     */
     @BeforeEach
     void setUp() {
         feedbackPanel = new FeedbackPanel();
     }
 
+    /**
+     * Tests that feedback text is appended correctly to the FeedbackPanel.
+     * It checks for the correct initial state, single append, and multiple appends.
+     */
     @Test
     void testAppendFeedback() {
         // Initially, the text area should be empty
@@ -29,6 +41,10 @@ class mastermindFeedbackTest {
         assertEquals("Test feedback 1\nTest feedback 2\n", feedbackPanel.getFeedbackArea().getText(), "Feedback should append correctly");
     }
 
+    /**
+     * Tests that the FeedbackPanel can be cleared of all feedback.
+     * It verifies the functionality by first appending text and then ensuring the panel is empty after clearing.
+     */
     @Test
     void testClearFeedback() {
         // Add some text first

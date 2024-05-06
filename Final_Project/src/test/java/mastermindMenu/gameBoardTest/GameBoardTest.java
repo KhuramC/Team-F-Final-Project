@@ -16,10 +16,20 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+/**
+ * This class contains tests for the GameBoard class used in the Mastermind game.
+ * It verifies proper initialization, behavior of interactive elements, and the reset functionality.
+ * @author Alon B.
+ */
 public class GameBoardTest {
 	private GameBoard gameBoard;
     private ActionListener colorListener;
     private ActionListener submitListener;
+
+    /**
+     * Sets up the environment for each test.
+     * Initializes a GameBoard object with specified number of tries, code length, and action listeners.
+     */
 
     @Before
     public void setUp() {
@@ -38,12 +48,18 @@ public class GameBoardTest {
         gameBoard = new GameBoard(5, 4, colorListener, submitListener);
     }
 
+    /**
+     * Tests the constructor of the GameBoard to ensure it properly initializes with the correct number of components.
+     */
     @Test
     public void testConstructor() {
         assertNotNull(gameBoard);
         assertEquals(5, gameBoard.getComponentCount() / 5);
     }
-
+    
+    /**
+     * Tests that the game board buttons are initialized correctly, verifying the dimensions, color, and enabled state.
+     */
     @Test
     public void testInitializeButtons() {
         JButton[][] buttons = gameBoard.getGuessButtons();
@@ -64,6 +80,9 @@ public class GameBoardTest {
         }
     }
 
+    /**
+     * Tests the reset functionality of the game board to ensure all buttons are reset to their initial states.
+     */
     @Test
     public void testResetBoard() {
         gameBoard.resetBoard();
@@ -77,6 +96,9 @@ public class GameBoardTest {
         }
     }
 
+    /**
+     * Tests the functionality of enabling and disabling a specific row of buttons on the game board.
+     */
     @Test
     public void testSetRowEnabled() {
         gameBoard.setRowEnabled(2, true);
