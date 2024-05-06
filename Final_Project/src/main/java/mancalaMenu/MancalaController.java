@@ -25,16 +25,11 @@ public class MancalaController {
 
     public void clickPit(int pitIndex) {
     	// it is always indexed 0-5
+    	System.out.println("PitIndex" + pitIndex);
     	
-    	if (pitIndex > 5) {
-			pitIndex -= 6;
-			if (model.moveStone(2, pitIndex)) {
-				handleIllegalMove();
-			}
-		}
-        if (model.moveStone(1, pitIndex)) {
-        	handleIllegalMove();
-        }
+    	if (!model.moveStone(pitIndex)) {
+    		handleIllegalMove();
+    	}
         modelChanged();
     }
 
@@ -44,6 +39,7 @@ public class MancalaController {
 
 	public void modelChanged() {
         view.updateView();
+        model.checkWin();
         if (model.getGameState() == MancalaModel.STATE.COMPLETE) {
             handleGameWon();
         }
