@@ -22,7 +22,8 @@ public class Connect4GameModel
 
 	private Player p1;
 	private Player p2;
-	private final int[][] board;
+	//changed for JUnit testing
+	protected final int[][] board;
 	private boolean isTimer;
 	private CountDownTimer timer;
 	private int[] selected = new int[2];
@@ -68,7 +69,7 @@ public class Connect4GameModel
 	 * @return boolean detailing success.
 	 * @author Khuram C.
 	 */
-	private boolean changeTurns() {
+	protected boolean changeTurns() {
 		p1.setTurn(!p1.isTurn());
 		p2.setTurn(!p2.isTurn());
 		return true;
@@ -168,25 +169,27 @@ public class Connect4GameModel
 	 * notify observers that the game has ended due to that player winning. If not, it'll check for a potential tie. If there
 	 * is, it'll notify the observers and pause the timer if used. Lastly, if the game is still going,
 	 * just change turns and start the next player's turn.
-	 * @return detailing successful check.
+	 * @return detailing whether game is over.
 	 * @author Khuram C.
 	 */
-	private boolean checkEndGame() {
+	protected boolean checkEndGame() {
 		if (WinnerAlgoSingleton.getInstance().isWinner(whoseTurn().getPlayerNum(),board)) {
 			if (isTimer) {
 				timer.pauseTimer();
 			}
 			notifyEndGameObservers(whoseTurn());
+			return true;
 		} else if (!isTurnAvailable()) {
 			notifyEndGameObservers(null);
 			if (isTimer) {
 				timer.pauseTimer();
 			}
+			return true;
 		} else {
 			changeTurns();
 			startTurn();
 		}
-		return true;
+		return false;
 	}
 
 	/**
@@ -194,7 +197,7 @@ public class Connect4GameModel
 	 * @return ArrayList of integers(colNums).
 	 * @author Khuram C.
 	 */
-	private ArrayList<Integer> getValidCols() {
+	protected ArrayList<Integer> getValidCols() {
 		ArrayList<Integer> validColsList = new ArrayList<>();
 		for(int col = 0; col < board[0].length;col++) {
 			if(isValidSelection(col)) {
@@ -209,7 +212,7 @@ public class Connect4GameModel
 	 * @return boolean detailing successful selection of random column.
 	 * @author Khuram C.
 	 */
-	private boolean selectRandom() {
+	protected boolean selectRandom() {
 		Random rand = new Random();
 		ArrayList<Integer> validColNums = getValidCols();
 		int randomValidColChoice = validColNums.get(rand.nextInt(validColNums.size()));
