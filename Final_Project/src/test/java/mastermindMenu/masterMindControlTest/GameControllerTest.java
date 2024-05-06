@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import javax.swing.JButton;
 
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -17,71 +18,85 @@ import mastermindMenu.gameSettings.GameSettings;
 import mastermindMenu.masterMindControl.GameController;
 
 public class GameControllerTest {
+    private GameController controller;
+    private MastermindGame game;
     private GameSettings settings;
 
-    @Mock
-    private MastermindGame game;
-
-    private GameController gameController;
-
-    @BeforeEach
+    @Before
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
-        GameSettings settings = new GameSettings("RGBY", 4);
-        when(game.getSettings()).thenReturn(settings);
-        gameController = new GameController(game);
+        settings = new GameSettings();
+        settings.setMaxTries(4);
+        settings.setCodeLength(4);
+        game = new MastermindGame(settings);
+        controller = new GameController(game);
     }
 
+    @Test
+    public void testConstructor() {
+        assertNotNull(controller);
+        assertEquals(game, controller.game);
+    }
 
     @Test
     public void testToggleColor() {
-        // Assuming the initial color is LIGHT_GRAY
-        Color[] expectedColors = new Color[] { Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW };
         JButton button = new JButton();
+        button.setBackground(Color.RED);
+        controller.toggleColor(new ActionEvent(button, 0, ""));
+        assertEquals(Color.BLUE, button.getBackground());
+    }
 
-        for (Color expectedColor : expectedColors) {
-            gameController.toggleColor(new ActionEvent(button, 0, null));
-            assertEquals(expectedColor, button.getBackground());
+    @Test
+    public void testStartGame() {
+        controller.startGame();
+        assertNotNull(controller.board);
+        assertNotNull(controller.feedback);
+    }
+
+    @Test
+    public void testSubmitGuess() {
+        JButton[] guessButtonsRow = new JButton[4];
+        for (int i = 0; i < 4; i++) {
+            guessButtonsRow[i] = new JButton();
+            guessButtonsRow[i].setBackground(Color.RED);
         }
-
-        // After cycling through all colors, it should go back to the first color
-        gameController.toggleColor(new ActionEvent(button, 0, null));
-        assertEquals(expectedColors[0], button.getBackground());
+        controller.submitGuess(new ActionEvent(guessButtonsRow[0], 0, "0"));
+        assertEquals("RRRR", controller.feedback.getFeedbackArea());
     }
 
     @Test
     public void testIsGuessComplete() {
         JButton[] guessButtonsRow = new JButton[4];
-        Arrays.fill(guessButtonsRow, new JButton());
-
-        // All buttons are in default color (LIGHT_GRAY), so the guess is incomplete
-        assertFalse(gameController.isGuessComplete(guessButtonsRow));
-
-        // Set all buttons to a valid color
-        for (JButton button : guessButtonsRow) {
-            button.setBackground(Color.RED);
+        for (int i = 0; i < 4; i++) {
+            guessButtonsRow[i] = new JButton();
+            guessButtonsRow[i].setBackground(Color.RED);
         }
-
-        // Now the guess is complete
-        assertTrue(gameController.isGuessComplete(guessButtonsRow));
+        assertTrue(controller.isGuessComplete(guessButtonsRow));
     }
 
     @Test
     public void testProvideFeedback() {
-        game.setSecretCode(new String[] { "R", "B", "G", "Y" });
-
-        String guess = "RBYG";
-        String feedback = gameController.provideFeedback(guess);
-        assertTrue(feedback.contains("2 in the correct position and 2 correct color(s) but wrong in the wrong position."));
-
-        guess = "RRGG";
-        feedback = gameController.provideFeedback(guess);
-        assertTrue(feedback.contains("0 in the correct position and 2 correct color(s) but wrong in the wrong position."));
-
-        guess = "RBYY";
-        feedback = gameController.provideFeedback(guess);
-        assertTrue(feedback.contains("2 in the correct position and 1 correct color(s) but wrong in the wrong position."));
+        String guess = "RRRG";
+        String secretCode = "RRRY";
+        assertEquals("Row 1 has 3 in the correct position and 1 correct color(s) but wrong in the wrong position.", controller.provideFeedback(guess));
     }
 
-    // Add more tests as needed
+    @Test
+    public void testHandleGameWon() {
+        controller.handleGameWon();
+        assertEquals("You guessed the code!", controller.feedback.getFeedbackArea());
+    }
+
+    @Test
+    public void testHandleNextTurn() {
+        controller.handleNextTurn(0);
+        assertEquals(1, game.getCurrentTry());
+    }
+
+    @Test
+    public void testResetGame() {
+        controller.resetGame();
+        assertEquals(0, game.getCurrentTry());
+        assertNotNull(controller.board);
+        assertNotNull(controller.feedback);
+    }
 }

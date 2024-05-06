@@ -16,9 +16,9 @@ public class GameSettings {
     private static final Color[] COLOR_MAP = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.ORANGE, Color.MAGENTA};
     private int codeLength;
     private int maxTries;
-	private static final String ERROR_MESSAGE_INVALID_INPUT = "Please enter a valid number.";
-    private static final String ERROR_MESSAGE_CODE_LENGTH_MUST_BE_GREATER_THAN_ZERO = "Error: Code length must be greater than 0.";
-    private static final String ERROR_MESSAGE_MAX_TRIES_MUST_BE_GREATER_THAN_ZERO = "Error: Number of tries must be greater than 0.";
+	public static final String ERROR_INVALID_INPUT = "Please enter a valid number.";
+    public static final String ERROR_LENGTH_MUST_BE_GREATER_THAN_ZERO = "Error: Code length must be greater than 0.";
+    private static final String ERROR_MAX_TRIES_MUST_BE_GREATER_THAN_ZERO = "Error: Number of tries must be greater than 0.";
 
     /**
      * Constructs a new GameSettings object by initializing code length and max tries
@@ -28,7 +28,11 @@ public class GameSettings {
     	getUserInput();
     }
     
+    
+    
+    
     public class GameSettingsPrompter {
+    	
         /**
          * Prompts the user to set the code length for the Mastermind game.
          * Ensures that the input is a positive integer.
@@ -37,7 +41,7 @@ public class GameSettings {
             int codeLength;
             do {
                 String input = JOptionPane.showInputDialog(null, "Enter the length of the code (must be greater than 0):", "Game Settings", JOptionPane.QUESTION_MESSAGE);
-                codeLength = validateInput(input, ERROR_MESSAGE_INVALID_INPUT, ERROR_MESSAGE_CODE_LENGTH_MUST_BE_GREATER_THAN_ZERO);
+                codeLength = validateInput(input, ERROR_INVALID_INPUT, ERROR_LENGTH_MUST_BE_GREATER_THAN_ZERO);
             } while (codeLength <= 0);
             return codeLength;
         }
@@ -50,7 +54,7 @@ public class GameSettings {
             int maxTries;
             do {
                 String input = JOptionPane.showInputDialog(null, "Enter the maximum number of tries (must be greater than 0):", "Game Settings", JOptionPane.QUESTION_MESSAGE);
-                maxTries = validateInput(input, ERROR_MESSAGE_INVALID_INPUT, ERROR_MESSAGE_MAX_TRIES_MUST_BE_GREATER_THAN_ZERO);
+                maxTries = validateInput(input, ERROR_INVALID_INPUT, ERROR_MAX_TRIES_MUST_BE_GREATER_THAN_ZERO);
             } while (maxTries <= 0);
             return maxTries;
         }
@@ -61,32 +65,23 @@ public class GameSettings {
          * @param errorMessageOutOfRange
          * @return value if it is a valid argument 
          */
-        public static int validateInput(String input, String errorMessageInvalidInput, String errorMessageOutOfRange) {
+        public static int validateInput(String input, String errorInvalidInput, String errorOutOfRange) {
             try {
                 int value = Integer.parseInt(input);
                 if (value <= 0) {
-                    JOptionPane.showMessageDialog(null, errorMessageOutOfRange, "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, errorOutOfRange, "Invalid Input", JOptionPane.ERROR_MESSAGE);
                     return 0;
                 }
                 return value;
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, errorMessageInvalidInput, "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, errorInvalidInput, "Invalid Input", JOptionPane.ERROR_MESSAGE);
                 return 0;
             }
         }
     }
     
-    /**
-     * This is a test-friendly constructor used to help 
-     * @param string		testing colors
-     * @param codeLength	Testing code length
-     */
-    public GameSettings(int codeLength, int maxTries) {
-        this.codeLength = codeLength;
-        this.maxTries = maxTries;
-    }
-    
-    /**
+
+	/**
      * Prompts the user to input the game settings for code length and maximum number of tries.
      */
     private void getUserInput() {
@@ -111,5 +106,15 @@ public class GameSettings {
     public int getMaxTries() {
         return maxTries;
     }
+
+
+	public void setMaxTries(int i) {
+		maxTries = i;
+	}
+
+
+	public void setCodeLength(int i) {
+		codeLength = i;
+	}
     
 }

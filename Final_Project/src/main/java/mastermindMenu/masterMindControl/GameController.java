@@ -23,9 +23,9 @@ import mastermindMenu.gameBoard.GameBoard;
  * 
  */
 public class GameController {
-    private MastermindGame game; 
-    private GameBoard board;
-    private FeedbackPanel feedback;
+    public MastermindGame game; 
+    public GameBoard board;
+    public FeedbackPanel feedback;
     
     /**
      * Constructs a GameController for managing a Mastermind game.
@@ -69,7 +69,7 @@ public class GameController {
      * Handles the guess submission logic, determining if the guess is correct and managing game progression.
      * @param e The action event triggered by the submit button.
      */
-    private void submitGuess(ActionEvent e) {
+    public void submitGuess(ActionEvent e) {
         int row = Integer.parseInt(e.getActionCommand());
         if (row != game.getCurrentTry()) return; // Ensure only the current row can submit
 
@@ -140,11 +140,11 @@ public class GameController {
             }
         }
 
-        return "Row " + game.getCurrentTry() + 1 + " has " + correctPosition + " in the correct position and " + correctColor + " correct color(s) but wrong in the wrong position.";
+        return "Row " + (game.getCurrentTry() + 1) + " has " + correctPosition + " in the correct position and " + correctColor + " correct color(s) but wrong in the wrong position.";
     }
     
     
-    private void handleGameWon() {
+    public void handleGameWon() {
         JOptionPane.showMessageDialog(board, "You guessed the code!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
         showPlayAgainOption();
     }
@@ -153,7 +153,7 @@ public class GameController {
      * If the next turn is not the given maximum number of tries then the player has lost
      * @param currentRow
      */
-    private void handleNextTurn(int currentRow) {
+    public void handleNextTurn(int currentRow) {
         if (currentRow + 1 < game.getSettings().getMaxTries()) {
             game.incrementCurrentTry();
            // board.getGuessButtons()[currentRow + 1][0].setEnabled(true); // Enable the next row

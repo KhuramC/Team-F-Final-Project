@@ -2,57 +2,70 @@ package mastermind.MastermindGameTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Arrays;
-
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import mastermindMenu.MastermindGame.MastermindGame;
 import mastermindMenu.gameSettings.GameSettings;
 
-class mastermindGameTest {
-    private MastermindGame game;
+public class mastermindGameTest{
+	
+
+	private MastermindGame game = null;
     private GameSettings settings;
 
     @BeforeEach
-    void setUp() {
-        // Create GameSettings with known values
-        settings = new GameSettings(new String[] {"R", "G", "B", "Y"}, 4);
+    public void setUp() {
+        settings = new GameSettings();
+        settings.setCodeLength(4);
+        settings.setMaxTries(10);
         game = new MastermindGame(settings);
     }
-    
-    void testResetGamePopulatesSecretCodeCorrectly() {
+
+    @Test
+    public void testConstructor() {
+        assertNotNull(game);
+        assertEquals(settings, game.getSettings());
+        assertNotNull(game.secretCode);
+        assertEquals(settings.getCodeLength(), game.secretCode.length);
+        assertEquals(0, game.getCurrentTry());
+    }
+
+    @Test
+    public void testResetGame() {
         game.resetGame();
+        assertNotNull(game.secretCode);
+        assertEquals(settings.getCodeLength(), game.secretCode.length);
+        assertEquals(0, game.getCurrentTry());
+        for (String color : game.secretCode) {
+            assertTrue(settings.getColors()[0].equals(color) || settings.getColors()[1].equals(color) || settings.getColors()[2].equals(color) || settings.getColors()[3].equals(color));
+        }
+    }
+
+    @Test
+    public void testGetSecretCode() {
         String[] secretCode = game.getSecretCode();
-        assertNotNull(secretCode, "Secret code array should not be null");
-        assertEquals(4, secretCode.length, "Secret code length should match settings");
-
-    }
-    
-    @Test
-    void testGameSettingsProvidesCorrectColors() {
-        GameSettings settings = new GameSettings(new String[]{"R", "G", "B", "Y"}, 4);
-        String[] colors = settings.getColors();
-        assertNotNull(colors);
-        assertTrue(Arrays.asList("R", "G", "B", "Y").containsAll(Arrays.asList(colors)));
+        assertNotNull(secretCode);
+        assertEquals(settings.getCodeLength(), secretCode.length);
     }
 
     @Test
-    void testCurrentTryIsReset() {
+    public void testGetCurrentTry() {
+        assertEquals(0, game.getCurrentTry());
         game.incrementCurrentTry();
-        game.resetGame();
-        assertEquals(0, game.getCurrentTry(), "Current try should be reset to 0 after resetGame");
+        assertEquals(1, game.getCurrentTry());
     }
 
     @Test
-    void testIncrementCurrentTry() {
-        int initialTry = game.getCurrentTry();
-        game.incrementCurrentTry();
-        assertEquals(initialTry + 1, game.getCurrentTry(), "Current try should increment by 1");
+    public void testGetSettings() {
+        assertEquals(settings, game.getSettings());
     }
 
     @Test
-    void testGetSettings() {
-        assertSame(settings, game.getSettings(), "getSettings should return the original settings object used in construction");
+    public void testSetSecretCode() {
+        String[] newSecretCode = new String[] {"Red", "Blue", "Green", "Yellow"};
+        game.setSecretCode(newSecretCode);
+        assertArrayEquals(newSecretCode, game.getSecretCode());
     }
 }

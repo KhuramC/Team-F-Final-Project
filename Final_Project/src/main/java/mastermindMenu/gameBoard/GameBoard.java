@@ -47,7 +47,7 @@ public class GameBoard extends JPanel {
             for (int j = 0; j < codeLength; j++) {
                 JButton button = new JButton();
                 button.setEnabled(i == 0); // Initialize, only enable the first row
-                button.setBackground(Color.LIGHT_GRAY);
+                button.setBackground(Color.WHITE);
                 button.setPreferredSize(new Dimension(50, 50));
                 button.addActionListener(colorListener); 
                 button.setBorderPainted(true);
@@ -63,11 +63,13 @@ public class GameBoard extends JPanel {
 	   }
 	   
 	    
-	    
+	    /**
+	     * This is the class specific part that needs to reset when the game is reset.
+	     */
 	    public void resetBoard() {
 	        IntStream.range(0, guessButtons.length).forEach(row -> {
 	            for (JButton button : guessButtons[row]) {
-	            	button.setBackground(Color.LIGHT_GRAY);  // Set default color
+	            	button.setBackground(Color.WHITE);  // Set default color
 	                button.setEnabled(row == 0);  // Enable only the first row
 	                button.repaint();
 	            }
