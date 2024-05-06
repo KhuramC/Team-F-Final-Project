@@ -24,6 +24,7 @@ public class MancalaModel {
 	};
 	public STATE gameState;
 	private static final int initialStones = 4;
+	private static final int numPits = 6;
 	
 	protected int currentPlayer; // 1 for p1, 2 for p2.
 	private int currPos;
@@ -35,31 +36,40 @@ public class MancalaModel {
 	private int storeP1;
 	private int storeP2;
 		
-	private List<ModelListener> listeners = new ArrayList<>();
-	
 	private int win;
 	
 	public MancalaModel (){
-		p1 = new int[6];
-		p2 = new int[6];
+		p1 = new int[numPits];
+		p2 = new int[numPits];
 		storeP1 = 0;
 		storeP2 = 0;
 		
 		setGameState(STATE.INPLAY);
 		
+		Arrays.fill(p2, initialStones);
+		Arrays.fill(p1, initialStones);
 		for (int i = 0; i < p1.length; i++) {
 			p1[i] = initialStones;
 			p2[i] = initialStones;
 		}
 		currentPlayer = 1;
+		win = 0;
 	}
 	
-	public boolean moveStone(int player, int pitNumber) {
+	public boolean moveStone(int pitNumber) {
+        int player;
+        if (pitNumber >= 0 && pitNumber < numPits) {
+            player = 1;
+        } else if (pitNumber >= numPits && pitNumber < numPits * 2) {
+            player = 2;
+            pitNumber -= numPits;
+        } else {
+            return false; // Invalid pit number
+        }
 		if (player != currentPlayer) {
 			return false;
 		}
-		System.out.println(Arrays.toString(p1));
-		System.out.println(Arrays.toString(p2));
+		
 		if (player == 1) {
 			distributeStones(p1, pitNumber, storeP1, p2, 2);
 			currentPlayer = 2;
@@ -67,7 +77,10 @@ public class MancalaModel {
 			distributeStones(p2, pitNumber, storeP2, p1, 1);
 			currentPlayer = 1;
 		}
-		currentPlayer = (currentPlayer == 1) ? 2 : 1; // switch players.
+		
+		System.out.println(Arrays.toString(p1) + "Store :" + storeP1);
+		System.out.println(Arrays.toString(p2) + "Store :" + storeP2);
+		System.out.println("Player " + currentPlayer);
 		return true;
 	}
 	
@@ -82,8 +95,12 @@ public class MancalaModel {
 		    stones--; // Decrement stones to distribute
 
 		    if (i == 6 && !isOppositeSide) { // Reached end of current player's pits
-		      int storeStones = getStoreStones(currentPlayer); // Get current player's store stones (optional for logic)
-		      setStoreP1(storeStones + 1); // Simulate adding 1 to current player's store (optional for logic)
+		      int storeStones = getStoreStones(currentPlayer); // Get current player's store stones
+		      if (currentPlayer == 1) {
+		    	  setStoreP1(storeStones + 1); // add 1 to current player's store
+		      } else {
+		    	  setStoreP2(storeStones + 1);
+		      }
 		      i = 0; // Wrap around to the first pit on the opposite side
 		      isOppositeSide = true;
 		    } else if (isOppositeSide) {
@@ -131,14 +148,14 @@ public class MancalaModel {
 
 	        // Determine the winner based on the number of stones in the stores
 	        if (storeP1 > storeP2) {
-	            return 1; // Player 1 wins
+	            win = 1; // Player 1 wins
 	        } else if (storeP2 > storeP1) {
-	            return 2; // Player 2 wins
+	            win = 2; // Player 2 wins
 	        } else {
-	            return 3; // Draw
+	            win = 3; // Draw
 	        }
 	    }
-	    return 4; // No win 
+	    win = 4; // No win 
 	}
 	
 	/**
@@ -289,15 +306,6 @@ public class MancalaModel {
 		// TODO Auto-generated method stub
 		
 	}
-    // Method to add listeners
-    public void addListener(ModelListener listener) {
-        listeners.add(listener);
-    }
-
-    // Method to remove listeners
-    public void removeListener(ModelListener listener) {
-        listeners.remove(listener);
-    }
 
 	public int getWin() {
 		return win;
