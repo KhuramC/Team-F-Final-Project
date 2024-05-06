@@ -10,6 +10,8 @@ import connect4Menu.Connect4Main;
 import mainMenu.model.*;
 import mainMenu.view.*;
 import mastermindMenu.MastermindMenu;
+import music.MusicLocations;
+import music.MusicPlayer;
 import mvcinterfaces.MenuController;
 
 /**
@@ -84,7 +86,7 @@ public class MainMenuController implements MenuController {
 				break;
 			case MASTERMIND:
 				System.out.println("You have chosen Mastermind!");
-				MastermindMenu.startMastermind(); 	//start code to open new gui
+				MastermindMenu.startMastermind();   //start code to open new gui
 				break;
 			case MANCALA:
 				System.out.println("You have chosen Mancala!");
@@ -94,6 +96,7 @@ public class MainMenuController implements MenuController {
 				Connect4Main.startConnect4();
 				break;
 			}
+			MusicPlayer.getInstance().pauseMusic();
 			return true;
 		}
 	}
@@ -108,6 +111,7 @@ public class MainMenuController implements MenuController {
 
 			@Override
 			public void run() {
+				MusicPlayer.getInstance().playMusic(MusicLocations.MAINMENU.getMusicFilePath());
 				startView.setVisible(true);
 			}
 		});

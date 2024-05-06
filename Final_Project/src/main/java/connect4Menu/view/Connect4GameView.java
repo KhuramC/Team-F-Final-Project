@@ -8,6 +8,10 @@ import javax.swing.SwingConstants;
 
 import connect4Menu.model.player.Player;
 import connect4Menu.view.observerinterfaces.*;
+import music.MusicLocations;
+import music.MusicPlayer;
+import music.SoundLocations;
+import music.SoundPlayer;
 
 import javax.swing.JLabel;
 
@@ -148,10 +152,11 @@ public class Connect4GameView extends JFrame
 	}
 
 	/**
-	 * Updates the given cell location with the Player's specified colored circle.
+	 * Updates the given cell location with the Player's specified colored circle (and plays a sound with it).
 	 */
 	@Override
 	public boolean updateBoard(Player p, int[] selection) {
+		SoundPlayer.getInstance().playSound(SoundLocations.SQUAREPLAYED.getSoundFilePath());
 		String playerFilePath = p.getColor().getFilePath();
 		ImageIcon playerSquare = new ImageIcon(getClass().getResource(playerFilePath));
 		int row = selection[0];
@@ -167,10 +172,13 @@ public class Connect4GameView extends JFrame
 	public boolean updateTextWithWinner(Player p) {
 		turnLabel.setVisible(false);
 		timerLabel.setVisible(false);
+		MusicPlayer.getInstance().pauseMusic();
 		if (p == null) {
+			MusicPlayer.getInstance().playMusic(MusicLocations.CONNECT4TIE.getMusicFilePath());
 			endLabel.setText("It was a tie!");
 
 		} else {
+			MusicPlayer.getInstance().playMusic(MusicLocations.CONNECT4WIN.getMusicFilePath());
 			endLabel.setText(p.getName() + " won!");
 		}
 		disableButtons();

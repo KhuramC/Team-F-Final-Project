@@ -15,6 +15,8 @@ import connect4Menu.exceptions.InvalidTimerTimeException;
 import connect4Menu.model.Connect4SettingsModel;
 import connect4Menu.model.player.IPlayerColors;
 import connect4Menu.view.Connect4SettingsView;
+import music.MusicLocations;
+import music.MusicPlayer;
 import mvcinterfaces.MenuController;
 
 /**
@@ -160,9 +162,11 @@ public class Connect4SettingsController implements MenuController {
 		 * @author Khuram C.
 		 */
 		public boolean startConnect4Round() {
+			MusicPlayer.getInstance().pauseMusic();
 			Connect4GameController gameController = new Connect4GameController(model);
 			gameController.initiate();
 			settingsView.dispatchEvent(new WindowEvent(settingsView, WindowEvent.WINDOW_CLOSING));
+			
 			return true;
 			
 		}
@@ -208,6 +212,7 @@ public class Connect4SettingsController implements MenuController {
 
 			@Override
 			public void run() {
+				MusicPlayer.getInstance().playMusic(MusicLocations.CONNECT4SETTINGS.getMusicFilePath());
 				settingsView.setVisible(true);
 			}
 		});

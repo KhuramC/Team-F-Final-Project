@@ -8,6 +8,8 @@ import javax.swing.JButton;
 import connect4Menu.model.Connect4GameModel;
 import connect4Menu.model.Connect4SettingsModel;
 import connect4Menu.view.Connect4GameView;
+import music.MusicLocations;
+import music.MusicPlayer;
 import mvcinterfaces.MenuController;
 
 /**
@@ -72,6 +74,7 @@ public class Connect4GameController implements MenuController {
 	 */
 	@Override
 	public boolean initiate() {
+		MusicPlayer.getInstance().playMusic(MusicLocations.CONNECT4GAME.getMusicFilePath());
 		gameView.setVisible(true);
 		gameModel.startTurn();
 		return true;
