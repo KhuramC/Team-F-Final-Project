@@ -65,16 +65,16 @@ public class MancalaView extends JPanel {
     // Method to update the view (e.g., after a move)
     public void updateView() {
         // Update text on buttons
-        for (int i = 0; i < 6; i++) {
-            pitButtons[i].setText("Pit " + (i + 1) + ": " + controller.getModel().getPitStones(2, i));
-        }
         for (int i = 5; i >= 0; i--) {
-            pitButtons[i + 6].setText("Pit " + (i + 7) + ": " + controller.getModel().getPitStones(1, i));
+            pitButtons[i + 6].setText("Pit " + (i + 1) + ": " + controller.getModel().getPitStones(2, i));
+        }
+        for (int i = 0; i < 6; i++) {
+            pitButtons[i].setText("Pit " + (i + 7) + ": " + controller.getModel().getPitStones(1, i));
         }
         
         // Update stores
-        leftStore.setText("Left Mancala\n" + controller.getModel().getStoreP1());
-        rightStore.setText("Right Mancala\n" + controller.getModel().getStoreP2());
+        leftStore.setText("Left Mancala\n" + controller.getModel().getStoreP2());
+        rightStore.setText("Right Mancala\n" + controller.getModel().getStoreP1());
         
         // Say who's turn it is.
         textField.setText(controller.getModel().getCurrentPlayer() == 1 ? 
