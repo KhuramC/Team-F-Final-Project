@@ -1,17 +1,9 @@
 package battleshipMenu.model;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
-
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.Timer;
 
 /**
  * The BattleshipGameModel class represents the model component of the Battleship game.
@@ -26,10 +18,6 @@ public class BattleshipGameModel {
     private boolean player1GameBoardStateSaved = false;
     private int shipsPlacedCount = 0;
     private int shipsPlacedCountP2 = 0;
-    private int remainingTimeInSeconds;
-    private String shootingTimer; // Declare shootingTimer as an instance variable
-    private int currentPlayer; // Declare currentPlayer as an instance variable
-    private int initialTurnTimeInSeconds;
     /**
      * Constructor for the BattleshipGameModel class.
      *

@@ -2,9 +2,6 @@ package battleshipMenu.model;
 
 import java.util.List;
 
-import battleshipMenu.control.*;
-import battleshipMenu.view.*;
-
 /**
  * Represents the model for the Battleship game menu.
  * @author Roney

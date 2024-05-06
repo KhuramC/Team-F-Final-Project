@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import battleshipMenu.model.MapSize;
 import battleshipMenu.model.ShipSet;
 import battleshipMenu.model.BattleshipGameModel;
 import java.awt.event.ActionEvent;
