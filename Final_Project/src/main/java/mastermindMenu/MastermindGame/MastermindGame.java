@@ -54,6 +54,7 @@ public class MastermindGame {
     public GameSettings getSettings() {
         return settings;
     }
+    
 	public void setSecretCode(String[] strings) {
 		secretCode = strings;
 		
