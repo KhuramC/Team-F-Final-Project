@@ -71,6 +71,7 @@ public class GameController {
     public void submitGuess(ActionEvent e) {
         int row = Integer.parseInt(e.getActionCommand());
         if (row != game.getCurrentTry()) return; // Ensure only the current row can submit
+       
 
         JButton[] guessButtonsRow = board.getGuessButtons()[row];
         String guess = Arrays.stream(guessButtonsRow)
@@ -79,12 +80,11 @@ public class GameController {
         	    .map(result -> (String) result[1])  // Extract the String representation from the array
         	    .collect(Collectors.joining());  // Collect the strings into a single string
         
-        
-        
         if (!isGuessComplete(guessButtonsRow)) { // Basic Check
             JOptionPane.showMessageDialog(board, "Please select a color for each position in the row before submitting.", "Incomplete Guess", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        
         
         board.setRowEnabled(row, false);
 
@@ -104,7 +104,7 @@ public class GameController {
      * @return true if all buttons are set; otherwise, false.
      */
     public boolean isGuessComplete(JButton[] guessButtonsRow) {
-        return Arrays.stream(guessButtonsRow).noneMatch(button -> button.getBackground() == Color.LIGHT_GRAY);
+        return Arrays.stream(guessButtonsRow).noneMatch(button -> button.getBackground() == Color.WHITE);
     }
     
     /**
