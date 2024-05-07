@@ -1,8 +1,6 @@
 package mastermindMenu.gameSettingsTest;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.mock;
 
 import java.awt.Color;
 
