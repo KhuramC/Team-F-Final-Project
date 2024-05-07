@@ -6,7 +6,7 @@ Final project for CS 3330:
 A 2 Player Game Pack with the games Battleship, Mancala, MasterMind, and Connect4, all implemented with a GUI.
 
 ## Dependencies
-Java 21 and its standard library. For testing: JUnit5.
+Java 21 and its standard library. For testing: JUnit5. For accessing the class diagram, drawio is necessary. It can then be exported as whatever fileType is wanted.
 
 
 
