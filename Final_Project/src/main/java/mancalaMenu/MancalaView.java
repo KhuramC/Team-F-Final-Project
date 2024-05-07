@@ -21,9 +21,9 @@ public class MancalaView extends JPanel {
 	private MancalaController controller;
 	private JButton[] pitButtons;
 
-	JLabel leftStore;
-	JLabel rightStore;
-	private JLabel textField;
+	public JLabel leftStore;
+	public JLabel rightStore;
+	public JLabel textField;
 
 	/**
 	 * Constructs a new MancalaView with the given controller.

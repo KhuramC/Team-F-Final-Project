@@ -1,3 +1,7 @@
+package mancalaMenuTest;
+
+import mancalaMenu.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,8 +27,8 @@ class MancalaViewTest {
         assertNotNull(view.leftStore);
         assertNotNull(view.rightStore);
         assertNotNull(view.textField);
-        assertNotNull(view.pitButtons);
-        assertEquals(12, view.pitButtons.length);
+        assertNotNull(view.getPitButtons());
+        assertEquals(12, view.getPitButtons().length);
     }
 
     @Test
@@ -36,12 +40,12 @@ class MancalaViewTest {
 
         // Check if the pit buttons are updated
         for (int i = 0; i < 6; i++) {
-            JButton button = view.pitButtons[i];
+            JButton button = view.getPitButtons()[i];
             assertEquals("Pit " + (i + 7) + ": " + model.getPitStones(1, i), button.getText());
         }
 
         for (int i = 6; i < 12; i++) {
-            JButton button = view.pitButtons[i];
+            JButton button = view.getPitButtons()[i];
             assertEquals("Pit " + (i - 5) + ": " + model.getPitStones(2, i - 6), button.getText());
         }
 

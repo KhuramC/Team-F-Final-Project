@@ -1,4 +1,4 @@
-package MancalaMenuTest;
+package mancalaMenuTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
