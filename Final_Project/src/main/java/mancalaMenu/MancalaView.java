@@ -77,8 +77,11 @@ public class MancalaView extends JPanel {
         rightStore.setText("Right Mancala\n" + controller.getModel().getStoreP1());
         
         // Say who's turn it is.
-        textField.setText(controller.getModel().getCurrentPlayer() == 1 ? 
-                "Player 1's Turn" : "Player 2's Turn");
+        String turnText = controller.getModel().getCurrentPlayer() == 1 ? "Player 1's Turn." : "Player 2's Turn.";
+        if (controller.getModel().isHasAnotherTurn()) {
+			turnText = turnText + " Landed in your Store. Another Turn!";
+		}
+        textField.setText(turnText);
 
         revalidate(); // Re-layout the components
         repaint(); // Repaint the components

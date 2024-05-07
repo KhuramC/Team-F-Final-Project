@@ -37,6 +37,7 @@ public class MancalaModel {
 	private int storeP2;
 		
 	private int win;
+	private boolean hasAnotherTurn;
 	
 	public MancalaModel (){
 		p1 = new int[numPits];
@@ -56,13 +57,26 @@ public class MancalaModel {
 		win = 0;
 	}
 	
+	/**
+	 * Use to interact with the board.
+	 * @param pitNumber
+	 * @return legality of move
+	 */
 	public boolean moveStone(int pitNumber) {
+		
+		// Check validity of moves
         int player;
         if (pitNumber >= 0 && pitNumber < numPits) {
             player = 1;
+            if (p1[pitNumber] == 0) { // pit cannot be empty.
+				return false;
+			}
         } else if (pitNumber >= numPits && pitNumber < numPits * 2) {
             player = 2;
             pitNumber -= numPits;
+            if (p2[pitNumber] == 0) { // pit cannot be empty.
+				return false;
+			}
         } else {
             return false; // Invalid pit number
         }
@@ -72,10 +86,18 @@ public class MancalaModel {
 		
 		if (player == 1) {
 			distributeStones(p1, pitNumber, storeP1, p2, 2);
+			if (hasAnotherTurn) {
+				currentPlayer = 1;
+			} else {
 			currentPlayer = 2;
+			}
 		}else {
 			distributeStones(p2, pitNumber, storeP2, p1, 1);
-			currentPlayer = 1;
+			if (hasAnotherTurn) {
+				currentPlayer = 2;
+			} else {
+				currentPlayer = 1;
+			}
 		}
 		
 		System.out.println(Arrays.toString(p1) + "Store :" + storeP1);
@@ -84,13 +106,28 @@ public class MancalaModel {
 		return true;
 	}
 	
+	/**
+	 * @return the hasAnotherTurn
+	 */
+	public boolean isHasAnotherTurn() {
+		return hasAnotherTurn;
+	}
+
+	/**
+	 * @param hasAnotherTurn the hasAnotherTurn to set
+	 */
+	public void setHasAnotherTurn(boolean hasAnotherTurn) {
+		this.hasAnotherTurn = hasAnotherTurn;
+	}
+
 	private void distributeStones(int[] currPits, int pitNumber, int currentStore, int[] oppositePits, int nextPlayer) {
 		  int stones = currPits[pitNumber]; // Get the stones from the starting pit
 		  currPits[pitNumber] = 0; // Empty the starting pit
 
 		  int i = pitNumber + 1; // Start index at the next pit
 		  boolean isOppositeSide = false; // Flag to track if we're on the opposite side
-
+		  hasAnotherTurn = false;
+		  
 		  while (stones > 0) {
 		    stones--; // Decrement stones to distribute
 
@@ -101,6 +138,11 @@ public class MancalaModel {
 		      } else {
 		    	  setStoreP2(storeStones + 1);
 		      }
+		      // give player another turn if last stone lands in store.
+		      if (stones == 0) {
+		    	  hasAnotherTurn = true;
+		      }
+		      
 		      i = 0; // Wrap around to the first pit on the opposite side
 		      isOppositeSide = true;
 		    } else if (isOppositeSide) {

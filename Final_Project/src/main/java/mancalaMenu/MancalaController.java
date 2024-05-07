@@ -1,7 +1,5 @@
 package mancalaMenu;
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -30,20 +28,17 @@ public class MancalaController {
     	if (!model.moveStone(pitIndex)) {
     		handleIllegalMove();
     	}
-        modelChanged();
+    	model.checkWin();
+        if (model.getGameState() == MancalaModel.STATE.COMPLETE) {
+        	;
+            handleGameWon();
+        }
+        view.updateView();
     }
 
     private void handleIllegalMove() {
-    	JOptionPane.showMessageDialog(null, "It's not your turn!", "Illegal Move", JOptionPane.WARNING_MESSAGE);
+    	JOptionPane.showMessageDialog(null, "Illegal Move. Choose another pit!", "Illegal Move", JOptionPane.WARNING_MESSAGE);
 	}
-
-	public void modelChanged() {
-        view.updateView();
-        model.checkWin();
-        if (model.getGameState() == MancalaModel.STATE.COMPLETE) {
-            handleGameWon();
-        }
-    }
 
     private void handleGameWon() {
     	int win = model.getWin();
