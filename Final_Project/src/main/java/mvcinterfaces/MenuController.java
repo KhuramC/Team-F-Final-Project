@@ -10,9 +10,9 @@ public interface MenuController {
 	/**
 	 * Starts the application (to the user), usually by making the accompanying view
 	 * visible.
-	 * 
+	 * @return boolean detailing success or not.
 	 * @author Khuram C.
 	 */
-	public void initiate();
+	public boolean initiate();
 
 }

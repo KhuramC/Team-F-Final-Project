@@ -21,7 +21,7 @@ import mainMenu.model.GameType;
  */
 class MainMenuControllerTest extends MainMenuController {
 	
-	private MainMenuControllerTest controller = null;
+	private MainMenuController controller = null;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -30,9 +30,9 @@ class MainMenuControllerTest extends MainMenuController {
 
 	/**
 	 * Tests the startGame method in the StartGameButtonListener subclass with the different GameTypes. True is expected
-	 * for all GameTypes
-	 * @param GameType
-	 * @param expected
+	 * for all GameTypes. We need to inherit from MainMenuController to get access to this listener.
+	 * @param GameType to be tested.
+	 * @param expected boolean output.
 	 * @author Khuram C.
 	 */
 	@ParameterizedTest
@@ -56,24 +56,14 @@ class MainMenuControllerTest extends MainMenuController {
 	}
 	
 	/**
-	 * Tests the initiate method. Because the method uses the invokeLater for the thread, we need to wait for it to go
-	 * first by making a new thread that waits to check if initiate has worked. Otherwise, the test occurs before the method
-	 * actually does anything, and would never be consistent. This also requires inheriting from the controller to check the 
-	 * view's visibility.
+	 * Tests the initiate method. We expect true to be returned, so we test that.
 	 * 
 	 * @author Khuram C.
 	 */
 	@Test
 	void testInitiate() {
-		controller.initiate();
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				boolean expectedBool = true;
-				assertEquals(expectedBool,controller.startView.isVisible());
-			}
-		});
+		boolean expected = controller.initiate();
+		assertTrue(expected);
 	}
 
 }

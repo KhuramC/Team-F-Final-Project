@@ -9,15 +9,15 @@ import connect4Menu.model.player.Player2Colors;
 
 /**
  * A model from the MVC architecture for the Connect4 menus to play a game of
- * Connect4.
+ * Connect4. The model is Observable and is observed by the Connect4SettingsView.
  * 
  * @author Khuram C.
  */
 public class Connect4SettingsModel extends Observable {
 
 	// default_values
-	private int colNum = 6; // x
-	private int rowNum = 7; // y
+	private int colNum = 7; // x
+	private int rowNum = 6; // y
 	private boolean isTimer = false;
 	private int timerTime = 15;
 	private Player[] players = {new Player("Player 1", Player1Colors.RED, player1Num),
@@ -127,6 +127,7 @@ public class Connect4SettingsModel extends Observable {
 		Player player = getPlayer(playerNum);
 		if(player!=null) {
 			player.setColor(color);
+			return true;
 		}
 		return false;
 	}

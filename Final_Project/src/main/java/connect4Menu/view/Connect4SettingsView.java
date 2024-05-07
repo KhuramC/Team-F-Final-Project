@@ -41,7 +41,7 @@ import java.awt.Component;
 
 /**
  * A View from the MVC architecture used for choosing the settings of the
- * Connect4 game.
+ * Connect4 game. The View observes the Connect4SettingsModel.
  * 
  * @author Khuram C.
  */
@@ -54,7 +54,8 @@ public class Connect4SettingsView extends JFrame implements Observer {
 	private JTextField timerTextField;
 	private ArrayList<JComboBox<IPlayerColors>> playerColorsComboBoxes = new ArrayList<>(2);
 	private JButton startGameButton;
-	private JLabel errorLabel;
+	//for JUnit testing.
+	protected JLabel errorLabel;
 
 	/**
 	 * Default constructor for the Connect4SettingsMenuView. Constructs the View and
@@ -423,6 +424,15 @@ public class Connect4SettingsView extends JFrame implements Observer {
 	 */
 	public void changeErrorLabelText(String text) {
 		errorLabel.setText(text);
+	}
+	
+	/**
+	 * Returns the text held in the errorLabel.
+	 * @return String in errorLabel.
+	 * @author Khuram C.
+	 */
+	public String getErrorLabelText() {
+		return errorLabel.getText();
 	}
 
 	/**
