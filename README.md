@@ -57,14 +57,14 @@ WARNING WHEN TESTING: GameSettings always propts user for input and input does n
 
 
 ### Roney: implmented the game Battleship. Rules are as follows;
-####Rules
+#### Rules
 1. Select your game settings. You will have the choice of selecting player 1 and 2's ship color, the map size, shipset, and shooting phase timer
 2. Next up, you will begin the 'placing ship' phase for player 1. Here, player 1 will select and place their ships on the board given, clicking done when happy with their placements. Remember that ship placements cannot overlap or be off the board.
 3. Then, player 2 will do the same. Placing their ships on the board and selecting 'done' when happy with their placements. Remember that ship placements cannot overlap or be off the board.
 4. Lastly, the 'shooting phase' will begin. First, the player will select the button 'coinflip'. This button determines who goes first. Heads means player 1, and tails means player 2.
 5. Once the order is decided, the timer (if chosen) will start, and you will alternate shooting at eachothers boards until all ships spaces have been hit and sunk. Winner will be declared and the game will end while also revealing the 'unsunk' pieces.
 
-####Features 
+#### Features 
 1. Users will have their shooting board update with different colors depending on a hit or miss.
 2. Users can choose a 'timer' that ensures each player's turn is at max, a specific time. Running out of time instantly restarts the timer and switches to the next player's turn.
 3. Users will have the option of the 'shipSet'. These include different ships and sizes.
