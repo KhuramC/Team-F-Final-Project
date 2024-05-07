@@ -6,7 +6,7 @@ Final project for CS 3330:
 A 2 Player Game Pack with the games Battleship, Mancala, MasterMind, and Connect4, all implemented with a GUI. A quick video over the games can be found [here.](https://mailmissouri-my.sharepoint.com/:v:/g/personal/hskht_umsystem_edu/EdFkmfAMefJIhvs2eESP0nMBZ127MeebDqpQZLu53Jwe3A?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=h2860N)
 
 ## Dependencies
-Java 21 and its standard library. For testing: JUnit5. For accessing the class diagram, drawio is necessary. It can then be exported as whatever fileType is wanted. A link can be found [here as well.](https://drive.google.com/file/d/15RiNaHoyckeNG9rCiNcXcYdCVryHW-D0/view?usp=sharing)
+Java 21 and its standard library. For testing: JUnit5. For accessing the class diagram, drawio is necessary. It can then be exported as whatever fileType is wanted. A link for the diagram can be found [here as well.](https://drive.google.com/file/d/15RiNaHoyckeNG9rCiNcXcYdCVryHW-D0/view?usp=sharing)
 
 
 
