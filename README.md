@@ -2,10 +2,10 @@
 Final project for CS 3330: 
 
 
-##Description
+## Description
 A 2 Player Game Pack with the games Battleship, Mancala, MasterMind, and Connect4, all implemented with a GUI.
 
-##Dependencies
+## Dependencies
 Java 21 and its standard library. For testing: JUnit5.
 
 
