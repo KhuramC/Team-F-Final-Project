@@ -18,6 +18,9 @@ Private getUserInput which prompts the user to input the game settings for code 
 
 Private void initializeButtons(int maxTries, int codeLength, ActionListener colorListener, ActionListener submitListener) which initializes the buttons on the game board based off of user input.
 
+WARNING WHEN TESTING: GameSettings always propts user for input and input does not effect outcome of tets, but all input fields need to above 0 for all tests to run. (A lot of pannels pop up, put in numbers greater than 0)
+
+
 ### Hipolito: I implemented the game Mancala. the rules are as follows:
 1. The board consists of two rows of six holes (or pits) each.
 2. Four stones go to each pit at the beginning of a game.
