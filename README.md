@@ -1,5 +1,13 @@
 # Team-F-Final-Project
-Final project for CS 3330.
+Final project for CS 3330: 
+
+
+## Description
+A 2 Player Game Pack with the games Battleship, Mancala, MasterMind, and Connect4, all implemented with a GUI.
+
+## Dependencies
+Java 21 and its standard library. For testing: JUnit5. For accessing the class diagram, drawio is necessary. It can then be exported as whatever fileType is wanted.
+
 
 
 ### Alon: I implemented the game Mastermind the rules are as follows:
@@ -33,3 +41,32 @@ WARNING WHEN TESTING: GameSettings always propts user for input and input does n
 9. Return captured pieces to your store.
 10. The game ends when all six spaces on one side of the Mancala board are empty. Remaining pieces are put into that player's store.
 11. The player with the most stones in their store at the end of the game wins.
+
+
+### Khuram: implemented the game Connect4 and the mainMenu to select a game.
+#### Features:
+1.Users can select from the four games available to play.
+
+2.Users can toggle a timer and choose the length of said timer for turns in a game.
+
+3.Users can choose their color for their discs.
+
+4.Users can choose the size of the board they would like to play one.
+
+5.Users can play a game of Connect4 (get four in a row).
+
+
+### Roney: implmented the game Battleship. Rules are as follows;
+#Rules
+1. Select your game settings. You will have the choice of selecting player 1 and 2's ship color, the map size, shipset, and shooting phase timer
+2. Next up, you will begin the 'placing ship' phase for player 1. Here, player 1 will select and place their ships on the board given, clicking done when happy with their placements. Remember that ship placements cannot overlap or be off the board.
+3. Then, player 2 will do the same. Placing their ships on the board and selecting 'done' when happy with their placements. Remember that ship placements cannot overlap or be off the board.
+4. Lastly, the 'shooting phase' will begin. First, the player will select the button 'coinflip'. This button determines who goes first. Heads means player 1, and tails means player 2.
+5. Once the order is decided, the timer (if chosen) will start, and you will alternate shooting at eachothers boards until all ships spaces have been hit and sunk. Winner will be declared and the game will end while also revealing the 'unsunk' pieces.
+
+#Features 
+1. Users will have their shooting board update with different colors depending on a hit or miss.
+2. Users can choose a 'timer' that ensures each player's turn is at max, a specific time. Running out of time instantly restarts the timer and switches to the next player's turn.
+3. Users will have the option of the 'shipSet'. These include different ships and sizes.
+4. Users can rest assured that ship placements are forced to be within the board using a valid placement methdod.
+5. Users can rotate their ships during placement phases horizontally and vertically.
