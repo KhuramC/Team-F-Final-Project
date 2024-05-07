@@ -50,7 +50,6 @@ public class Connect4GameView extends JFrame
 		setBounds(400, 0, windowWidth, windowHeight);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.contentPane = new JPanel();
-		this.contentPane.setBackground(Color.GRAY);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		int selectionButtonSize = 21;
@@ -89,6 +88,7 @@ public class Connect4GameView extends JFrame
 		for (int col = 0; col < board[0].length; col++) {
 			JButton b = new JButton("Col " + Integer.toString(col + 1));
 			b.setBounds(squareLen * (col + 1), (squareLen * 2) - selectionButtonSize, squareLen, selectionButtonSize);
+			b.setFont(new Font("Britannic Bold", Font.PLAIN, 12));
 			contentPane.add(b);
 			selectionButtons[col] = b;
 			for (int row = 0; row < board.length; row++) {
