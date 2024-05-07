@@ -4,85 +4,123 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
+
 import battleshipMenu.BattleshipMain;
+import javax.swing.SwingUtilities;
+
+
 import connect4Menu.Connect4Main;
 import mainMenu.model.*;
 import mainMenu.view.*;
+import mancalaMenu.MancalaMain;
+import mancalaMenu.MancalaModel;
+import mastermindMenu.MastermindMenu;
+import music.MusicLocations;
+import music.MusicPlayer;
 import mvcinterfaces.MenuController;
 
 /**
- * A Controller from the MVC architecture for the main menu to select a game to play.
+ * A Controller from the MVC architecture for the main menu to select a game to
+ * play.
+ * 
  * @author Khuram C.
  */
-public class MainMenuController implements MenuController{
-	
+public class MainMenuController implements MenuController {
+
 	private MainMenuModel model;
-	public MainMenuStartView startView;
+	private MainMenuView startView;
 
-    /**
-     * A parameterized constructor for the controller. There is no need for a default constructor since
-     * the parameters and controller should always be created at the same time.
-     * @param model to hold the data.
-     * @param startView to show to the user.
-     * @author Khuram C.
-     */
-	public MainMenuController(MainMenuModel model, MainMenuStartView startView) {
-		this.model = model;
-		this.startView = startView;
-		this.startView.addListenertoGameChoicesBox(new GameChoicesBoxListener());
-		this.startView.addListenertoStartGameButton(new StartGameButtonListener());
-	}
-	
+
 	/**
-	 * A subclass that listens to the gameChoicesBox, gets the game chosen, saves the choice in the model.
+	 * A default constructor for the controller. Creates the associated model and
+	 * view for the Main Menu and adds it as an observer for the model. The
+	 * associated listeners for the view are also added.
+	 * 
 	 * @author Khuram C.
 	 */
-	public class GameChoicesBoxListener implements ActionListener{
+	public MainMenuController() {
+		this.model = new MainMenuModel();
+		this.startView = new MainMenuView();
+		model.addObserver(startView);
+		startView.addListenertoGameChoicesBox(new GameChoicesBoxListener());
+		startView.addListenertoStartGameButton(new StartGameButtonListener());
+	}
+
+	/**
+	 * A subclass that listens to the gameChoicesBox, gets the game chosen, saves
+	 * the choice in the model.
+	 * 
+	 * @author Khuram C.
+	 */
+	public class GameChoicesBoxListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			GameType gameType = startView.getGameChoicesBoxChoice();
-			model.setGameChosen(gameType);
-		}	
+			GameType gameChosen = startView.getGameChoicesBoxChoice();
+			model.chooseGame(gameChosen);
+		}
 	}
-	
+
 	/**
-	 * A subclass that listens to the startGameButton, closes the current main menu, and opens up the game chosen.
+	 * A subclass that listens to the startGameButton, closes the current main menu,
+	 * and opens up the game chosen.
+	 * 
 	 * @author Khuram C.
 	 */
-	public class StartGameButtonListener implements ActionListener{
+	public class StartGameButtonListener implements ActionListener {
+		
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			startView.setVisible(false);
 			GameType gameType = model.getGameChosen();
-			switch (gameType) {
+			startGame(gameType);	
+		}
+		
+		/**
+		 * Method to actually start the game chosen. Makes the view invisible, officially closes it, and starts the
+		 * associated game.
+		 * @param gameChosen GameType to play.
+		 * @return boolean detailing successful start of game.
+		 */
+		public boolean startGame(GameType gameChosen) {
+			startView.setVisible(false);
+			startView.dispatchEvent(new WindowEvent(startView, WindowEvent.WINDOW_CLOSING));
+			switch (gameChosen) {
 			case BATTLESHIP:
 				System.out.println("You have chosen Battleship!");
 				BattleshipMain.startBattleship();
 				break;
 			case MASTERMIND:
 				System.out.println("You have chosen Mastermind!");
-				//start code to open new gui
+				MastermindMenu.startMastermind();   //start code to open new gui
 				break;
 			case MANCALA:
 				System.out.println("You have chosen Mancala!");
-				//start code to open new gui
+				MancalaMain.startMancala();
 				break;
 			case CONNECT4:
 				Connect4Main.startConnect4();
 				break;
 			}
-			startView.dispatchEvent(new WindowEvent(startView,WindowEvent.WINDOW_CLOSING));
-		}			
-	}
-	
-	/**
-	 * 'Starts' the application by making the view visible to the user.
-	 * @author Khuram C.
-	 */
-	public void initiate() {
-		startView.setVisible(true);
+			MusicPlayer.getInstance().pauseMusic();
+			return true;
+		}
 	}
 
+	/**
+	 * Starts the application by making the view visible to the user.
+	 * 
+	 * @author Khuram C.
+	 */
+	public boolean initiate() {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				MusicPlayer.getInstance().playMusic(MusicLocations.MAINMENU.getMusicFilePath());
+				startView.setVisible(true);
+			}
+		});
+		return true;
+	}
 }
