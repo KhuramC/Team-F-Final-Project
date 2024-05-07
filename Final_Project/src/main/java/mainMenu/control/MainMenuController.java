@@ -4,7 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
+
+import battleshipMenu.BattleshipMain;
 import javax.swing.SwingUtilities;
+
 
 import connect4Menu.Connect4Main;
 import mainMenu.model.*;
@@ -26,6 +29,7 @@ public class MainMenuController implements MenuController {
 
 	private MainMenuModel model;
 	private MainMenuView startView;
+
 
 	/**
 	 * A default constructor for the controller. Creates the associated model and
@@ -84,7 +88,7 @@ public class MainMenuController implements MenuController {
 			switch (gameChosen) {
 			case BATTLESHIP:
 				System.out.println("You have chosen Battleship!");
-				// start code to open new gui
+				BattleshipMain.startBattleship();
 				break;
 			case MASTERMIND:
 				System.out.println("You have chosen Mastermind!");
