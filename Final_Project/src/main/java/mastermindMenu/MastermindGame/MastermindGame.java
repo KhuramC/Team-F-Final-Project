@@ -1,6 +1,8 @@
 package mastermindMenu.MastermindGame;
 
 import java.util.Random;
+
+
 import mastermindMenu.gameSettings.GameSettings;
 
 
@@ -11,6 +13,7 @@ import mastermindMenu.gameSettings.GameSettings;
  ****/
 public class MastermindGame {
     private GameSettings settings;
+    public boolean started = false;
     public String[] secretCode;
     private int currentTry;
     private final Random random;
@@ -58,5 +61,12 @@ public class MastermindGame {
 	public void setSecretCode(String[] strings) {
 		secretCode = strings;
 		
+	}
+	public void setStarted(boolean bool) {
+		started = bool;
+	}
+	
+	public boolean isStarted() {
+		return this.started;
 	}
 }

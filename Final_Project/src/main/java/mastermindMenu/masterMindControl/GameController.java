@@ -55,6 +55,7 @@ public class GameController {
      * Initiates and displays the game frame, including all components.
      */
     public void startGame() {
+    	game.setStarted(true);
         JFrame frame = new JFrame("Mastermind Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
