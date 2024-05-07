@@ -44,9 +44,13 @@ WARNING WHEN TESTING: GameSettings always propts user for input and input does n
 
 
 ### Khuram: implemented the game Connect4 and the mainMenu to select a game.
-Features:
+#### Features:
 1.Users can select from the four games available to play.
+
 2.Users can toggle a timer and choose the length of said timer for turns in a game.
+
 3.Users can choose their color for their discs.
+
 4.Users can choose the size of the board they would like to play one.
+
 5.Users can play a game of Connect4 (get four in a row).
