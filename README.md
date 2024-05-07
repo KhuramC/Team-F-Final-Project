@@ -1,7 +1,12 @@
 # Team-F-Final-Project
-Final project for CS 3330: 2 Player Game Pack.
+Final project for CS 3330: 
 
-Make sure to have java 21.
+
+##Description
+A 2 Player Game Pack with the games Battleship, Mancala, MasterMind, and Connect4, all implemented with a GUI.
+
+##Dependencies
+Java 21 and its standard library. For testing: JUnit5.
 
 
 
@@ -36,8 +41,6 @@ WARNING WHEN TESTING: GameSettings always propts user for input and input does n
 9. Return captured pieces to your store.
 10. The game ends when all six spaces on one side of the Mancala board are empty. Remaining pieces are put into that player's store.
 11. The player with the most stones in their store at the end of the game wins.
-
-
 
 
 ### Khuram: implemented the game Connect4 and the mainMenu to select a game.
