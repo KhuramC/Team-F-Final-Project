@@ -12,6 +12,8 @@ import mainMenu.view.*;
 import mancalaMenu.MancalaMain;
 import mancalaMenu.MancalaModel;
 import mastermindMenu.MastermindMenu;
+import music.MusicLocations;
+import music.MusicPlayer;
 import mvcinterfaces.MenuController;
 
 /**
@@ -23,7 +25,7 @@ import mvcinterfaces.MenuController;
 public class MainMenuController implements MenuController {
 
 	private MainMenuModel model;
-	protected MainMenuView startView;
+	private MainMenuView startView;
 
 	/**
 	 * A default constructor for the controller. Creates the associated model and
@@ -86,7 +88,11 @@ public class MainMenuController implements MenuController {
 				break;
 			case MASTERMIND:
 				System.out.println("You have chosen Mastermind!");
+<<<<<<< HEAD
 				MastermindMenu.startMastermind(); 	//start code to open new gui
+=======
+				MastermindMenu.startMastermind();   //start code to open new gui
+>>>>>>> 72bd0b20f4247d49cf8836fdb0372575ac8b25a7
 				break;
 			case MANCALA:
 				System.out.println("You have chosen Mancala!");
@@ -96,6 +102,7 @@ public class MainMenuController implements MenuController {
 				Connect4Main.startConnect4();
 				break;
 			}
+			MusicPlayer.getInstance().pauseMusic();
 			return true;
 		}
 	}
@@ -105,13 +112,15 @@ public class MainMenuController implements MenuController {
 	 * 
 	 * @author Khuram C.
 	 */
-	public void initiate() {
+	public boolean initiate() {
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
+				MusicPlayer.getInstance().playMusic(MusicLocations.MAINMENU.getMusicFilePath());
 				startView.setVisible(true);
 			}
 		});
+		return true;
 	}
 }

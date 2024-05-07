@@ -6,6 +6,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -13,8 +14,9 @@ import javax.swing.event.ChangeListener;
 import connect4Menu.exceptions.InvalidTimerTimeException;
 import connect4Menu.model.Connect4SettingsModel;
 import connect4Menu.model.player.IPlayerColors;
-import connect4Menu.model.player.Player;
 import connect4Menu.view.Connect4SettingsView;
+import music.MusicLocations;
+import music.MusicPlayer;
 import mvcinterfaces.MenuController;
 
 /**
@@ -29,8 +31,8 @@ public class Connect4SettingsController implements MenuController {
 	private Connect4SettingsView settingsView;
 
 	/**
-	 * A default constructor for the controller.  
-	 * The associated listeners for the view are also added. The view is also added as an observer to the model.
+	 * A default constructor for the controller. Creates the associated Model and View for the settings and adds it as an
+	 * Observer to the Model. The associated listeners for the View are also added.
 	 * 
 	 * @author Khuram C.
 	 */
@@ -83,20 +85,34 @@ public class Connect4SettingsController implements MenuController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			JTextField textField = (JTextField) e.getSource();
+			parseForTimerTime(textField.getText());	
+		}
+		
+		/**
+		 * Parses the String given to see if it's an integer and if it's within range. If so, it'll change the value in the model.
+		 * Otherwise, it will throw an exception. 
+		 * @param timerTextFieldText text from timerTextField.
+		 * @return String of errorLabel.
+		 * @author Khuram C.
+		 */
+		public String parseForTimerTime(String timerTextFieldText){
 			try {
-				int timerTextFieldValue = Integer.parseInt(settingsView.getTimerTextFieldValue());
+				int timerTextFieldValue = Integer.parseInt(timerTextFieldText);
 				if (timerTextFieldValue > Connect4SettingsModel.maxTimerTime
 						|| timerTextFieldValue < Connect4SettingsModel.minTimerTime) {
 					throw new InvalidTimerTimeException(Connect4SettingsModel.minTimerTime, Connect4SettingsModel.maxTimerTime);
 				}
 				model.setTimerTime(timerTextFieldValue);
 				settingsView.changeErrorLabelText("");
+				
 			} catch (NumberFormatException exc) {
 				settingsView.changeErrorLabelText("Put in an integer!");
 			} catch (InvalidTimerTimeException exc) {
 				settingsView.changeErrorLabelText("Put in an integer from " + Integer.toString(Connect4SettingsModel.minTimerTime) 
 				+ " to " + Integer.toString(Connect4SettingsModel.maxTimerTime) + "s.");
 			}
+			return settingsView.getErrorLabelText();
 		}
 	}
 
@@ -115,6 +131,12 @@ public class Connect4SettingsController implements MenuController {
 			changeColor((JComboBox<IPlayerColors>) e.getSource());
 		}
 		
+		/**
+		 * Changes the color of the player associated with the playerBox.
+		 * @param comboBox to get color from.
+		 * @return boolean detailing success.
+		 * @author Khuram C.
+		 */
 		public boolean changeColor(JComboBox<IPlayerColors> comboBox) {
 			IPlayerColors color = (IPlayerColors) comboBox.getSelectedItem();
 			model.changePlayerColor(color.getAllowedPlayer(), color);
@@ -130,10 +152,23 @@ public class Connect4SettingsController implements MenuController {
 	public class StartGameButtonListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {	
+			startConnect4Round();
+		}
+		
+		/**
+		 * Starts a round of Connect4 by calling initiate in the gameController.
+		 * @return boolean detailing success.
+		 * @author Khuram C.
+		 */
+		public boolean startConnect4Round() {
+			MusicPlayer.getInstance().pauseMusic();
 			Connect4GameController gameController = new Connect4GameController(model);
 			gameController.initiate();
 			settingsView.dispatchEvent(new WindowEvent(settingsView, WindowEvent.WINDOW_CLOSING));
+			
+			return true;
+			
 		}
 	}
 
@@ -149,7 +184,6 @@ public class Connect4SettingsController implements MenuController {
 		public void actionPerformed(ActionEvent e) {
 			JRadioButton b = (JRadioButton) e.getSource();
 			parseButtontoSetBoardSize(b);
-			
 		}
 		/**
 		 * Parses a button's text (in the form of 'rowNumxcolNum' to get the board size and set it.
@@ -172,14 +206,18 @@ public class Connect4SettingsController implements MenuController {
 	 * 
 	 * @author Khuram C.
 	 */
-	public void initiate() {
+	public boolean initiate() {
+		
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
+				MusicPlayer.getInstance().playMusic(MusicLocations.CONNECT4SETTINGS.getMusicFilePath());
 				settingsView.setVisible(true);
 			}
 		});
+		return true;
+		
 		
 	}
 

@@ -14,8 +14,7 @@ public enum Player1Colors implements IPlayerColors {
 	private String filePath;
 
 	/**
-	 * Default Constructor for Player1Colors. All colors in this enum are only for
-	 * Player 1.
+	 * Default Constructor for Player1Colors. All colors in this enum are only for Player 1.
 	 * 
 	 * @author Khuram C.
 	 */

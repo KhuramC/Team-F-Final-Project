@@ -24,10 +24,6 @@ class MainMenuViewTest extends MainMenuView {
 	void setUp() throws Exception {
 		view = new MainMenuViewTest();
 	}
-
-	@AfterEach
-	void tearDown() throws Exception {
-	}
 	
 	/**
 	 * Tests the update and its helper method changeSummaryTextPaneText. Updates with Mancala as the gameChosen, 

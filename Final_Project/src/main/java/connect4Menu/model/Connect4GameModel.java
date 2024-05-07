@@ -3,343 +3,299 @@ package connect4Menu.model;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
+import connect4Menu.model.observableinterfaces.*;
 import connect4Menu.model.player.Player;
-import connect4Menu.view.ObserverEndGame;
-import connect4Menu.view.ObserverInvalidCols;
-import connect4Menu.view.ObserverSquarePlayed;
-import connect4Menu.view.ObserverStartedTurn;
+import connect4Menu.view.observerinterfaces.IEndGameObserver;
+import connect4Menu.view.observerinterfaces.IInvalidColsObserver;
+import connect4Menu.view.observerinterfaces.ISquarePlayedObserver;
+import connect4Menu.view.observerinterfaces.IStartedTurnObserver;
 
+/**
+ * A Model from the MVC architecture for actually playing a round of Connect4. The model observes the CountDownTimer
+ * and is observed by the Connect4GameView. 
+ * @author Khuram C.
+ */
 public class Connect4GameModel
-		implements Observer, ObservableStartedTurn, ObservableSquarePlayed, ObservableEndGame, ObservableInvalidCols {
+		implements Observer, IStartedTurnObservable, ISquarePlayedObservable, IEndGameObservable, IInvalidColsObservable {
 
 	private Player p1;
 	private Player p2;
-	private final int[][] board;
+	//changed for JUnit testing
+	protected final int[][] board;
 	private boolean isTimer;
 	private CountDownTimer timer;
 	private int[] selected = new int[2];
-	private boolean hasSelected = false;
-	private ArrayList<ObserverStartedTurn> startedTurnObservers = new ArrayList<>();
-	private ArrayList<ObserverSquarePlayed> squarePlayedObservers = new ArrayList<>();
-	private ArrayList<ObserverEndGame> endGameObservers = new ArrayList<>();
-	private ArrayList<ObserverInvalidCols> invalidColsObservers = new ArrayList<>();
+	private ArrayList<IStartedTurnObserver> startedTurnObservers = new ArrayList<>();
+	private ArrayList<ISquarePlayedObserver> squarePlayedObservers = new ArrayList<>();
+	private ArrayList<IEndGameObserver> endGameObservers = new ArrayList<>();
+	private ArrayList<IInvalidColsObserver> invalidColsObservers = new ArrayList<>();
 
-	// need to observe whenever there's a winner or tie(reflect in view)//
-
-	public Connect4GameModel(Connect4SettingsModel menuModel) {
-		if (menuModel.isTimer()) {
-			this.timer = new CountDownTimer(menuModel.getTimerTime());
-
+	/**
+	 * A parameterized Constructor. The gameModel requires values from the menuModel. It also starts
+	 * Player 1's turn.
+	 * @param settingsModel to get setting values from.
+	 * @author Khuram C.
+	 */
+	public Connect4GameModel(Connect4SettingsModel settingsModel) {
+		isTimer = settingsModel.isTimer();
+		if (isTimer) {
+			timer = new CountDownTimer(settingsModel.getTimerTime());
 		}
-		this.isTimer = menuModel.isTimer();
-		// timer.addObserver(this);
-		
-		p1 = menuModel.getPlayer(1);
-		p2 = menuModel.getPlayer(2);
-		int rowNum = menuModel.getRowNum();
-		int colNum = menuModel.getColNum();
+		p1 = settingsModel.getPlayer(1);
+		p2 = settingsModel.getPlayer(2);
+		int rowNum = settingsModel.getRowNum();
+		int colNum = settingsModel.getColNum();
 		board = new int[rowNum][colNum];
 		p1.setTurn(true);
-
 	}
 
-	public Player getP1() {
-		return p1;
-	}
-
-	public void setP1(Player p1) {
-		this.p1 = p1;
-	}
-
-	public Player getP2() {
-		return p2;
-	}
-
-	public void setP2(Player p2) {
-		this.p2 = p2;
-	}
-
-	public int[][] getBoard() {
-		return board;
-	}
-
-	public void setWinner(Player p) {
-		p.setWinner();
-	}
-
-	public void changeTurns() {
-		p1.setTurn(!p1.isTurn());
-		p2.setTurn(!p2.isTurn());
-	}
-
+	/**
+	 * Check's if it is p1's turn. If not, it is p2's turn. There is no point in which both or neither are in their turn,
+	 * so this should always work as expected.
+	 * @return player whose turn it is.
+	 * @author Khuram C.
+	 */
 	public Player whoseTurn() {
 		if (p1.isTurn()) {
 			return p1;
 		}
 		return p2;
 	}
+	
+	/**
+	 * Changes the turns of both players.
+	 * @return boolean detailing success.
+	 * @author Khuram C.
+	 */
+	protected boolean changeTurns() {
+		p1.setTurn(!p1.isTurn());
+		p2.setTurn(!p2.isTurn());
+		return true;
+	}
 
-	// need to have isSelectionValid and to actualyl determine it.
-	// under assuimption that the column selected is valid. this is not checked
-	// here.
-	public void select(int selection) {
-		selected[1] = selection;
+	/**
+	 * Checks if the given colNum can be selected for a turn.
+	 * @param colNum to check.
+	 * @return boolean detailing selection availability.
+	 * @author Khuram C.
+	 */
+	public boolean isValidSelection(int colNum) {
+		return (board[0][colNum] == 0);
+	}
+
+
+	/**
+	 * Starts whoever's turn it is by notifying the observers that their turn has started, and 
+	 * starting the timer if it is enabled.
+	 * @return boolean detailing successful start of turn.
+	 * @author Khuram C.
+	 */
+	public boolean startTurn() {
+		notifyStartedTurnObservers(whoseTurn());
+		if (isTimer) {
+			timer.startTimer();
+		}
+		return true;
+	}
+	
+
+	/**
+	 * Gets the correct rowNum given a selected column. This method runs under the assumption that only valid selectedColNums
+	 * are picked, which is checked by other methods.
+	 * @param selectedColNum colNum picked.
+	 * @return boolean detailing success.
+	 * @author Khuram C.
+	 */
+	public boolean select(int selectedColNum) {
+		selected[1] = selectedColNum;
 		for (int row = board.length - 1; row >= 0; row--) {
-			if (board[row][selection] == 0) {
+			if (board[row][selectedColNum] == 0) {
 				selected[0] = row;
 				if (row == 0) {
-					notifyInvalidColObservers(selection);
+					notifyInvalidColObservers(selectedColNum);
 				}
 				break;
 			}
 		}
-		hasSelected = true;
-		System.out.println(
-				"Row Num = " + Integer.toString(selected[0] + 1) + " Col Num = " + Integer.toString(selected[1] + 1));
 		playTurn();
-
-	}
-
-	public boolean isValidSelection(int colNum) {
-		if (board[0][colNum] != 0) {
-			return false;
-		}
 		return true;
 	}
-
+	
+	/**
+	 * Returns the selected cell. The first element corresponds with the rowNum, the second the colNum.
+	 * @return int array representing cell location.
+	 * @author Khuram C.
+	 */
 	public int[] getSelection() {
 		return selected;
 	}
-
-	public void startTurn() {
-		Player p = whoseTurn();
-		hasSelected = false;
-		notifyStartedTurnObservers(p);
-		if (isTimer) {
-			System.out.println(p);
-			timer.startTimer();
-		}
-
-	}
-
+	
+	/**
+	 * Determines if there is a valid turn available (i.e. if there are any empty spots that have not been
+	 * played on yet).
+	 * @return boolean detailing success.
+	 * @author Khuram C.
+	 */
 	public boolean isTurnAvailable() {
-		for (int cell : board[0]) {
-			if (cell == 0) {
+		int colNum = board[0].length;
+		for (int col = 0; col < colNum; col++) {
+			if(isValidSelection(col)) {
 				return true;
 			}
 		}
 		return false;
-
 	}
 
-	public void playTurn() {
+	/**
+	 * Plays a turn, given that a selection has been made. After, it notifies observers that a cell has been played,
+	 * and then checks if the game has ended because of it.
+	 * @return boolean detailing successful turn played.
+	 * @author Khuram C.
+	 */
+	private boolean playTurn() {
 		int[] choice = getSelection();
 		int rowNum = choice[0];
 		int colNum = choice[1];
 		board[rowNum][colNum] = whoseTurn().getPlayerNum();
 		notifySquarePlayedObservers(whoseTurn());
-		if (isWinner(whoseTurn())) {
-			System.out.println("Yessir!");
+		checkEndGame();
+		return true;
+	}
+	
+	/**
+	 * Checks if the game has won by the player's latest move. If so, it'll pause the timer if used, and then
+	 * notify observers that the game has ended due to that player winning. If not, it'll check for a potential tie. If there
+	 * is, it'll notify the observers and pause the timer if used. Lastly, if the game is still going,
+	 * just change turns and start the next player's turn.
+	 * @return detailing whether game is over.
+	 * @author Khuram C.
+	 */
+	protected boolean checkEndGame() {
+		if (WinnerAlgoSingleton.getInstance().isWinner(whoseTurn().getPlayerNum(),board)) {
 			if (isTimer) {
 				timer.pauseTimer();
-
 			}
 			notifyEndGameObservers(whoseTurn());
+			return true;
 		} else if (!isTurnAvailable()) {
-			System.out.println("TIE!");
 			notifyEndGameObservers(null);
 			if (isTimer) {
 				timer.pauseTimer();
-
 			}
-
+			return true;
 		} else {
 			changeTurns();
 			startTurn();
 		}
-
-	}
-
-	public boolean isWinner(Player p) {
-		int playerNum = p.getPlayerNum();
-		if (isDiagonal(playerNum) || isVertical(playerNum) || isHorizontal(playerNum)) {
-			p.setWinner();
-			System.out.println(p);
-			System.out.println("is a winer!");
-			return true;
-		}
-
-		return false;
-
-	}
-
-	private boolean isDiagonal(int num) {
-		int rowNum = board.length;
-		int colNum = board[0].length;
-		for (int row = 0; row < rowNum - 3; row++) {
-			// down and right diagonals
-			for (int col = 0; col < (colNum / 2) + 1; col++) {
-				if (col + 3 >= colNum) {
-					continue;
-				}
-				if (board[row][col] != num) {
-					continue;
-				}
-				if (checkDiagonal(num, row, col, false)) {
-					return true;
-				}
-			}
-			// down and left diagonals
-			for (int col = colNum - 1; col > colNum / 2; col--) {
-				if (col - 3 <= 0) {
-					continue;
-				}
-				if (board[row][col] != num) {
-					continue;
-				}
-				if (checkDiagonal(num, row, col, true)) {
-					return true;
-				}
-			}
-		}
 		return false;
 	}
 
-	private boolean checkDiagonal(int playerNum, int startRowNum, int startColNum, boolean isBackwards) {
-		for (int i = 1; i < 4; i++) {
-			int j;
-			if (isBackwards) {
-				j = -i;
-			} else {
-				j = i;
-			}
-			if (board[startRowNum + i][startColNum + j] != playerNum) {
-				return false;
+	/**
+	 * Helper method for selectRandom. Determines the valid colNums that can be played.
+	 * @return ArrayList of integers(colNums).
+	 * @author Khuram C.
+	 */
+	protected ArrayList<Integer> getValidCols() {
+		ArrayList<Integer> validColsList = new ArrayList<>();
+		for(int col = 0; col < board[0].length;col++) {
+			if(isValidSelection(col)) {
+				validColsList.add(col);
 			}
 		}
+		return validColsList;	
+	}
+	
+	/**
+	 * Selects a random valid column. Meant for whenever the timer runs out and a player still has not chosen.
+	 * @return boolean detailing successful selection of random column.
+	 * @author Khuram C.
+	 */
+	protected boolean selectRandom() {
+		Random rand = new Random();
+		ArrayList<Integer> validColNums = getValidCols();
+		int randomValidColChoice = validColNums.get(rand.nextInt(validColNums.size()));
+		select(randomValidColChoice);
 		return true;
 	}
+	
 
-	private boolean isVertical(int num) {
-		int rowNum = board.length;
-		int colNum = board[0].length;
-		for (int row = 0; row < rowNum - 3; row++) {
-			for (int col = 0; col < colNum; col++) {
-				if (board[row][col] != num) {
-					continue;
-				}
-				if (checkVertical(num, row, col)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	private boolean checkVertical(int playerNum, int startRowNum, int startColNum) {
-		for (int i = 1; i < 4; i++) {
-			if (board[startRowNum + i][startColNum] != playerNum) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private boolean isHorizontal(int num) {
-		int rowNum = board.length;
-		int colNum = board[0].length;
-		for (int row = 0; row < rowNum; row++) {
-			for (int col = 0; col < colNum - 3; col++) {
-				if (board[row][col] != num) {
-					continue;
-				}
-				if (checkHorizontal(num, row, col)) {
-					return true;
-				}
-
-			}
-		}
-		return false;
-	}
-
-	private boolean checkHorizontal(int playerNum, int startRowNum, int startColNum) {
-		for (int i = 1; i < 4; i++) {
-			if (board[startRowNum][startColNum + i] != playerNum) {
-				return false;
-			}
-		}
-		return true;
-	}
-
+	/**
+	 * If the timer has reached the end of its count, then it selects randomly for the player.
+	 * @author Khuram C.
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		if (arg == null) {
-			System.out.println("Times up! Changing Players!");
-			changeTurns();
-			startTurn();
+			selectRandom();
 		}
-
 	}
 
-	public void addObservertoTimer(Observer o) {
+	/**
+	 * Adds an observer to the timer.
+	 * @param o observer to observe timer.
+	 * @return boolean detailing successful adding.
+	 * @author Khuram C.
+	 */
+	public boolean addObservertoTimer(Observer o) {
 		timer.addObserver(o);
+		return true;
 	}
 
 	@Override
-	public void registerStartedTurnObserver(ObserverStartedTurn o) {
-		// TODO Auto-generated method stub
+	public boolean registerStartedTurnObserver(IStartedTurnObserver o) {
 		startedTurnObservers.add(o);
+		return true;
 	}
 
 	@Override
-	public void notifyStartedTurnObservers(Player p) {
-		for (ObserverStartedTurn o : startedTurnObservers) {
+	public boolean notifyStartedTurnObservers(Player p) {
+		for (IStartedTurnObserver o : startedTurnObservers) {
 			o.updatePlayerTurnText(p);
 		}
+		return true;
 	}
 
 	@Override
-	public void registerSquarePlayedObserver(ObserverSquarePlayed o) {
+	public boolean registerSquarePlayedObserver(ISquarePlayedObserver o) {
 		squarePlayedObservers.add(o);
-
+		return true;
 	}
 
 	@Override
-	public void notifySquarePlayedObservers(Player p) {
-
-		for (ObserverSquarePlayed o : squarePlayedObservers) {
+	public boolean notifySquarePlayedObservers(Player p) {
+		for (ISquarePlayedObserver o : squarePlayedObservers) {
 			o.updateBoard(p, selected);
 		}
-
+		return true;
 	}
 
 	@Override
-	public void registerEndGameObserver(ObserverEndGame o) {
+	public boolean registerEndGameObserver(IEndGameObserver o) {
 		endGameObservers.add(o);
-
+		return true;
 	}
 
 	@Override
-	public void notifyEndGameObservers(Player p) {
-		for (ObserverEndGame o : endGameObservers) {
-			o.updateText(p);
+	public boolean notifyEndGameObservers(Player p) {
+		for (IEndGameObserver o : endGameObservers) {
+			o.updateTextWithWinner(p);
 		}
-
+		return true;
 	}
 
 	@Override
-	public void registerInvalidColObserver(ObserverInvalidCols o) {
+	public boolean registerInvalidColObserver(IInvalidColsObserver o) {
 		invalidColsObservers.add(o);
-
+		return true;
 	}
 
 	@Override
-	public void notifyInvalidColObservers(int colNum) {
-		for (ObserverInvalidCols o : invalidColsObservers) {
+	public boolean notifyInvalidColObservers(int colNum) {
+		for (IInvalidColsObserver o : invalidColsObservers) {
 			o.updateButton(colNum);
 		}
-
+		return true;
 	}
-
 }
