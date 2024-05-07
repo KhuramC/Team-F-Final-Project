@@ -1,5 +1,8 @@
 # Team-F-Final-Project
-Final project for CS 3330.
+Final project for CS 3330: 2 Player Game Pack.
+
+Make sure to have java 21.
+
 
 
 ### Alon: I implemented the game Mastermind the rules are as follows:
@@ -33,3 +36,14 @@ WARNING WHEN TESTING: GameSettings always propts user for input and input does n
 9. Return captured pieces to your store.
 10. The game ends when all six spaces on one side of the Mancala board are empty. Remaining pieces are put into that player's store.
 11. The player with the most stones in their store at the end of the game wins.
+
+
+
+
+### Khuram: implemented the game Connect4 and the mainMenu to select a game.
+Features:
+1.Users can select from the four games available to play.
+2.Users can toggle a timer and choose the length of said timer for turns in a game.
+3.Users can choose their color for their discs.
+4.Users can choose the size of the board they would like to play one.
+5.Users can play a game of Connect4 (get four in a row).
